@@ -12,7 +12,7 @@
 - [x] Task: Implement Constraints extraction (4823826)
     - [ ] Write tests for Horizontal and Vertical constraints
     - [ ] Implement extraction logic
-- [ ] Task: Implement basic application (Paste) for Phase 1 & 2 granules
+- [x] Task: Implement basic application (Paste) for Phase 1 & 2 granules (39627d5)
     - [ ] Write tests for applying Rotation, Opacity, Corner Radius, Position, and Constraints
     - [ ] Implement application logic in `commands.ts`
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Geometry & Layout Constraints' (Protocol in workflow.md)
