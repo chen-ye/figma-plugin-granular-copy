@@ -1,4 +1,5 @@
 import { handleCopyCommand, handlePasteCommand, ALL_GRANULES } from './commands';
+import { handleUIMessage } from './ui-handlers';
 
 const { command } = figma;
 
@@ -36,9 +37,14 @@ if (command === 'copy') {
   handlePasteCommand(['exportSettings']);
 } else if (command === 'paste-all') {
   handlePasteCommand(ALL_GRANULES);
+} else if (command === 'paste-ui') {
+  figma.showUI(__html__, { width: 320, height: 500, themeColors: true });
 } else {
   figma.showUI(__html__);
 }
+
+figma.ui.onmessage = handleUIMessage;
+
 
 
 

@@ -31,7 +31,10 @@ describe('Commands: Copy', () => {
   });
 
   it('should extract properties and save to storage for a single selection', async () => {
-    const mockNode = { name: 'Test Node' } as any;
+    const mockNode = { 
+      name: 'Test Node',
+      exportAsync: vi.fn().mockResolvedValue(new Uint8Array([])),
+    } as any;
     figma.currentPage.selection = [mockNode];
     const mockProps = { fills: [] };
     vi.mocked(extraction.extractProperties).mockReturnValue(mockProps);
@@ -39,9 +42,33 @@ describe('Commands: Copy', () => {
     await handleCopyCommand();
 
     expect(extraction.extractProperties).toHaveBeenCalledWith(mockNode, expect.any(Array));
-    expect(storage.saveProperties).toHaveBeenCalledWith(mockProps);
+    expect(storage.saveProperties).toHaveBeenCalledWith(expect.objectContaining({
+      ...mockProps,
+      preview: expect.any(String),
+      name: 'Test Node',
+    }));
     expect(figma.notify).toHaveBeenCalledWith('Properties copied from Test Node');
     expect(figma.closePlugin).toHaveBeenCalled();
+  });
+
+
+  it('should capture thumbnail during copy', async () => {
+    const mockNode = { 
+      name: 'Test Node', 
+      exportAsync: vi.fn().mockResolvedValue(new Uint8Array([137, 80, 78, 71])), // Mock PNG bytes
+    } as any;
+    figma.currentPage.selection = [mockNode];
+    const mockProps = { fills: [] };
+    vi.mocked(extraction.extractProperties).mockReturnValue(mockProps);
+
+    await handleCopyCommand();
+
+    expect(mockNode.exportAsync).toHaveBeenCalledWith({ format: 'PNG', constraint: { type: 'SCALE', value: 2 } });
+    expect(storage.saveProperties).toHaveBeenCalledWith(expect.objectContaining({
+      ...mockProps,
+      preview: expect.any(String),
+      name: 'Test Node',
+    }));
   });
 });
 
