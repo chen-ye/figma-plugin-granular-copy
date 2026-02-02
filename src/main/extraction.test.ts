@@ -169,7 +169,40 @@ describe('Property Extraction', () => {
     expect(result.layoutAlign).toBe('STRETCH');
     expect(result.layoutGrow).toBe(1);
   });
+
+  it('should extract text properties', () => {
+    const mockNode = {
+      characters: 'Hello World',
+      textStyleId: 'style-123',
+      fontName: { family: 'Inter', style: 'Regular' },
+      fontSize: 16,
+      lineHeight: { value: 24, unit: 'PIXELS' },
+      letterSpacing: { value: 0, unit: 'PERCENT' },
+      paragraphSpacing: 0,
+      paragraphIndent: 0,
+      textCase: 'ORIGINAL',
+      textDecoration: 'NONE',
+    } as any;
+
+    const result = extractProperties(mockNode, [
+      'characters',
+      'textStyleId',
+      'fontName',
+      'fontSize',
+      'lineHeight',
+      'letterSpacing',
+      'paragraphSpacing',
+      'paragraphIndent',
+      'textCase',
+      'textDecoration'
+    ]);
+    
+    expect(result.characters).toBe('Hello World');
+    expect(result.textStyleId).toBe('style-123');
+    expect(result.fontSize).toBe(16);
+  });
 });
+
 
 
 

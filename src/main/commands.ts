@@ -88,7 +88,22 @@ export async function handlePasteCommand(granules: string[]) {
     let nodeSupportedAny = false;
     let appliedAny = false;
 
+    // Special handling for Text properties (require font loading)
+    const textProps = ['characters', 'fontName', 'fontSize', 'lineHeight', 'letterSpacing', 'paragraphSpacing', 'paragraphIndent', 'textCase', 'textDecoration'];
+    const nodeIsText = node.type === 'TEXT';
+    const hasTextGranules = granules.some(g => textProps.includes(g));
+
+    if (nodeIsText && hasTextGranules) {
+      try {
+        const fontName = (data.fontName || (node as TextNode).fontName) as FontName;
+        await figma.loadFontAsync(fontName);
+      } catch (e) {
+        console.error('Failed to load font', e);
+      }
+    }
+
     // Special handling for Size (width/height)
+
     if (granules.includes('width') || granules.includes('height')) {
       const parent = node.parent;
       const isInsideAutoLayout = parent && 'layoutMode' in parent && (parent as any).layoutMode !== 'NONE';

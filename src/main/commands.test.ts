@@ -173,7 +173,38 @@ describe('Commands: Paste', () => {
 
     expect(mockNode.resize).toHaveBeenCalledWith(100, 200);
   });
+
+  it('should apply text content and styles', async () => {
+    const mockProps = {
+      characters: 'New Content',
+      textStyleId: 'style-456',
+      fontSize: 20,
+    };
+    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps);
+    
+    vi.stubGlobal('figma', {
+      ...figma,
+      loadFontAsync: vi.fn().mockResolvedValue(undefined),
+    });
+
+    const mockNode = { 
+      name: 'Text Node',
+      type: 'TEXT',
+      characters: 'Old Content',
+      textStyleId: '',
+      fontSize: 12,
+      fontName: { family: 'Inter', style: 'Regular' },
+    } as any;
+    figma.currentPage.selection = [mockNode];
+
+    await handlePasteCommand(['characters', 'textStyleId', 'fontSize']);
+
+    expect(mockNode.characters).toBe('New Content');
+    expect(mockNode.textStyleId).toBe('style-456');
+    expect(mockNode.fontSize).toBe(20);
+  });
 });
+
 
 
 
