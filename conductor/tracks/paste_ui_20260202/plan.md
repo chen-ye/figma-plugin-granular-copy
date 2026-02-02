@@ -24,7 +24,7 @@
 - [x] Task: Apply Figma Native Styling (75f5297)
     - [x] Style all components using Figma's official hex codes and Inter font
     - [x] Ensure the palette follows "Native Aesthetic" guidelines (spacing, borders, hover states)
-- [ ] Task: Refine Window Management
-    - [ ] Set appropriate initial window size
-    - [ ] Ensure "Paste..." Quick Action opens the UI without closing the main plugin process
+- [x] Task: Refine Window Management (0ac6852)
+    - [x] Set appropriate initial window size
+    - [x] Ensure "Paste..." Quick Action opens the UI without closing the main plugin process
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Styling & Final Integration' (Protocol in workflow.md)
