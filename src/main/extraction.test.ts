@@ -54,6 +54,33 @@ describe('Property Extraction', () => {
     expect(result.cornerRadius).toBe(8);
   });
 
+  it('should extract individual corner radii', () => {
+    const mixed = Symbol('mixed');
+    vi.stubGlobal('figma', { mixed });
+
+    const mockNode = {
+      cornerRadius: mixed,
+      topLeftRadius: 10,
+      topRightRadius: 20,
+      bottomLeftRadius: 0,
+      bottomRightRadius: 5,
+    } as any;
+
+    const result = extractProperties(mockNode, [
+      'cornerRadius',
+      'topLeftRadius',
+      'topRightRadius',
+      'bottomLeftRadius',
+      'bottomRightRadius'
+    ]);
+    
+    expect(result.cornerRadius).toBe(mixed);
+    expect(result.topLeftRadius).toBe(10);
+    expect(result.topRightRadius).toBe(20);
+    expect(result.bottomLeftRadius).toBe(0);
+    expect(result.bottomRightRadius).toBe(5);
+  });
+
   it('should extract visual and metadata properties', () => {
     const mockNode = {
       rotation: 45,
