@@ -6,7 +6,7 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Main Process Updates & Thumbnail Capture' (Protocol in workflow.md) (9061cde)
 
 ## Phase 2: UI Foundation & Data Loading [checkpoint: ]
-- [ ] Task: Set up React UI structure
+- [x] Task: Set up React UI structure (0535123)
     - [ ] Create basic layout components in `src/ui/components/`
     - [ ] Implement `useFigmaData` hook to fetch and sync data from client storage
 - [ ] Task: Implement Preview Header & Copy Button
