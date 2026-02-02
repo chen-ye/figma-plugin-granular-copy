@@ -1,4 +1,4 @@
-# Track granular_core_20260202 Context
+# Track all_granules_20260202 Context
 
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)
