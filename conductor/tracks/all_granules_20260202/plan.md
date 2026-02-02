@@ -24,7 +24,7 @@
 - [x] Task: Implement Contextual Sizing logic (21b73f8)
     - [ ] Write tests for detecting Auto Layout parentage and extracting `layoutAlign`, `layoutGrow`, and sizing modes
     - [ ] Implement intelligent sizing extraction
-- [ ] Task: Implement Auto Layout and Sizing application
+- [x] Task: Implement Auto Layout and Sizing application (acc0d8c)
     - [ ] Write tests for "Contextual Paste": apply raw size vs. sizing modes based on target parent
     - [ ] Implement application logic
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Auto Layout & Contextual Sizing' (Protocol in workflow.md)
