@@ -108,7 +108,17 @@ describe('Property Extraction', () => {
     expect(result.y).toBe(200);
     expect(result.layoutGrids).toEqual(mockNode.layoutGrids);
   });
+
+  it('should extract constraints', () => {
+    const mockNode = {
+      constraints: { horizontal: 'STRETCH', vertical: 'CENTER' },
+    } as any;
+
+    const result = extractProperties(mockNode, ['constraints']);
+    expect(result.constraints).toEqual(mockNode.constraints);
+  });
 });
+
 
 
 
