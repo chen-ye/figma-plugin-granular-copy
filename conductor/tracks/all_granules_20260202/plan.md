@@ -4,7 +4,7 @@
 - [x] Task: Expand Extraction logic for basic visuals (f4138f9)
     - [ ] Write tests for extracting Rotation, Opacity, Blend Mode, and Export Settings
     - [ ] Implement extraction for these properties in `extraction.ts`
-- [ ] Task: Implement Corner Radius logic
+- [x] Task: Implement Corner Radius logic (4f9562d)
     - [ ] Write tests for both uniform and individual corner radius extraction
     - [ ] Implement robust corner radius extraction (handling `cornerRadius` vs individual corners)
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Visual & Metadata Extraction' (Protocol in workflow.md)
