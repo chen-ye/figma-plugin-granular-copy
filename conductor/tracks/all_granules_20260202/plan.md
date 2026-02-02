@@ -9,7 +9,7 @@
 - [x] Task: Implement Position and Grid extraction (2ff1c15)
     - [ ] Write tests for Position (x, y) and Layout Grids
     - [ ] Implement extraction logic
-- [ ] Task: Implement Constraints extraction
+- [x] Task: Implement Constraints extraction (4823826)
     - [ ] Write tests for Horizontal and Vertical constraints
     - [ ] Implement extraction logic
 - [ ] Task: Implement basic application (Paste) for Phase 1 & 2 granules
