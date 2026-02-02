@@ -11,6 +11,8 @@ export const ALL_GRANULES = [
   'effects',
   'rotation',
   'opacity',
+  'x',
+  'y',
   'cornerRadius',
   'topLeftRadius',
   'topRightRadius',

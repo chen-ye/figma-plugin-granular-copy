@@ -95,6 +95,20 @@ describe('Property Extraction', () => {
     expect(result.blendMode).toBe('MULTIPLY');
     expect(result.exportSettings).toEqual(mockNode.exportSettings);
   });
+
+  it('should extract position and layout grids', () => {
+    const mockNode = {
+      x: 100,
+      y: 200,
+      layoutGrids: [{ pattern: 'COLUMNS', sectionSize: 20, visible: true, color: { r: 1, g: 0, b: 0, a: 0.1 }, alignment: 'STRETCH', count: 12, gutterSize: 20, offset: 0 }],
+    } as any;
+
+    const result = extractProperties(mockNode, ['x', 'y', 'layoutGrids']);
+    expect(result.x).toBe(100);
+    expect(result.y).toBe(200);
+    expect(result.layoutGrids).toEqual(mockNode.layoutGrids);
+  });
 });
+
 
 
