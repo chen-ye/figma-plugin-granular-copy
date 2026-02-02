@@ -23,12 +23,7 @@
 - [x] Task: Implement Auto Layout and Sizing application (acc0d8c)
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Auto Layout & Contextual Sizing' (Protocol in workflow.md) (b1d5062)
 
-## Phase 4: Text Content & Shared Styles [checkpoint: ]
+## Phase 4: Text Content & Shared Styles [checkpoint: 2305843]
 - [x] Task: Implement Text Content and Styles logic (c3e8a96)
-    - [ ] Write tests for `characters` and `textStyleId` extraction
-    - [ ] Write tests for individual font property extraction (fallback if no style ID)
-    - [ ] Implement extraction and application (prioritizing Style ID)
 - [x] Task: Update Quick Action Manifest and Routing (74618e6)
-    - [ ] Add all new granule commands to `manifest.json`
-    - [ ] Update `src/main/main.ts` to route all new commands to `handlePasteCommand`
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Text Content & Shared Styles' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Text Content & Shared Styles' (Protocol in workflow.md) (2305843)
