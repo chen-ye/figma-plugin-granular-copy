@@ -4,5 +4,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [~] **Track: feature: implement the paste... UI (the persistent paste palette)**
+- [x] **Track: feature: implement the paste... UI (the persistent paste palette)**
   *Link: [./tracks/paste_ui_20260202/](./tracks/paste_ui_20260202/)*
