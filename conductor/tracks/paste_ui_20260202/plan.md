@@ -5,15 +5,10 @@
 - [x] Task: Implement UI Messaging Bridge (2486372)
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Main Process Updates & Thumbnail Capture' (Protocol in workflow.md) (9061cde)
 
-## Phase 2: UI Foundation & Data Loading [checkpoint: ]
+## Phase 2: UI Foundation & Data Loading [checkpoint: 10349e8]
 - [x] Task: Set up React UI structure (0535123)
-    - [ ] Create basic layout components in `src/ui/components/`
-    - [ ] Implement `useFigmaData` hook to fetch and sync data from client storage
 - [x] Task: Implement Preview Header & Copy Button (01c04d5)
-    - [x] Create `PreviewHeader` component to display the source image and name
-    - [x] Create `HeaderActions` with the "Copy Selection" button
-    - [x] Write tests for data synchronization between main and UI
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: UI Foundation & Data Loading' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: UI Foundation & Data Loading' (Protocol in workflow.md) (10349e8)
 
 ## Phase 3: Categorized Property Grid [checkpoint: ]
 - [ ] Task: Implement Property Buttons & Categories
