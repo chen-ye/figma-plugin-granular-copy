@@ -39,11 +39,44 @@ if (command === 'copy') {
   handlePasteCommand(ALL_GRANULES);
 } else if (command === 'paste-ui') {
   figma.showUI(__html__, { width: 320, height: 500, themeColors: true });
+  
+  // Send initial state
+  loadProperties().then(data => {
+    figma.ui.postMessage({ type: 'DATA_UPDATE', data });
+  });
+  const supportedGranules = getSupportedGranules(figma.currentPage.selection);
+  figma.ui.postMessage({ type: 'SELECTION_UPDATE', supportedGranules });
 } else {
+
   figma.showUI(__html__);
 }
 
 figma.ui.onmessage = handleUIMessage;
+
+figma.on('selectionchange', () => {
+  const selection = figma.currentPage.selection;
+  const supportedGranules = getSupportedGranules(selection);
+  figma.ui.postMessage({ type: 'SELECTION_UPDATE', supportedGranules });
+});
+
+/**
+ * Returns a list of properties that can be applied to the current selection.
+ */
+function getSupportedGranules(selection: readonly SceneNode[]): string[] {
+  if (selection.length === 0) return [];
+  
+  // For now, return properties supported by ANY node in the selection
+  const allSupported = new Set<string>();
+  for (const node of selection) {
+    for (const granule of ALL_GRANULES) {
+      if (granule in node) {
+        allSupported.add(granule);
+      }
+    }
+  }
+  return Array.from(allSupported);
+}
+
 
 
 

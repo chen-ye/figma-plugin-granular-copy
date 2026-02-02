@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 export function useFigmaData() {
   const [data, setData] = useState<any>(null);
+  const [supportedGranules, setSupportedGranules] = useState<string[]>([]);
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
@@ -9,11 +10,14 @@ export function useFigmaData() {
       const msg = event.data.pluginMessage;
       if (!msg) return;
 
-      const { type, data: msgData } = msg;
+      const { type, data: msgData, supportedGranules: msgSupported } = msg;
       if (type === 'DATA_UPDATE' || type === 'COPY_COMPLETED') {
         setData(msgData);
+      } else if (type === 'SELECTION_UPDATE') {
+        setSupportedGranules(msgSupported || []);
       }
     };
+
 
     window.addEventListener('message', handleMessage);
     
