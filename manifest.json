@@ -1,0 +1,19 @@
+{
+  "name": "Granular Copy",
+  "id": "granular-copy",
+  "api": "1.0.0",
+  "main": "dist/main.js",
+  "ui": "dist/src/ui/index.html",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": { "allowedDomains": ["none"] },
+  "capabilities": [],
+  "menu": [
+    { "name": "Copy", "command": "copy" },
+    { "name": "Paste Fills", "command": "paste-fills" },
+    { "name": "Paste Strokes", "command": "paste-strokes" },
+    { "name": "Paste Effects", "command": "paste-effects" },
+    { "separator": true },
+    { "name": "Paste...", "command": "paste-ui" }
+  ]
+}

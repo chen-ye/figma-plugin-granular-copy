@@ -1,0 +1,16 @@
+import { defineConfig } from 'vite'
+import path from 'path'
+
+export default defineConfig({
+  build: {
+    target: 'esnext',
+    outDir: 'dist',
+    emptyOutDir: true,
+    lib: {
+      entry: path.resolve(__dirname, 'src/main/main.ts'),
+      name: 'main',
+      fileName: () => 'main.js',
+      formats: ['es'],
+    },
+  },
+})
