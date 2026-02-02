@@ -1,4 +1,4 @@
-# Track all_granules_20260202 Context
+# Track paste_ui_20260202 Context
 
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)
