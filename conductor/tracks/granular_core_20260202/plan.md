@@ -8,7 +8,7 @@
 - [x] Task: Implement the Property Extraction logic (2f6532a)
     - [ ] Write unit tests for extracting Fills, Strokes, and Effects including Variable bindings
     - [ ] Implement utility to read properties from a selected node
-- [ ] Task: Implement Client Storage persistence
+- [x] Task: Implement Client Storage persistence (cbdb533)
     - [ ] Create a storage service to save/load JSON data to `figma.clientStorage`
     - [ ] Write tests for storage serialization/deserialization
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Serialization Engine' (Protocol in workflow.md)
