@@ -6,6 +6,7 @@ import path from 'path';
 export default defineConfig({
   plugins: [react(), viteSingleFile()],
   build: {
+    minify: false,
     target: 'esnext',
     outDir: 'dist',
     emptyOutDir: false,

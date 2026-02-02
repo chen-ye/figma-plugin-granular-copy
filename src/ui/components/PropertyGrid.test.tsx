@@ -4,7 +4,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { PropertyButton } from './PropertyButton';
 import { describe, it, expect, vi } from 'vitest';
-import React from 'react';
 
 describe('PropertyButton', () => {
   it('should render label', () => {

@@ -3,6 +3,7 @@ import path from 'path';
 
 export default defineConfig({
   build: {
+    minify: false,
     target: 'esnext',
     outDir: 'dist',
     emptyOutDir: true,

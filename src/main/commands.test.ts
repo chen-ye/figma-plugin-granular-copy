@@ -52,7 +52,7 @@ describe('Commands: Copy', () => {
     expect(storage.saveProperties).toHaveBeenCalledWith(
       expect.objectContaining({
         ...mockProps,
-        preview: expect.any(String),
+        preview: expect.any(Uint8Array),
         name: 'Test Node',
       })
     );

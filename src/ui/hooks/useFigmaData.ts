@@ -28,5 +28,5 @@ export function useFigmaData() {
     };
   }, []);
 
-  return { data };
+  return { data, supportedGranules };
 }

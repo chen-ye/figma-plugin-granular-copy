@@ -1,6 +1,5 @@
 import { extractProperties } from './extraction';
 import { saveProperties, loadProperties } from './storage';
-import { uint8ArrayToBase64 } from './utils';
 
 /**
  * List of all properties we attempt to extract during a copy operation.
@@ -75,7 +74,7 @@ export async function handleCopyCommand(
 
   const properties = extractProperties(node, ALL_GRANULES);
 
-  let preview = '';
+  let preview: Uint8Array | null = null;
 
   try {
     const bytes = await node.exportAsync({
@@ -84,16 +83,15 @@ export async function handleCopyCommand(
       constraint: { type: 'SCALE', value: 2 },
     });
 
-    preview = uint8ArrayToBase64(bytes);
+    preview = bytes;
   } catch (e) {
     console.error('Failed to generate preview', e);
   }
 
-  const data = {
-    ...properties,
+  const data = Object.assign({}, properties, {
     preview,
     name: node.name,
-  };
+  });
 
   await saveProperties(data);
 
@@ -138,7 +136,7 @@ export async function handlePasteCommand(
 
   let successCount = 0;
 
-  let skippedNodes: SceneNode[] = [];
+  const skippedNodes: SceneNode[] = [];
 
   for (const node of selection) {
     let nodeSupportedAny = false;

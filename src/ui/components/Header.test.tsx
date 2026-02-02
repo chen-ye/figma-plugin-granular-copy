@@ -5,18 +5,23 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { PreviewHeader } from './PreviewHeader';
 import { HeaderActions } from './HeaderActions';
 import { describe, it, expect, vi } from 'vitest';
-import React from 'react';
 
 describe('PreviewHeader', () => {
   it('should render the node name', () => {
-    render(<PreviewHeader name='Rectangle 1' preview='' />);
+    render(<PreviewHeader name='Rectangle 1' preview={null} />);
     expect(screen.getByText('Rectangle 1')).toBeDefined();
   });
 
   it('should render the preview image', () => {
-    render(<PreviewHeader name='Node' preview='base64bytes' />);
+    // Mock URL.createObjectURL
+    const createObjectURL = vi.fn(() => 'blob:url');
+    const revokeObjectURL = vi.fn();
+    vi.stubGlobal('URL', { createObjectURL, revokeObjectURL });
+
+    render(<PreviewHeader name='Node' preview={[1, 2, 3]} />);
     const img = screen.getByRole('img');
-    expect(img.getAttribute('src')).toBe('data:image/png;base64,base64bytes');
+    expect(img.getAttribute('src')).toBe('blob:url');
+    expect(createObjectURL).toHaveBeenCalled();
   });
 });
 

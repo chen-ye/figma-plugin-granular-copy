@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 
 export const HeaderActions: React.FC = () => {
   const onCopy = () => {
@@ -7,7 +7,7 @@ export const HeaderActions: React.FC = () => {
 
   return (
     <div className='header-actions'>
-      <button className='copy-button' onClick={onCopy}>
+      <button type='button' className='copy-button' onClick={onCopy}>
         Copy Selection
       </button>
     </div>

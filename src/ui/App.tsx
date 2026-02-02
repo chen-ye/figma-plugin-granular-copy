@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { useFigmaData } from './hooks/useFigmaData';
 import { PreviewHeader } from './components/PreviewHeader';
 import { HeaderActions } from './components/HeaderActions';
@@ -162,7 +162,7 @@ export const App: React.FC = () => {
       </div>
 
       <div className='footer'>
-        <button className='paste-all-button' onClick={() => onPaste(['all'])}>
+        <button type='button' className='paste-all-button' onClick={() => onPaste(['all'])}>
           Paste All
         </button>
       </div>
