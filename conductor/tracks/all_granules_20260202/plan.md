@@ -5,7 +5,7 @@
 - [x] Task: Implement Corner Radius logic (4f9562d)
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Visual & Metadata Extraction' (Protocol in workflow.md) (e269cfb)
 
-## Phase 2: Geometry & Layout Constraints [checkpoint: ]
+## Phase 2: Geometry & Layout Constraints [checkpoint: af94bb9]
 - [x] Task: Implement Position and Grid extraction (2ff1c15)
     - [ ] Write tests for Position (x, y) and Layout Grids
     - [ ] Implement extraction logic
@@ -15,7 +15,7 @@
 - [x] Task: Implement basic application (Paste) for Phase 1 & 2 granules (39627d5)
     - [ ] Write tests for applying Rotation, Opacity, Corner Radius, Position, and Constraints
     - [ ] Implement application logic in `commands.ts`
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Geometry & Layout Constraints' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Geometry & Layout Constraints' (Protocol in workflow.md) (af94bb9)
 
 ## Phase 3: Auto Layout & Contextual Sizing [checkpoint: ]
 - [ ] Task: Implement Auto Layout extraction
