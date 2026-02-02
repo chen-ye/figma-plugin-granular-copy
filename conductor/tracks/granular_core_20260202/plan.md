@@ -1,7 +1,7 @@
 # Implementation Plan - Granular Core Infrastructure
 
 ## Phase 1: Scaffolding & Manifest
-- [ ] Task: Set up the project structure with Vite and React
+- [x] Task: Set up the project structure with Vite and React (755141a)
     - [ ] Initialize `package.json` and install dependencies (Figma typings, Vite, React, Vitest)
     - [ ] Configure `vite.config.ts` for Figma plugin output (main/ui split)
     - [ ] Create basic `manifest.json` with initial command definitions
