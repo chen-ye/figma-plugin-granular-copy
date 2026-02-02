@@ -9,6 +9,7 @@ export default defineConfig({
     target: 'esnext',
     outDir: 'dist',
     emptyOutDir: false,
+    sourcemap: true,
     rollupOptions: {
       input: path.resolve(__dirname, 'src/ui/index.html'),
     },

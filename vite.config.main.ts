@@ -6,6 +6,7 @@ export default defineConfig({
     target: 'esnext',
     outDir: 'dist',
     emptyOutDir: true,
+    sourcemap: true,
     lib: {
       entry: path.resolve(__dirname, 'src/main/main.ts'),
       name: 'main',
