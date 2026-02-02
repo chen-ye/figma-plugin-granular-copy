@@ -95,5 +95,41 @@ describe('Commands: Paste', () => {
     expect((mockNode1 as any).fills).toEqual(mockProps.fills);
     expect(figma.notify).toHaveBeenCalledWith('Pasted fills to 1 object. Skipped Group (incompatible).');
   });
+
+  it('should apply visual and layout properties', async () => {
+    const mockProps = {
+      rotation: 45,
+      opacity: 0.5,
+      cornerRadius: 10,
+      x: 50,
+      y: 50,
+      constraints: { horizontal: 'MIN', vertical: 'MIN' },
+      blendMode: 'DARKEN',
+    };
+    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps);
+    
+    const mockNode = { 
+      name: 'Node',
+      rotation: 0,
+      opacity: 1,
+      cornerRadius: 0,
+      x: 0,
+      y: 0,
+      constraints: { horizontal: 'CENTER', vertical: 'CENTER' },
+      blendMode: 'NORMAL',
+    } as any;
+    figma.currentPage.selection = [mockNode];
+
+    await handlePasteCommand(['rotation', 'opacity', 'cornerRadius', 'x', 'y', 'constraints', 'blendMode']);
+
+    expect(mockNode.rotation).toBe(45);
+    expect(mockNode.opacity).toBe(0.5);
+    expect(mockNode.cornerRadius).toBe(10);
+    expect(mockNode.x).toBe(50);
+    expect(mockNode.y).toBe(50);
+    expect(mockNode.constraints).toEqual(mockProps.constraints);
+    expect(mockNode.blendMode).toBe('DARKEN');
+  });
 });
+
 
