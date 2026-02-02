@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "vite build -c vite.config.main.ts && vite build -c vite.config.ui.ts",
+    "build": "CI=true vite build -c vite.config.main.ts && CI=true vite build -c vite.config.ui.ts",
     "watch:main": "vite build -c vite.config.main.ts --watch",
     "watch:ui": "vite build -c vite.config.ui.ts --watch",
-    "test": "vitest"
+    "test": "CI=true vitest"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +23,7 @@
     "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.3",
+    "@vitest/coverage-v8": "^4.0.18",
     "jsdom": "^28.0.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.1",
