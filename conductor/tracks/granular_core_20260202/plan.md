@@ -1,11 +1,8 @@
 # Implementation Plan - Granular Core Infrastructure
 
-## Phase 1: Scaffolding & Manifest
+## Phase 1: Scaffolding & Manifest [checkpoint: 085943d]
 - [x] Task: Set up the project structure with Vite and React (755141a)
-    - [ ] Initialize `package.json` and install dependencies (Figma typings, Vite, React, Vitest)
-    - [ ] Configure `vite.config.ts` for Figma plugin output (main/ui split)
-    - [ ] Create basic `manifest.json` with initial command definitions
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Scaffolding & Manifest' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Scaffolding & Manifest' (Protocol in workflow.md) (085943d)
 
 ## Phase 2: Serialization Engine
 - [ ] Task: Implement the Property Extraction logic
