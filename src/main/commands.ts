@@ -56,23 +56,18 @@ export const ALL_GRANULES = [
 
  */
 
-export async function handleCopyCommand(options: { shouldClose?: boolean } = { shouldClose: true }) {
-
+export async function handleCopyCommand(
+  options: { shouldClose?: boolean } = { shouldClose: true }
+) {
   const selection = figma.currentPage.selection;
 
-
-
   if (selection.length !== 1) {
-
     figma.notify('Please select exactly one object to copy.');
 
     if (options.shouldClose) figma.closePlugin();
 
     return;
-
   }
-
-
 
   const node = selection[0];
 
@@ -80,286 +75,204 @@ export async function handleCopyCommand(options: { shouldClose?: boolean } = { s
 
   const properties = extractProperties(node, ALL_GRANULES);
 
-
-
   let preview = '';
 
-  // try {
-  //
-  //   const bytes = await node.exportAsync({
-  //
-  //     format: 'PNG',
-  //
-  //     constraint: { type: 'SCALE', value: 2 },
-  //
-  //   });
-  //
-  //   preview = uint8ArrayToBase64(bytes);
-  //
-  // } catch (e) {
-  //
-  //   console.error('Failed to generate preview', e);
-  //
-  // }
+  try {
+    const bytes = await node.exportAsync({
+      format: 'PNG',
 
+      constraint: { type: 'SCALE', value: 2 },
+    });
 
+    preview = uint8ArrayToBase64(bytes);
+  } catch (e) {
+    console.error('Failed to generate preview', e);
+  }
 
   const data = {
-
     ...properties,
-
     preview,
-
     name: node.name,
-
   };
-
-
 
   await saveProperties(data);
 
-
-
   figma.notify(`Properties copied from ${node.name}`);
 
-
-
   if (options.shouldClose) {
-
     figma.closePlugin();
-
   } else {
-
     // Notify UI
 
     figma.ui.postMessage({ type: 'COPY_COMPLETED', data });
-
   }
-
 }
 
-
-
 /**
-
  * Handles 'paste' commands from Quick Actions.
-
  */
 
-export async function handlePasteCommand(granules: string[], options: { shouldClose?: boolean } = { shouldClose: true }) {
-
+export async function handlePasteCommand(
+  granules: string[],
+  options: { shouldClose?: boolean } = { shouldClose: true }
+) {
   const data = await loadProperties();
 
   if (!data) {
-
     figma.notify('No properties copied yet. Use Copy first.');
 
     if (options.shouldClose) figma.closePlugin();
 
     return;
-
   }
-
-
 
   const selection = figma.currentPage.selection;
 
   if (selection.length === 0) {
-
     figma.notify('Please select at least one object to paste to.');
 
     if (options.shouldClose) figma.closePlugin();
 
     return;
-
   }
-
-
 
   let successCount = 0;
 
   let skippedNodes: SceneNode[] = [];
 
-
-
   for (const node of selection) {
-
     let nodeSupportedAny = false;
 
     let appliedAny = false;
 
-
-
     // Special handling for Text properties (require font loading)
 
-    const textProps = ['characters', 'fontName', 'fontSize', 'lineHeight', 'letterSpacing', 'paragraphSpacing', 'paragraphIndent', 'textCase', 'textDecoration'];
+    const textProps = [
+      'characters',
+      'fontName',
+      'fontSize',
+      'lineHeight',
+      'letterSpacing',
+      'paragraphSpacing',
+      'paragraphIndent',
+      'textCase',
+      'textDecoration',
+    ];
 
     const nodeIsText = node.type === 'TEXT';
 
-    const hasTextGranules = granules.some(g => textProps.includes(g));
-
-
+    const hasTextGranules = granules.some((g) => textProps.includes(g));
 
     if (nodeIsText && hasTextGranules) {
-
       try {
-
-        const fontName = (data.fontName || (node as TextNode).fontName) as FontName;
+        const fontName = (data.fontName ||
+          (node as TextNode).fontName) as FontName;
 
         await figma.loadFontAsync(fontName);
-
       } catch (e) {
-
         console.error('Failed to load font', e);
-
       }
-
     }
-
-
 
     // Special handling for Size (width/height)
 
     if (granules.includes('width') || granules.includes('height')) {
-
       const parent = node.parent;
 
-      const isInsideAutoLayout = parent && 'layoutMode' in parent && (parent as any).layoutMode !== 'NONE';
+      const isInsideAutoLayout =
+        parent &&
+        'layoutMode' in parent &&
+        (parent as any).layoutMode !== 'NONE';
 
-
-
-      if (isInsideAutoLayout && ('primaryAxisSizingMode' in data || 'counterAxisSizingMode' in data)) {
-
+      if (
+        isInsideAutoLayout &&
+        ('primaryAxisSizingMode' in data || 'counterAxisSizingMode' in data)
+      ) {
         // Apply sizing modes if inside Auto Layout
 
-        if ('primaryAxisSizingMode' in data && 'primaryAxisSizingMode' in node) {
-
+        if (
+          'primaryAxisSizingMode' in data &&
+          'primaryAxisSizingMode' in node
+        ) {
           (node as any).primaryAxisSizingMode = data.primaryAxisSizingMode;
 
           appliedAny = true;
-
         }
 
-        if ('counterAxisSizingMode' in data && 'counterAxisSizingMode' in node) {
-
+        if (
+          'counterAxisSizingMode' in data &&
+          'counterAxisSizingMode' in node
+        ) {
           (node as any).counterAxisSizingMode = data.counterAxisSizingMode;
 
           appliedAny = true;
-
         }
 
         nodeSupportedAny = true;
-
       } else if ('resize' in node) {
-
         // Apply raw dimensions if not in Auto Layout (or no modes in data)
 
-        const w = ('width' in data) ? data.width : node.width;
+        const w = 'width' in data ? data.width : node.width;
 
-        const h = ('height' in data) ? data.height : node.height;
+        const h = 'height' in data ? data.height : node.height;
 
         try {
-
           (node as any).resize(w, h);
 
           appliedAny = true;
-
         } catch (e) {
-
           console.error(`Failed to resize ${node.name}`, e);
-
         }
 
         nodeSupportedAny = true;
-
       }
-
     }
 
-
-
     for (const granule of granules) {
-
       // Skip width/height as handled above
 
       if (granule === 'width' || granule === 'height') continue;
 
-
-
       // Check if we have data for this granule
 
       if (granule in data) {
-
         // Check if node supports this property
 
         if (granule in node) {
-
           nodeSupportedAny = true;
 
           try {
-
             (node as any)[granule] = data[granule];
 
             appliedAny = true;
-
           } catch (e) {
-
             console.error(`Failed to apply ${granule} to ${node.name}`, e);
-
           }
-
         }
-
       }
-
     }
-
-
 
     if (appliedAny) {
-
       successCount++;
-
     } else if (!nodeSupportedAny) {
-
       skippedNodes.push(node);
-
     }
-
   }
 
-
-
-  const granuleLabels = granules.length > 3
-
-    ? `${granules.length} properties`
-
-    : granules.join(', ');
-
-
+  const granuleLabels =
+    granules.length > 3 ? `${granules.length} properties` : granules.join(', ');
 
   let message = `Pasted ${granuleLabels} to ${successCount} object${successCount === 1 ? '' : 's'}`;
 
-
-
   if (skippedNodes.length > 0) {
-
-    const uniqueNames = Array.from(new Set(skippedNodes.map(n => n.name)));
+    const uniqueNames = Array.from(new Set(skippedNodes.map((n) => n.name)));
 
     message += `. Skipped ${uniqueNames.join(', ')} (incompatible).`;
-
   }
-
-
 
   figma.notify(message);
 
-
-
   if (options.shouldClose) {
-
     figma.closePlugin();
-
   }
-
 }

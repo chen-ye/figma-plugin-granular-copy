@@ -5,7 +5,6 @@ import { renderHook, act } from '@testing-library/react';
 import { useFigmaData } from './useFigmaData';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
-
 describe('useFigmaData', () => {
   beforeEach(() => {
     vi.stubGlobal('parent', { postMessage: vi.fn() });
@@ -22,10 +21,12 @@ describe('useFigmaData', () => {
 
   it('should update data on message', () => {
     const { result } = renderHook(() => useFigmaData());
-    
+
     act(() => {
       const event = new MessageEvent('message', {
-        data: { pluginMessage: { type: 'DATA_UPDATE', data: { name: 'Test' } } }
+        data: {
+          pluginMessage: { type: 'DATA_UPDATE', data: { name: 'Test' } },
+        },
       });
       window.dispatchEvent(event);
     });

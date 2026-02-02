@@ -6,8 +6,8 @@ export const HeaderActions: React.FC = () => {
   };
 
   return (
-    <div className="header-actions">
-      <button className="copy-button" onClick={onCopy}>
+    <div className='header-actions'>
+      <button className='copy-button' onClick={onCopy}>
         Copy Selection
       </button>
     </div>

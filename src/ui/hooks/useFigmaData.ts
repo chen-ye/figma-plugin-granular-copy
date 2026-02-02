@@ -18,9 +18,8 @@ export function useFigmaData() {
       }
     };
 
-
     window.addEventListener('message', handleMessage);
-    
+
     // Request initial data if needed, but usually main sends it on open
     // parent.postMessage({ pluginMessage: { type: 'REQUEST_DATA' } }, '*');
 

@@ -19,14 +19,18 @@ describe('Commands: Copy', () => {
   it('should notify and close if selection is empty', async () => {
     figma.currentPage.selection = [];
     await handleCopyCommand();
-    expect(figma.notify).toHaveBeenCalledWith('Please select exactly one object to copy.');
+    expect(figma.notify).toHaveBeenCalledWith(
+      'Please select exactly one object to copy.'
+    );
     expect(figma.closePlugin).toHaveBeenCalled();
   });
 
   it('should notify and close if multiple objects are selected', async () => {
     figma.currentPage.selection = [{} as any, {} as any];
     await handleCopyCommand();
-    expect(figma.notify).toHaveBeenCalledWith('Please select exactly one object to copy.');
+    expect(figma.notify).toHaveBeenCalledWith(
+      'Please select exactly one object to copy.'
+    );
     expect(figma.closePlugin).toHaveBeenCalled();
   });
 
@@ -41,16 +45,22 @@ describe('Commands: Copy', () => {
 
     await handleCopyCommand();
 
-    expect(extraction.extractProperties).toHaveBeenCalledWith(mockNode, expect.any(Array));
-    expect(storage.saveProperties).toHaveBeenCalledWith(expect.objectContaining({
-      ...mockProps,
-      preview: expect.any(String),
-      name: 'Test Node',
-    }));
-    expect(figma.notify).toHaveBeenCalledWith('Properties copied from Test Node');
+    expect(extraction.extractProperties).toHaveBeenCalledWith(
+      mockNode,
+      expect.any(Array)
+    );
+    expect(storage.saveProperties).toHaveBeenCalledWith(
+      expect.objectContaining({
+        ...mockProps,
+        preview: expect.any(String),
+        name: 'Test Node',
+      })
+    );
+    expect(figma.notify).toHaveBeenCalledWith(
+      'Properties copied from Test Node'
+    );
     expect(figma.closePlugin).toHaveBeenCalled();
   });
-
 
   it.skip('should capture thumbnail during copy', async () => {
     const mockNode = {
@@ -63,12 +73,17 @@ describe('Commands: Copy', () => {
 
     await handleCopyCommand();
 
-    expect(mockNode.exportAsync).toHaveBeenCalledWith({ format: 'PNG', constraint: { type: 'SCALE', value: 2 } });
-    expect(storage.saveProperties).toHaveBeenCalledWith(expect.objectContaining({
-      ...mockProps,
-      preview: expect.any(String),
-      name: 'Test Node',
-    }));
+    expect(mockNode.exportAsync).toHaveBeenCalledWith({
+      format: 'PNG',
+      constraint: { type: 'SCALE', value: 2 },
+    });
+    expect(storage.saveProperties).toHaveBeenCalledWith(
+      expect.objectContaining({
+        ...mockProps,
+        preview: expect.any(String),
+        name: 'Test Node',
+      })
+    );
   });
 });
 
@@ -85,12 +100,16 @@ describe('Commands: Paste', () => {
   it('should notify if nothing is copied', async () => {
     vi.mocked(storage.loadProperties).mockResolvedValue(null);
     await handlePasteCommand(['fills']);
-    expect(figma.notify).toHaveBeenCalledWith('No properties copied yet. Use Copy first.');
+    expect(figma.notify).toHaveBeenCalledWith(
+      'No properties copied yet. Use Copy first.'
+    );
     expect(figma.closePlugin).toHaveBeenCalled();
   });
 
   it('should apply properties to all selected objects', async () => {
-    const mockProps = { fills: [{ type: 'SOLID', color: { r: 1, g: 0, b: 0 } }] };
+    const mockProps = {
+      fills: [{ type: 'SOLID', color: { r: 1, g: 0, b: 0 } }],
+    };
     vi.mocked(storage.loadProperties).mockResolvedValue(mockProps);
 
     const mockNode1 = { name: 'Node 1', fills: [] } as any;
@@ -111,7 +130,11 @@ describe('Commands: Paste', () => {
 
     // We mock that 'fills' property exists on Node 1 but not Node 2
     const mockNode1 = { name: 'Rectangle' };
-    Object.defineProperty(mockNode1, 'fills', { value: [], writable: true, enumerable: true });
+    Object.defineProperty(mockNode1, 'fills', {
+      value: [],
+      writable: true,
+      enumerable: true,
+    });
 
     const mockNode2 = { name: 'Group' } as any;
 
@@ -120,7 +143,9 @@ describe('Commands: Paste', () => {
     await handlePasteCommand(['fills']);
 
     expect((mockNode1 as any).fills).toEqual(mockProps.fills);
-    expect(figma.notify).toHaveBeenCalledWith('Pasted fills to 1 object. Skipped Group (incompatible).');
+    expect(figma.notify).toHaveBeenCalledWith(
+      'Pasted fills to 1 object. Skipped Group (incompatible).'
+    );
   });
 
   it('should apply visual and layout properties', async () => {
@@ -147,7 +172,15 @@ describe('Commands: Paste', () => {
     } as any;
     figma.currentPage.selection = [mockNode];
 
-    await handlePasteCommand(['rotation', 'opacity', 'cornerRadius', 'x', 'y', 'constraints', 'blendMode']);
+    await handlePasteCommand([
+      'rotation',
+      'opacity',
+      'cornerRadius',
+      'x',
+      'y',
+      'constraints',
+      'blendMode',
+    ]);
 
     expect(mockNode.rotation).toBe(45);
     expect(mockNode.opacity).toBe(0.5);

@@ -7,11 +7,8 @@ import React from 'react';
 import { App } from './App';
 
 describe('UI', () => {
-
   it('should render the copy button', () => {
     render(<App />);
     expect(screen.getByText('Copy Selection')).toBeDefined();
   });
-
 });
-

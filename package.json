@@ -9,7 +9,10 @@
     "watch:main": "vite build -c vite.config.main.ts --watch",
     "watch:ui": "vite build -c vite.config.ui.ts --watch",
     "test": "vitest",
-    "test:ci": "CI=true vitest run"
+    "test:ci": "CI=true vitest run",
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "check": "biome check ."
   },
   "keywords": [],
   "author": "",
@@ -20,6 +23,7 @@
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.3.13",
     "@figma/plugin-typings": "^1.123.0",
     "@testing-library/react": "^16.3.2",
     "@types/react": "^19.2.10",

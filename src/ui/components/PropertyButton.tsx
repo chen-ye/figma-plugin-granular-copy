@@ -7,11 +7,16 @@ interface PropertyButtonProps {
   onPaste: (granules: string[]) => void;
 }
 
-export const PropertyButton: React.FC<PropertyButtonProps> = ({ label, granules, available, onPaste }) => {
+export const PropertyButton: React.FC<PropertyButtonProps> = ({
+  label,
+  granules,
+  available,
+  onPaste,
+}) => {
   return (
-    <button 
-      className="property-button" 
-      disabled={!available} 
+    <button
+      className='property-button'
+      disabled={!available}
       onClick={() => onPaste(granules)}
     >
       {label}

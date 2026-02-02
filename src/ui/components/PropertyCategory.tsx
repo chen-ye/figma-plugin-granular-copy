@@ -5,13 +5,14 @@ interface PropertyCategoryProps {
   children: React.ReactNode;
 }
 
-export const PropertyCategory: React.FC<PropertyCategoryProps> = ({ title, children }) => {
+export const PropertyCategory: React.FC<PropertyCategoryProps> = ({
+  title,
+  children,
+}) => {
   return (
-    <div className="property-category">
-      <h3 className="category-title">{title}</h3>
-      <div className="category-grid">
-        {children}
-      </div>
+    <div className='property-category'>
+      <h3 className='category-title'>{title}</h3>
+      <div className='category-grid'>{children}</div>
     </div>
   );
 };
