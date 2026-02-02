@@ -4,8 +4,10 @@ import { PreviewHeader } from './components/PreviewHeader';
 import { HeaderActions } from './components/HeaderActions';
 import { PropertyCategory } from './components/PropertyCategory';
 import { PropertyButton } from './components/PropertyButton';
+import './App.css';
 
 export const App: React.FC = () => {
+
   const { data, supportedGranules } = useFigmaData();
 
   const onPaste = (granules: string[]) => {
