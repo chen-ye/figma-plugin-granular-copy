@@ -4,5 +4,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [~] **Track: add sourcemaps to build**
+- [x] **Track: add sourcemaps to build**
   *Link: [./tracks/sourcemaps_20260202/](./tracks/sourcemaps_20260202/)*
