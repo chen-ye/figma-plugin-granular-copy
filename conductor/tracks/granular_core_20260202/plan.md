@@ -4,14 +4,10 @@
 - [x] Task: Set up the project structure with Vite and React (755141a)
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Scaffolding & Manifest' (Protocol in workflow.md) (085943d)
 
-## Phase 2: Serialization Engine
+## Phase 2: Serialization Engine [checkpoint: 6f0b184]
 - [x] Task: Implement the Property Extraction logic (2f6532a)
-    - [ ] Write unit tests for extracting Fills, Strokes, and Effects including Variable bindings
-    - [ ] Implement utility to read properties from a selected node
 - [x] Task: Implement Client Storage persistence (cbdb533)
-    - [ ] Create a storage service to save/load JSON data to `figma.clientStorage`
-    - [ ] Write tests for storage serialization/deserialization
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Serialization Engine' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Serialization Engine' (Protocol in workflow.md) (6f0b184)
 
 ## Phase 3: Quick Action Implementation
 - [ ] Task: Implement the "Copy" command logic
