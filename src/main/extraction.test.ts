@@ -53,5 +53,21 @@ describe('Property Extraction', () => {
     expect(result.opacity).toBe(0.5);
     expect(result.cornerRadius).toBe(8);
   });
+
+  it('should extract visual and metadata properties', () => {
+    const mockNode = {
+      rotation: 45,
+      opacity: 0.8,
+      blendMode: 'MULTIPLY',
+      exportSettings: [{ format: 'PNG', suffix: '@2x', constraint: { type: 'SCALE', value: 2 } }],
+    } as any;
+
+    const result = extractProperties(mockNode, ['rotation', 'opacity', 'blendMode', 'exportSettings']);
+    expect(result.rotation).toBe(45);
+    expect(result.opacity).toBe(0.8);
+    expect(result.blendMode).toBe('MULTIPLY');
+    expect(result.exportSettings).toEqual(mockNode.exportSettings);
+  });
 });
+
 

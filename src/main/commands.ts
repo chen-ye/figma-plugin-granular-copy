@@ -9,6 +9,7 @@ export const ALL_GRANULES = [
   'fills',
   'strokes',
   'effects',
+  'rotation',
   'opacity',
   'cornerRadius',
   'topLeftRadius',
