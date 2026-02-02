@@ -80,27 +80,27 @@ export async function handleCopyCommand(options: { shouldClose?: boolean } = { s
 
   const properties = extractProperties(node, ALL_GRANULES);
 
-  
+
 
   let preview = '';
 
-  try {
-
-    const bytes = await node.exportAsync({
-
-      format: 'PNG',
-
-      constraint: { type: 'SCALE', value: 2 },
-
-    });
-
-    preview = uint8ArrayToBase64(bytes);
-
-  } catch (e) {
-
-    console.error('Failed to generate preview', e);
-
-  }
+  // try {
+  //
+  //   const bytes = await node.exportAsync({
+  //
+  //     format: 'PNG',
+  //
+  //     constraint: { type: 'SCALE', value: 2 },
+  //
+  //   });
+  //
+  //   preview = uint8ArrayToBase64(bytes);
+  //
+  // } catch (e) {
+  //
+  //   console.error('Failed to generate preview', e);
+  //
+  // }
 
 
 
@@ -118,11 +118,11 @@ export async function handleCopyCommand(options: { shouldClose?: boolean } = { s
 
   await saveProperties(data);
 
-  
+
 
   figma.notify(`Properties copied from ${node.name}`);
 
-  
+
 
   if (options.shouldClose) {
 
@@ -226,7 +226,7 @@ export async function handlePasteCommand(granules: string[], options: { shouldCl
 
       const isInsideAutoLayout = parent && 'layoutMode' in parent && (parent as any).layoutMode !== 'NONE';
 
-      
+
 
       if (isInsideAutoLayout && ('primaryAxisSizingMode' in data || 'counterAxisSizingMode' in data)) {
 
@@ -330,9 +330,9 @@ export async function handlePasteCommand(granules: string[], options: { shouldCl
 
 
 
-  const granuleLabels = granules.length > 3 
+  const granuleLabels = granules.length > 3
 
-    ? `${granules.length} properties` 
+    ? `${granules.length} properties`
 
     : granules.join(', ');
 
@@ -340,7 +340,7 @@ export async function handlePasteCommand(granules: string[], options: { shouldCl
 
   let message = `Pasted ${granuleLabels} to ${successCount} object${successCount === 1 ? '' : 's'}`;
 
-  
+
 
   if (skippedNodes.length > 0) {
 
@@ -350,11 +350,11 @@ export async function handlePasteCommand(granules: string[], options: { shouldCl
 
   }
 
-  
+
 
   figma.notify(message);
 
-  
+
 
   if (options.shouldClose) {
 
@@ -363,6 +363,3 @@ export async function handlePasteCommand(granules: string[], options: { shouldCl
   }
 
 }
-
-
-
