@@ -9,12 +9,7 @@
 - [x] Task: Implement Client Storage persistence (cbdb533)
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Serialization Engine' (Protocol in workflow.md) (6f0b184)
 
-## Phase 3: Quick Action Implementation
+## Phase 3: Quick Action Implementation [checkpoint: 92290ac]
 - [x] Task: Implement the "Copy" command logic (02234b7)
-    - [ ] Handle selection validation (ensure 1 node)
-    - [ ] Execute extraction and save to storage
 - [x] Task: Implement granular "Paste" commands (8cac749)
-    - [ ] Write tests for selective property application
-    - [ ] Implement `Paste Fills`, `Paste Strokes`, and `Paste Effects`
-    - [ ] Handle property exclusion logic with confirmation toasts
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Quick Action Implementation' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Quick Action Implementation' (Protocol in workflow.md) (92290ac)
