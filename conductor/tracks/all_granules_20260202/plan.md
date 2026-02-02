@@ -6,7 +6,7 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Visual & Metadata Extraction' (Protocol in workflow.md) (e269cfb)
 
 ## Phase 2: Geometry & Layout Constraints [checkpoint: ]
-- [ ] Task: Implement Position and Grid extraction
+- [x] Task: Implement Position and Grid extraction (2ff1c15)
     - [ ] Write tests for Position (x, y) and Layout Grids
     - [ ] Implement extraction logic
 - [ ] Task: Implement Constraints extraction
