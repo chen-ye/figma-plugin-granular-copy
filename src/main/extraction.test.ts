@@ -117,7 +117,39 @@ describe('Property Extraction', () => {
     const result = extractProperties(mockNode, ['constraints']);
     expect(result.constraints).toEqual(mockNode.constraints);
   });
+
+  it('should extract auto layout properties', () => {
+    const mockNode = {
+      layoutMode: 'HORIZONTAL',
+      primaryAxisAlignItems: 'CENTER',
+      counterAxisAlignItems: 'BASELINE',
+      paddingLeft: 10,
+      paddingRight: 10,
+      paddingTop: 20,
+      paddingBottom: 20,
+      itemSpacing: 8,
+      layoutWrap: 'NO_WRAP',
+    } as any;
+
+    const result = extractProperties(mockNode, [
+      'layoutMode',
+      'primaryAxisAlignItems',
+      'counterAxisAlignItems',
+      'paddingLeft',
+      'paddingRight',
+      'paddingTop',
+      'paddingBottom',
+      'itemSpacing',
+      'layoutWrap'
+    ]);
+    
+    expect(result.layoutMode).toBe('HORIZONTAL');
+    expect(result.paddingLeft).toBe(10);
+    expect(result.itemSpacing).toBe(8);
+    expect(result.layoutWrap).toBe('NO_WRAP');
+  });
 });
+
 
 
 
