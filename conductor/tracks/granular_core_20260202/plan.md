@@ -5,7 +5,7 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Scaffolding & Manifest' (Protocol in workflow.md) (085943d)
 
 ## Phase 2: Serialization Engine
-- [ ] Task: Implement the Property Extraction logic
+- [x] Task: Implement the Property Extraction logic (2f6532a)
     - [ ] Write unit tests for extracting Fills, Strokes, and Effects including Variable bindings
     - [ ] Implement utility to read properties from a selected node
 - [ ] Task: Implement Client Storage persistence
