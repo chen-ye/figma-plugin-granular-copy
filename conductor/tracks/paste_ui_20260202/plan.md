@@ -21,9 +21,9 @@
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Categorized Property Grid' (Protocol in workflow.md)
 
 ## Phase 4: Styling & Final Integration [checkpoint: ]
-- [ ] Task: Apply Figma Native Styling
-    - [ ] Style all components using Figma's official hex codes and Inter font
-    - [ ] Ensure the palette follows "Native Aesthetic" guidelines (spacing, borders, hover states)
+- [x] Task: Apply Figma Native Styling (75f5297)
+    - [x] Style all components using Figma's official hex codes and Inter font
+    - [x] Ensure the palette follows "Native Aesthetic" guidelines (spacing, borders, hover states)
 - [ ] Task: Refine Window Management
     - [ ] Set appropriate initial window size
     - [ ] Ensure "Paste..." Quick Action opens the UI without closing the main plugin process
