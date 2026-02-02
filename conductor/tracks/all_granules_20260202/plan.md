@@ -21,7 +21,7 @@
 - [x] Task: Implement Auto Layout extraction (70521d8)
     - [ ] Write tests for Padding, Item Spacing, Alignment, and Wrapping
     - [ ] Implement extraction logic
-- [ ] Task: Implement Contextual Sizing logic
+- [x] Task: Implement Contextual Sizing logic (21b73f8)
     - [ ] Write tests for detecting Auto Layout parentage and extracting `layoutAlign`, `layoutGrow`, and sizing modes
     - [ ] Implement intelligent sizing extraction
 - [ ] Task: Implement Auto Layout and Sizing application
