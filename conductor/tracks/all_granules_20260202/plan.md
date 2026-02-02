@@ -28,7 +28,7 @@
     - [ ] Write tests for `characters` and `textStyleId` extraction
     - [ ] Write tests for individual font property extraction (fallback if no style ID)
     - [ ] Implement extraction and application (prioritizing Style ID)
-- [ ] Task: Update Quick Action Manifest and Routing
+- [x] Task: Update Quick Action Manifest and Routing (74618e6)
     - [ ] Add all new granule commands to `manifest.json`
     - [ ] Update `src/main/main.ts` to route all new commands to `handlePasteCommand`
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Text Content & Shared Styles' (Protocol in workflow.md)
