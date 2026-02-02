@@ -13,7 +13,7 @@
 - [x] Task: Implement the "Copy" command logic (02234b7)
     - [ ] Handle selection validation (ensure 1 node)
     - [ ] Execute extraction and save to storage
-- [ ] Task: Implement granular "Paste" commands
+- [x] Task: Implement granular "Paste" commands (8cac749)
     - [ ] Write tests for selective property application
     - [ ] Implement `Paste Fills`, `Paste Strokes`, and `Paste Effects`
     - [ ] Handle property exclusion logic with confirmation toasts
