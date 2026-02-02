@@ -17,17 +17,11 @@
     - [ ] Implement application logic in `commands.ts`
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Geometry & Layout Constraints' (Protocol in workflow.md) (af94bb9)
 
-## Phase 3: Auto Layout & Contextual Sizing [checkpoint: ]
+## Phase 3: Auto Layout & Contextual Sizing [checkpoint: b1d5062]
 - [x] Task: Implement Auto Layout extraction (70521d8)
-    - [ ] Write tests for Padding, Item Spacing, Alignment, and Wrapping
-    - [ ] Implement extraction logic
 - [x] Task: Implement Contextual Sizing logic (21b73f8)
-    - [ ] Write tests for detecting Auto Layout parentage and extracting `layoutAlign`, `layoutGrow`, and sizing modes
-    - [ ] Implement intelligent sizing extraction
 - [x] Task: Implement Auto Layout and Sizing application (acc0d8c)
-    - [ ] Write tests for "Contextual Paste": apply raw size vs. sizing modes based on target parent
-    - [ ] Implement application logic
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Auto Layout & Contextual Sizing' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Auto Layout & Contextual Sizing' (Protocol in workflow.md) (b1d5062)
 
 ## Phase 4: Text Content & Shared Styles [checkpoint: ]
 - [ ] Task: Implement Text Content and Styles logic
