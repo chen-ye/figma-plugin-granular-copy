@@ -148,7 +148,29 @@ describe('Property Extraction', () => {
     expect(result.itemSpacing).toBe(8);
     expect(result.layoutWrap).toBe('NO_WRAP');
   });
+
+  it('should extract contextual sizing properties', () => {
+    const mockNode = {
+      primaryAxisSizingMode: 'FIXED',
+      counterAxisSizingMode: 'HUG',
+      layoutAlign: 'STRETCH',
+      layoutGrow: 1,
+    } as any;
+
+    const result = extractProperties(mockNode, [
+      'primaryAxisSizingMode',
+      'counterAxisSizingMode',
+      'layoutAlign',
+      'layoutGrow'
+    ]);
+    
+    expect(result.primaryAxisSizingMode).toBe('FIXED');
+    expect(result.counterAxisSizingMode).toBe('HUG');
+    expect(result.layoutAlign).toBe('STRETCH');
+    expect(result.layoutGrow).toBe(1);
+  });
 });
+
 
 
 
