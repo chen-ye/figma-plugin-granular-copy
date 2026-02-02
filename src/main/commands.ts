@@ -88,8 +88,42 @@ export async function handlePasteCommand(granules: string[]) {
     let nodeSupportedAny = false;
     let appliedAny = false;
 
+    // Special handling for Size (width/height)
+    if (granules.includes('width') || granules.includes('height')) {
+      const parent = node.parent;
+      const isInsideAutoLayout = parent && 'layoutMode' in parent && (parent as any).layoutMode !== 'NONE';
+      
+      if (isInsideAutoLayout && ('primaryAxisSizingMode' in data || 'counterAxisSizingMode' in data)) {
+        // Apply sizing modes if inside Auto Layout
+        if ('primaryAxisSizingMode' in data && 'primaryAxisSizingMode' in node) {
+          (node as any).primaryAxisSizingMode = data.primaryAxisSizingMode;
+          appliedAny = true;
+        }
+        if ('counterAxisSizingMode' in data && 'counterAxisSizingMode' in node) {
+          (node as any).counterAxisSizingMode = data.counterAxisSizingMode;
+          appliedAny = true;
+        }
+        nodeSupportedAny = true;
+      } else if ('resize' in node) {
+        // Apply raw dimensions if not in Auto Layout (or no modes in data)
+        const w = ('width' in data) ? data.width : node.width;
+        const h = ('height' in data) ? data.height : node.height;
+        try {
+          (node as any).resize(w, h);
+          appliedAny = true;
+        } catch (e) {
+          console.error(`Failed to resize ${node.name}`, e);
+        }
+        nodeSupportedAny = true;
+      }
+    }
+
     for (const granule of granules) {
+      // Skip width/height as handled above
+      if (granule === 'width' || granule === 'height') continue;
+
       // Check if we have data for this granule
+
       if (granule in data) {
         // Check if node supports this property
         if (granule in node) {

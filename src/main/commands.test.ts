@@ -130,6 +130,50 @@ describe('Commands: Paste', () => {
     expect(mockNode.constraints).toEqual(mockProps.constraints);
     expect(mockNode.blendMode).toBe('DARKEN');
   });
+
+  it('should apply contextual sizing modes when inside auto layout', async () => {
+    const mockProps = {
+      width: 100,
+      height: 200,
+      primaryAxisSizingMode: 'FIXED',
+      counterAxisSizingMode: 'FILL',
+    };
+    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps);
+    
+    const mockParent = { type: 'FRAME', layoutMode: 'HORIZONTAL' };
+    const mockNode = { 
+      name: 'Node',
+      parent: mockParent,
+      primaryAxisSizingMode: 'HUG',
+      counterAxisSizingMode: 'HUG',
+      resize: vi.fn(),
+    } as any;
+    figma.currentPage.selection = [mockNode];
+
+    await handlePasteCommand(['width', 'height']);
+
+    expect(mockNode.primaryAxisSizingMode).toBe('FIXED');
+    expect(mockNode.counterAxisSizingMode).toBe('FILL');
+  });
+
+  it('should apply raw dimensions when not in auto layout', async () => {
+    const mockProps = {
+      width: 100,
+      height: 200,
+    };
+    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps);
+    
+    const mockNode = { 
+      name: 'Node',
+      resize: vi.fn(),
+    } as any;
+    figma.currentPage.selection = [mockNode];
+
+    await handlePasteCommand(['width', 'height']);
+
+    expect(mockNode.resize).toHaveBeenCalledWith(100, 200);
+  });
 });
+
 
 
