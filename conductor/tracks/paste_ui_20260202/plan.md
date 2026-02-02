@@ -11,13 +11,13 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2: UI Foundation & Data Loading' (Protocol in workflow.md) (10349e8)
 
 ## Phase 3: Categorized Property Grid [checkpoint: ]
-- [ ] Task: Implement Property Buttons & Categories
-    - [ ] Create `PropertyButton` component with disabled states based on data availability
-    - [ ] Create `PropertyCategory` groups (Visuals, Layout, Content, Misc)
-    - [ ] Implement click handlers to send paste messages to main
-- [ ] Task: Implement Adaptive Button States
-    - [ ] Add logic to listen for selection changes in Figma and update button compatibility states
-    - [ ] Write tests for dynamic button enabling/disabling
+- [x] Task: Implement Property Buttons & Categories (be210a6)
+    - [x] Create `PropertyButton` component with disabled states based on data availability
+    - [x] Create `PropertyCategory` groups (Visuals, Layout, Content, Misc)
+    - [x] Implement click handlers to send paste messages to main
+- [x] Task: Implement Adaptive Button States (be210a6)
+    - [x] Add logic to listen for selection changes in Figma and update button compatibility states
+    - [x] Write tests for dynamic button enabling/disabling
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Categorized Property Grid' (Protocol in workflow.md)
 
 ## Phase 4: Styling & Final Integration [checkpoint: ]
