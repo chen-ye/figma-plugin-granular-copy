@@ -9,10 +9,10 @@
 - [x] Task: Set up React UI structure (0535123)
     - [ ] Create basic layout components in `src/ui/components/`
     - [ ] Implement `useFigmaData` hook to fetch and sync data from client storage
-- [ ] Task: Implement Preview Header & Copy Button
-    - [ ] Create `PreviewHeader` component to display the source image and name
-    - [ ] Create `HeaderActions` with the "Copy Selection" button
-    - [ ] Write tests for data synchronization between main and UI
+- [x] Task: Implement Preview Header & Copy Button (01c04d5)
+    - [x] Create `PreviewHeader` component to display the source image and name
+    - [x] Create `HeaderActions` with the "Copy Selection" button
+    - [x] Write tests for data synchronization between main and UI
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: UI Foundation & Data Loading' (Protocol in workflow.md)
 
 ## Phase 3: Categorized Property Grid [checkpoint: ]
