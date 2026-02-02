@@ -4,10 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "CI=true vite build -c vite.config.main.ts && CI=true vite build -c vite.config.ui.ts",
+    "build": "vite build -c vite.config.main.ts && vite build -c vite.config.ui.ts",
+    "build:ci": "CI=true npm run build",
     "watch:main": "vite build -c vite.config.main.ts --watch",
     "watch:ui": "vite build -c vite.config.ui.ts --watch",
-    "test": "CI=true vitest"
+    "test": "vitest",
+    "test:ci": "CI=true vitest run"
   },
   "keywords": [],
   "author": "",

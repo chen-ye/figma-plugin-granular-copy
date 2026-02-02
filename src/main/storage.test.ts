@@ -24,4 +24,23 @@ describe('Storage Service', () => {
     expect(result).toEqual(data);
     expect(figma.clientStorage.getAsync).toHaveBeenCalledWith('granular_copy_data');
   });
+
+  it('should handle errors during save', async () => {
+    const data = { fills: [] };
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    (figma.clientStorage.setAsync as any).mockRejectedValue(new Error('Save failed'));
+    
+    await saveProperties(data);
+    expect(consoleSpy).toHaveBeenCalledWith('Failed to save properties to clientStorage:', expect.any(Error));
+  });
+
+  it('should handle errors during load', async () => {
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    (figma.clientStorage.getAsync as any).mockRejectedValue(new Error('Load failed'));
+    
+    const result = await loadProperties();
+    expect(result).toBeNull();
+    expect(consoleSpy).toHaveBeenCalledWith('Failed to load properties from clientStorage:', expect.any(Error));
+  });
 });
+
