@@ -1,14 +1,9 @@
 # Implementation Plan - Persistent Paste Palette UI
 
-## Phase 1: Main Process Updates & Thumbnail Capture [checkpoint: ]
+## Phase 1: Main Process Updates & Thumbnail Capture [checkpoint: 9061cde]
 - [x] Task: Implement Thumbnail Capture in Copy command (2486372)
-    - [x] Update `src/main/commands.ts` to use `node.exportAsync` to generate a preview image
-    - [x] Update `storage.ts` to support storing the Base64 image string
-    - [x] Write unit tests for the updated copy flow
 - [x] Task: Implement UI Messaging Bridge (2486372)
-    - [x] Create `src/main/ui-handlers.ts` to handle messages from the React UI
-    - [x] Route `COPY_SELECTION` and `PASTE_PROPERTY` messages to existing command logic
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Main Process Updates & Thumbnail Capture' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Main Process Updates & Thumbnail Capture' (Protocol in workflow.md) (9061cde)
 
 ## Phase 2: UI Foundation & Data Loading [checkpoint: ]
 - [ ] Task: Set up React UI structure
