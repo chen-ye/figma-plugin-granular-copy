@@ -7,6 +7,8 @@ import { PropertyButton } from './components/PropertyButton';
 import { ValuePreview } from './components/ValuePreview';
 import { TypographyPreview } from './components/TypographyPreview';
 import { ColorPreview } from './components/ColorPreview';
+import { StrokePreview } from './components/StrokePreview';
+import { EffectPreview } from './components/EffectPreview';
 import './App.css';
 
 export const App: React.FC = () => {
@@ -36,6 +38,27 @@ export const App: React.FC = () => {
             fills={data.fills as any[]}
             styleName={data.fillStyleName as string}
             variableName={data.fillVariableName as string}
+          />
+        );
+      case 'Strokes':
+        return (
+          <StrokePreview
+            weight={
+              typeof data.strokeWeight === 'number'
+                ? data.strokeWeight
+                : undefined
+            }
+            styleName={data.strokeStyleName as string}
+            variableName={data.strokeVariableName as string}
+          />
+        );
+      case 'Effects':
+        return (
+          <EffectPreview
+            count={
+              Array.isArray(data.effects) ? data.effects.length : undefined
+            }
+            styleName={data.effectStyleName as string}
           />
         );
       case 'Opacity':
@@ -163,12 +186,14 @@ export const App: React.FC = () => {
             ]}
             available={isAvailable(['strokes'])}
             onPaste={onPaste}
+            preview={getPreview('Strokes')}
           />
           <PropertyButton
             label='Effects'
             granules={['effects']}
             available={isAvailable(['effects'])}
             onPaste={onPaste}
+            preview={getPreview('Effects')}
           />
           <PropertyButton
             label='Opacity'
