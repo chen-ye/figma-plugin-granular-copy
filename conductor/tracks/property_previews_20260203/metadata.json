@@ -1,0 +1,8 @@
+{
+  "track_id": "property_previews_20260203",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-02-03T10:00:00Z",
+  "updated_at": "2026-02-03T10:00:00Z",
+  "description": "Property Previews Implementation: Enhance the Paste UI with visual previews for property granules, including Style and Variable name resolution."
+}

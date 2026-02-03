@@ -25,6 +25,10 @@ describe('Main Process', () => {
       currentPage: {
         selection: [],
       },
+      clientStorage: {
+        getAsync: vi.fn().mockResolvedValue(null),
+        setAsync: vi.fn().mockResolvedValue(null),
+      },
       notify: vi.fn(),
       closePlugin: vi.fn(),
     });
@@ -40,8 +44,11 @@ describe('Main Process', () => {
     // Setup
     (figma as any).command = '';
 
-    // Execute: dynamic import to trigger top-level code
+    // Execute
     await import('./main');
+    
+    // Give some time for async code to run
+    await new Promise((resolve) => setTimeout(resolve, 50));
 
     // Verify
     expect(figma.showUI).toHaveBeenCalled();
