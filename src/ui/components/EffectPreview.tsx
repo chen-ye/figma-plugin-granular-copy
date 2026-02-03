@@ -1,4 +1,5 @@
 import type React from 'react';
+import { Badge } from './Badge';
 
 interface EffectPreviewProps {
   count?: number;
@@ -16,7 +17,7 @@ export const EffectPreview: React.FC<EffectPreviewProps> = ({
       <span className='effect-count'>
         {count} {count === 1 ? 'effect' : 'effects'}
       </span>
-      {styleName && <span className='effect-name'>{styleName}</span>}
+      {styleName && <Badge>{styleName}</Badge>}
     </div>
   );
 };

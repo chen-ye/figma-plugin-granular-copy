@@ -1,4 +1,5 @@
 import type React from 'react';
+import { Badge } from './Badge';
 
 interface StrokePreviewProps {
   weight?: number;
@@ -17,7 +18,7 @@ export const StrokePreview: React.FC<StrokePreviewProps> = ({
         <span className='stroke-weight'>{weight}px</span>
       )}
       {(styleName || variableName) && (
-        <span className='stroke-name'>{styleName || variableName}</span>
+        <Badge>{styleName || variableName}</Badge>
       )}
     </div>
   );

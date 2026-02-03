@@ -53,23 +53,27 @@ describe('ColorPreview', () => {
     expect(screen.getByText('Brand Color')).toBeDefined();
   });
 
-  it('should display variable name if provided and no style name', () => {
+  it('should display variable name from fill', () => {
     const fills = [
-      { type: 'SOLID', color: { r: 0, g: 0, b: 0 } },
+      {
+        type: 'SOLID',
+        color: { r: 0, g: 0, b: 0 },
+        variableName: 'Color/Primary',
+      },
     ] as ExtendedPaint[];
-    render(<ColorPreview fills={fills} variableName='Color/Primary' />);
+    render(<ColorPreview fills={fills} />);
     expect(screen.getByText('Color/Primary')).toBeDefined();
   });
 
-  it('should prioritize style name over variable name', () => {
+  it('should show both style name and variable badges separately', () => {
     const fills = [
-      { type: 'SOLID', color: { r: 0, g: 0, b: 0 } },
+      { type: 'SOLID', color: { r: 0, g: 0, b: 0 }, variableName: 'Variable' },
     ] as ExtendedPaint[];
-    render(
-      <ColorPreview fills={fills} styleName='Style' variableName='Variable' />
-    );
+    render(<ColorPreview fills={fills} styleName='Style' />);
+    // Style name is shown separately as tertiary text
     expect(screen.getByText('Style')).toBeDefined();
-    expect(screen.queryByText('Variable')).toBeNull();
+    // Variable name is shown in badge embedded with swatch
+    expect(screen.getByText('Variable')).toBeDefined();
   });
 
   it('should limit to 4 swatches', () => {

@@ -323,7 +323,7 @@ describe('Property Extraction', () => {
     expect(result.fillStyleName).toBe('Brand / Primary');
   });
 
-  it('should resolve fill variable bindings to fillVariableName', async () => {
+  it('should resolve fill variable bindings to paint.variableName', async () => {
     const mockVariable = {
       id: 'var-fill-1',
       name: 'Color/Primary',
@@ -356,7 +356,7 @@ describe('Property Extraction', () => {
     } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, ['fills']);
-    expect(result.fillVariableName).toBe('Color/Primary');
+    expect(result.fills?.[0].variableName).toBe('Color/Primary');
   });
 
   it('should resolve strokeStyleId to strokeStyleName', async () => {
@@ -387,7 +387,7 @@ describe('Property Extraction', () => {
     expect(result.strokeStyleName).toBe('Stroke / Secondary');
   });
 
-  it('should resolve stroke variable bindings to strokeVariableName', async () => {
+  it('should resolve stroke variable bindings to paint.variableName', async () => {
     const mockVariable = {
       id: 'var-stroke-1',
       name: 'Color/Secondary',
@@ -420,7 +420,7 @@ describe('Property Extraction', () => {
     } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, ['strokes']);
-    expect(result.strokeVariableName).toBe('Color/Secondary');
+    expect(result.strokes?.[0].variableName).toBe('Color/Secondary');
   });
 
   it('should resolve effectStyleId to effectStyleName', async () => {

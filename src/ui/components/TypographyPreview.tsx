@@ -1,4 +1,5 @@
 import type React from 'react';
+import { Badge } from './Badge';
 
 interface TypographyPreviewProps {
   textStyleName?: string;
@@ -15,7 +16,7 @@ export const TypographyPreview: React.FC<TypographyPreviewProps> = ({
   fontSize,
 }) => {
   if (textStyleName) {
-    return <span className='typography-name'>{textStyleName}</span>;
+    return <Badge>{textStyleName}</Badge>;
   }
 
   const parts = [];

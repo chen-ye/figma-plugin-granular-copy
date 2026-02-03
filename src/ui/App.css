@@ -11,6 +11,8 @@
   --figma-text-body-medium-line-height: 16px;
   --figma-text-body-medium-letter-spacing: 0.5px;
 
+  --figma-radius-small: 2px;
+  --figma-radius-swatch: 4px;
   --figma-radius-medium: 5px;
   --figma-radius-preview: 13px;
 
@@ -23,6 +25,7 @@
   --figma-height-button-standard: 32px;
   --figma-height-button-compact: 24px;
   --figma-height-preview: 120px;
+  --figma-height-badge: 20px;
 
   color-scheme: light dark;
 }
@@ -295,6 +298,35 @@ html.figma-dark .preview-thumbnail.preview-bg-light {
 .value-preview {
   color: var(--figma-color-text-secondary);
   font-size: var(--figma-text-body-medium-size);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.variable-badge {
+  box-sizing: border-box;
+  background-color: var(--figma-color-bg-secondary);
+  color: var(--figma-color-text);
+  border: 1px solid var(--figma-color-border);
+  border-radius: var(--figma-radius-medium);
+  padding: 0 var(--figma-spacer-1);
+  height: var(--figma-height-badge);
+  display: inline-flex;
+  gap: var(--figma-spacer-1);
+  align-items: center;
+
+  font-size: var(--figma-text-body-medium-size);
+}
+
+.variable-badge-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  max-width: 16ch;
+  flex: 1;
+  direction: rtl;
+  text-align: left;
 }
 
 .typography-preview {
@@ -332,9 +364,9 @@ html.figma-dark .preview-thumbnail.preview-bg-light {
 }
 
 .color-swatch {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--figma-radius-swatch);
   border: 1px solid var(--figma-color-border);
   display: flex;
   align-items: center;
@@ -370,6 +402,29 @@ html.figma-dark .preview-thumbnail.preview-bg-light {
 .stroke-name,
 .effect-name {
   color: var(--figma-color-text-tertiary);
+  font-size: var(--figma-text-body-medium-size);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.position-preview {
+  display: flex;
+  align-items: center;
+  gap: var(--figma-spacer-2);
+  min-width: 0;
+}
+
+.position-value {
+  color: var(--figma-color-text-secondary);
+  font-size: var(--figma-text-body-medium-size);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.size-preview {
+  color: var(--figma-color-text-secondary);
   font-size: var(--figma-text-body-medium-size);
   overflow: hidden;
   text-overflow: ellipsis;

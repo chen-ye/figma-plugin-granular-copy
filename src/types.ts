@@ -19,6 +19,7 @@ export type ExtendedPaint = Paint & {
   boundVariables?: {
     color?: VariableAlias;
   };
+  variableName?: string;
 };
 
 export interface ExtractionResult extends Record<string, unknown> {

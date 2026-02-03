@@ -75,45 +75,68 @@ export async function extractProperties(
 
       // Enrich with variable names for Fills
       if (granule === 'fills' && Array.isArray(value) && value.length > 0) {
-        // Check for bound variables on the first fill (dominant)
-        const boundVariables = value[0]?.boundVariables;
-        if (boundVariables?.color?.type === 'VARIABLE_ALIAS') {
-          const variableId = boundVariables.color.id;
-          tasks.push(
-            (async () => {
-              try {
-                const variable =
-                  await figma.variables.getVariableByIdAsync(variableId);
-                if (variable) {
-                  result.fillVariableName = variable.name;
-                }
-              } catch (e) {
-                console.warn(`Failed to resolve variable ${variableId}`, e);
+        // biome-ignore lint/suspicious/noExplicitAny: cloning for mutation
+        const paints = JSON.parse(JSON.stringify(value)) as any[];
+
+        let hasUpdates = false;
+
+        const paintTasks = paints.map(async (paint: any) => {
+          if (paint.boundVariables?.color?.type === 'VARIABLE_ALIAS') {
+            const variableId = paint.boundVariables.color.id;
+            try {
+              const variable =
+                await figma.variables.getVariableByIdAsync(variableId);
+              if (variable) {
+                paint.variableName = variable.name;
+                hasUpdates = true;
               }
-            })()
-          );
-        }
+            } catch (e) {
+              console.warn(`Failed to resolve variable ${variableId}`, e);
+            }
+          }
+        });
+
+        tasks.push(
+          (async () => {
+            await Promise.all(paintTasks);
+            if (hasUpdates) {
+              result[granule] = paints;
+            }
+          })()
+        );
       }
 
       // Enrich with variable names for Strokes
       if (granule === 'strokes' && Array.isArray(value) && value.length > 0) {
-        const boundVariables = value[0]?.boundVariables;
-        if (boundVariables?.color?.type === 'VARIABLE_ALIAS') {
-          const variableId = boundVariables.color.id;
-          tasks.push(
-            (async () => {
-              try {
-                const variable =
-                  await figma.variables.getVariableByIdAsync(variableId);
-                if (variable) {
-                  result.strokeVariableName = variable.name;
-                }
-              } catch (e) {
-                console.warn(`Failed to resolve variable ${variableId}`, e);
+        // biome-ignore lint/suspicious/noExplicitAny: cloning for mutation
+        const paints = JSON.parse(JSON.stringify(value)) as any[];
+
+        let hasUpdates = false;
+
+        const paintTasks = paints.map(async (paint: any) => {
+          if (paint.boundVariables?.color?.type === 'VARIABLE_ALIAS') {
+            const variableId = paint.boundVariables.color.id;
+            try {
+              const variable =
+                await figma.variables.getVariableByIdAsync(variableId);
+              if (variable) {
+                paint.variableName = variable.name;
+                hasUpdates = true;
               }
-            })()
-          );
-        }
+            } catch (e) {
+              console.warn(`Failed to resolve variable ${variableId}`, e);
+            }
+          }
+        });
+
+        tasks.push(
+          (async () => {
+            await Promise.all(paintTasks);
+            if (hasUpdates) {
+              result[granule] = paints;
+            }
+          })()
+        );
       }
     }
   }

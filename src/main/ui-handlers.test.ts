@@ -9,16 +9,12 @@ describe('UI Handlers', () => {
   it('should handle COPY_SELECTION', async () => {
     const msg: PluginMessage = { type: 'COPY_SELECTION' };
     await handleUIMessage(msg);
-    expect(commands.handleCopyCommand).toHaveBeenCalledWith({
-      shouldClose: false,
-    });
+    expect(commands.handleCopyCommand).toHaveBeenCalledWith();
   });
 
   it('should handle PASTE_PROPERTY', async () => {
     const msg: PluginMessage = { type: 'PASTE_PROPERTY', granules: ['fills'] };
     await handleUIMessage(msg);
-    expect(commands.handlePasteCommand).toHaveBeenCalledWith(['fills'], {
-      shouldClose: false,
-    });
+    expect(commands.handlePasteCommand).toHaveBeenCalledWith(['fills']);
   });
 });

@@ -2,14 +2,23 @@ import React from 'react';
 import { ColorPreview } from './components/ColorPreview';
 import { EffectPreview } from './components/EffectPreview';
 import { HeaderActions } from './components/HeaderActions';
+import { PositionPreview } from './components/PositionPreview';
 import { PreviewHeader } from './components/PreviewHeader';
 import { PropertyButton } from './components/PropertyButton';
 import { PropertyCategory } from './components/PropertyCategory';
+import { SizePreview } from './components/SizePreview';
 import { StrokePreview } from './components/StrokePreview';
 import { TypographyPreview } from './components/TypographyPreview';
 import { ValuePreview } from './components/ValuePreview';
 import { useFigmaData } from './hooks/useFigmaData';
 import './App.css';
+
+const formatBlendMode = (mode: string): string => {
+  return mode
+    .replace(/_/g, ' ')
+    .toLowerCase()
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+};
 
 export const App: React.FC = () => {
   const { data, supportedGranules } = useFigmaData();
@@ -37,7 +46,6 @@ export const App: React.FC = () => {
           <ColorPreview
             fills={data.fills || []}
             styleName={data.fillStyleName}
-            variableName={data.fillVariableName}
           />
         );
       case 'Strokes':
@@ -64,6 +72,24 @@ export const App: React.FC = () => {
       case 'Corner Radius':
         return typeof data.cornerRadius === 'number' ? (
           <ValuePreview value={data.cornerRadius} />
+        ) : null;
+      case 'Position':
+        return (
+          <PositionPreview
+            x={typeof data.x === 'number' ? data.x : undefined}
+            y={typeof data.y === 'number' ? data.y : undefined}
+          />
+        );
+      case 'Size':
+        return (
+          <SizePreview
+            width={typeof data.width === 'number' ? data.width : undefined}
+            height={typeof data.height === 'number' ? data.height : undefined}
+          />
+        );
+      case 'Blend Mode':
+        return data.blendMode ? (
+          <ValuePreview value={formatBlendMode(data.blendMode as string)} />
         ) : null;
       case 'Rotation':
         return typeof data.rotation === 'number' ? (
@@ -219,6 +245,7 @@ export const App: React.FC = () => {
             granules={['blendMode']}
             available={isAvailable(['blendMode'])}
             onPaste={onPaste}
+            preview={getPreview('Blend Mode')}
           />
         </PropertyCategory>
 
@@ -228,12 +255,14 @@ export const App: React.FC = () => {
             granules={['x', 'y']}
             available={isAvailable(['x', 'y'])}
             onPaste={onPaste}
+            preview={getPreview('Position')}
           />
           <PropertyButton
             label='Size'
             granules={['width', 'height']}
             available={isAvailable(['width', 'height'])}
             onPaste={onPaste}
+            preview={getPreview('Size')}
           />
           <PropertyButton
             label='Rotation'
