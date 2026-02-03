@@ -12,20 +12,27 @@ describe('Commands: Copy', () => {
       currentPage: { selection: [] },
       notify: vi.fn(),
       closePlugin: vi.fn(),
+      clientStorage: {
+        getAsync: vi.fn().mockResolvedValue({ width: 320 }),
+        setAsync: vi.fn(),
+      },
+      ui: {
+        postMessage: vi.fn(),
+      },
     });
     vi.clearAllMocks();
   });
 
-  it('should notify and close if selection is empty', async () => {
+  it('should notify if selection is empty', async () => {
     figma.currentPage.selection = [];
     await handleCopyCommand();
     expect(figma.notify).toHaveBeenCalledWith(
       'Please select exactly one object to copy.'
     );
-    expect(figma.closePlugin).toHaveBeenCalled();
+    expect(figma.closePlugin).not.toHaveBeenCalled();
   });
 
-  it('should notify and close if multiple objects are selected', async () => {
+  it('should notify if multiple objects are selected', async () => {
     figma.currentPage.selection = [
       {} as unknown as SceneNode,
       {} as unknown as SceneNode,
@@ -34,7 +41,7 @@ describe('Commands: Copy', () => {
     expect(figma.notify).toHaveBeenCalledWith(
       'Please select exactly one object to copy.'
     );
-    expect(figma.closePlugin).toHaveBeenCalled();
+    expect(figma.closePlugin).not.toHaveBeenCalled();
   });
 
   it('should extract properties and save to storage for a single selection', async () => {
@@ -65,16 +72,13 @@ describe('Commands: Copy', () => {
     expect(figma.notify).toHaveBeenCalledWith(
       'Properties copied from Test Node'
     );
-    expect(figma.closePlugin).toHaveBeenCalled();
+    expect(figma.closePlugin).not.toHaveBeenCalled();
   });
 
-  it('should capture thumbnail during copy', async () => {
-    const exportAsyncMock = vi
-      .fn()
-      .mockResolvedValue(new Uint8Array([137, 80, 78, 71]));
+  it('should NOT close plugin by default', async () => {
     const mockNode = {
       name: 'Test Node',
-      exportAsync: exportAsyncMock,
+      exportAsync: vi.fn().mockResolvedValue(new Uint8Array([])),
       id: '1:1',
       parent: null,
     } as unknown as SceneNode;
@@ -85,15 +89,174 @@ describe('Commands: Copy', () => {
 
     await handleCopyCommand();
 
-    expect(exportAsyncMock).toHaveBeenCalledWith({
-      format: 'PNG',
-      constraint: { type: 'SCALE', value: 2 },
+    expect(storage.saveProperties).toHaveBeenCalled();
+    expect(figma.notify).toHaveBeenCalled();
+    expect(figma.closePlugin).not.toHaveBeenCalled();
+    expect(figma.ui.postMessage).toHaveBeenCalledWith(
+      expect.objectContaining({ type: 'COPY_COMPLETED' })
+    );
+  });
+  it('should handle headless execution where postMessage throws', async () => {
+    const mockNode = {
+      name: 'Test Node',
+      exportAsync: vi.fn().mockResolvedValue(new Uint8Array([])),
+      id: '1:1',
+      parent: null,
+    } as unknown as SceneNode;
+    figma.currentPage.selection = [mockNode];
+    const mockProps = { fills: [] };
+    // biome-ignore lint/suspicious/noExplicitAny: Mocking
+    vi.mocked(extraction.extractProperties).mockResolvedValue(mockProps as any);
+
+    // Simulate postMessage throwing error (headless mode)
+    figma.ui.postMessage = vi.fn().mockImplementation(() => {
+      throw new Error('No UI to send a message to');
     });
+
+    // Should not throw
+    await handleCopyCommand();
+
+    expect(storage.saveProperties).toHaveBeenCalled();
+    expect(figma.notify).toHaveBeenCalled();
+  });
+  it('should capture thumbnail during copy with optimized scale', async () => {
+    // Mock window size
+    (
+      figma.clientStorage.getAsync as unknown as ReturnType<typeof vi.fn>
+    ).mockResolvedValue({ width: 300 });
+
+    const exportAsyncMock = vi
+      .fn()
+      .mockResolvedValue(new Uint8Array([137, 80, 78, 71]));
+
+    // Test with small node: 100x100. Target (300*2)=600. 100*2 = 200 <= 600. Max scale 2.
+    const mockNode = {
+      name: 'Small Node',
+      exportAsync: exportAsyncMock,
+      id: '1:1',
+      parent: null,
+      width: 100,
+      height: 100,
+    } as unknown as SceneNode;
+    figma.currentPage.selection = [mockNode];
+    const mockProps = { fills: [] };
+    // biome-ignore lint/suspicious/noExplicitAny: Mocking
+    vi.mocked(extraction.extractProperties).mockResolvedValue(mockProps as any);
+
+    await handleCopyCommand();
+
+    // Check that getAsync was called
+    expect(figma.clientStorage.getAsync).toHaveBeenCalledWith(
+      'plugin_window_size'
+    );
+
+    // Expect 2x scale for small node
+    expect(exportAsyncMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        constraint: { type: 'SCALE', value: 2 },
+      })
+    );
     expect(storage.saveProperties).toHaveBeenCalledWith(
       expect.objectContaining({
         ...mockProps,
         preview: expect.any(Uint8Array),
-        name: 'Test Node',
+        name: 'Small Node',
+      })
+    );
+  });
+
+  it('should downscale large nodes in thumbnail capture', async () => {
+    // Mock window size
+    (
+      figma.clientStorage.getAsync as unknown as ReturnType<typeof vi.fn>
+    ).mockResolvedValue({ width: 320 });
+    // Target Width = 640. Target Height = 240.
+
+    const exportAsyncMock = vi.fn().mockResolvedValue(new Uint8Array([]));
+
+    // Huge node: 6400px width.
+    // scale limit = 640 / 6400 = 0.1.
+    // SCALES = [..., 0.1]. Should match 0.1.
+    const mockNode = {
+      name: 'Large Node',
+      exportAsync: exportAsyncMock,
+      id: '1:2',
+      parent: null,
+      width: 6400,
+      height: 100,
+    } as unknown as SceneNode;
+    figma.currentPage.selection = [mockNode];
+    // biome-ignore lint/suspicious/noExplicitAny: Mocking
+    vi.mocked(extraction.extractProperties).mockResolvedValue({} as any);
+
+    await handleCopyCommand();
+
+    expect(exportAsyncMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        constraint: { type: 'SCALE', value: 0.1 },
+      })
+    );
+  });
+  it('should set previewLabel to light for bright fills', async () => {
+    // Mock window size
+    (
+      figma.clientStorage.getAsync as unknown as ReturnType<typeof vi.fn>
+    ).mockResolvedValue({ width: 320 });
+    const exportAsyncMock = vi.fn().mockResolvedValue(new Uint8Array([]));
+
+    const mockNode = {
+      name: 'Light Node',
+      exportAsync: exportAsyncMock,
+      id: '1:3',
+      parent: null,
+      width: 100,
+      height: 100,
+    } as unknown as SceneNode;
+    figma.currentPage.selection = [mockNode];
+
+    const mockProps = {
+      fills: [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 }, visible: true }],
+    };
+    // biome-ignore lint/suspicious/noExplicitAny: Mocking
+    vi.mocked(extraction.extractProperties).mockResolvedValue(mockProps as any);
+
+    await handleCopyCommand();
+
+    expect(storage.saveProperties).toHaveBeenCalledWith(
+      expect.objectContaining({
+        previewLabel: 'light',
+      })
+    );
+  });
+
+  it('should set previewLabel to dark for dark fills', async () => {
+    // Mock window size
+    (
+      figma.clientStorage.getAsync as unknown as ReturnType<typeof vi.fn>
+    ).mockResolvedValue({ width: 320 });
+    const exportAsyncMock = vi.fn().mockResolvedValue(new Uint8Array([]));
+
+    const mockNode = {
+      name: 'Dark Node',
+      exportAsync: exportAsyncMock,
+      id: '1:4',
+      parent: null,
+      width: 100,
+      height: 100,
+    } as unknown as SceneNode;
+    figma.currentPage.selection = [mockNode];
+
+    const mockProps = {
+      fills: [{ type: 'SOLID', color: { r: 0, g: 0, b: 0 }, visible: true }],
+    };
+    // biome-ignore lint/suspicious/noExplicitAny: Mocking
+    vi.mocked(extraction.extractProperties).mockResolvedValue(mockProps as any);
+
+    await handleCopyCommand();
+
+    expect(storage.saveProperties).toHaveBeenCalledWith(
+      expect.objectContaining({
+        previewLabel: 'dark',
       })
     );
   });
@@ -116,7 +279,7 @@ describe('Commands: Paste', () => {
     expect(figma.notify).toHaveBeenCalledWith(
       'No properties copied yet. Use Copy first.'
     );
-    expect(figma.closePlugin).toHaveBeenCalled();
+    expect(figma.closePlugin).not.toHaveBeenCalled();
   });
 
   it('should apply properties to all selected objects', async () => {
@@ -135,7 +298,7 @@ describe('Commands: Paste', () => {
     expect((mockNode1 as GeometryMixin).fills).toEqual(mockProps.fills);
     expect((mockNode2 as GeometryMixin).fills).toEqual(mockProps.fills);
     expect(figma.notify).toHaveBeenCalledWith('Pasted fills to 2 objects');
-    expect(figma.closePlugin).toHaveBeenCalled();
+    expect(figma.closePlugin).not.toHaveBeenCalled();
   });
 
   it('should handle incompatible nodes and list them in notification', async () => {

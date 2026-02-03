@@ -15,7 +15,7 @@ export const TypographyPreview: React.FC<TypographyPreviewProps> = ({
   fontSize,
 }) => {
   if (textStyleName) {
-    return <span className='typography-preview'>{textStyleName}</span>;
+    return <span className='typography-name'>{textStyleName}</span>;
   }
 
   const parts = [];
@@ -25,5 +25,5 @@ export const TypographyPreview: React.FC<TypographyPreviewProps> = ({
 
   if (parts.length === 0) return null;
 
-  return <span className='typography-preview'>{parts.join(' ')}</span>;
+  return <span className='typography-value'>{parts.join(' ')}</span>;
 };

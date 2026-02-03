@@ -5,7 +5,7 @@ export default defineConfig({
   build: {
     minify: false,
     target: 'es2018',
-    outDir: 'dist',
+    outDir: 'dist/main',
     emptyOutDir: true,
     sourcemap: true,
     lib: {

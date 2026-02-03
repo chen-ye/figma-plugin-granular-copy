@@ -42,8 +42,17 @@ export function useFigmaData() {
     // Request initial data if needed, but usually main sends it on open
     // parent.postMessage({ pluginMessage: { type: 'REQUEST_DATA' } }, '*');
 
+    const handlePing = (event: MessageEvent) => {
+      const msg = event.data.pluginMessage;
+      if (msg && msg.type === 'PING') {
+        parent.postMessage({ pluginMessage: { type: 'PONG' } }, '*');
+      }
+    };
+    window.addEventListener('message', handlePing);
+
     return () => {
       window.removeEventListener('message', handleMessage);
+      window.removeEventListener('message', handlePing);
     };
   }, []);
 

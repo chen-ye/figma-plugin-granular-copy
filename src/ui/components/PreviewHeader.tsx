@@ -5,6 +5,7 @@ interface PreviewHeaderProps {
   name?: string;
   ancestors?: { name: string; id: string }[];
   preview?: Uint8Array | number[] | null;
+  previewLabel?: 'light' | 'dark';
 }
 
 export const PreviewHeader: React.FC<PreviewHeaderProps> = ({
@@ -12,6 +13,7 @@ export const PreviewHeader: React.FC<PreviewHeaderProps> = ({
   name,
   ancestors,
   preview,
+  previewLabel,
 }) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
@@ -44,9 +46,12 @@ export const PreviewHeader: React.FC<PreviewHeaderProps> = ({
     parent.postMessage({ pluginMessage: { type: 'SELECT_NODE', id } }, '*');
   };
 
+  const bgClass =
+    previewLabel === 'light' ? 'preview-bg-dark' : 'preview-bg-light';
+
   return (
     <div className='preview-header'>
-      <div className='preview-thumbnail'>
+      <div className={`preview-thumbnail ${bgClass}`}>
         {imageUrl ? (
           <img src={imageUrl} alt={name} />
         ) : (

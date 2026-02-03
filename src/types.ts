@@ -36,6 +36,7 @@ export interface ExtractionResult extends Record<string, unknown> {
   rotation?: number;
   fontName?: { family: string; style: string };
   fontSize?: number;
+  previewLabel?: 'light' | 'dark';
   // Add other known properties as needed
 }
 
@@ -46,6 +47,8 @@ export type PluginMessage =
   | { type: 'COPY_SELECTION' }
   | { type: 'SELECT_NODE'; id: string }
   | { type: 'UI_READY' }
+  | { type: 'PING' }
+  | { type: 'PONG' }
   | { type: 'NOTIFY'; message: string }; // Example, if needed
 
 export interface UIMessage {

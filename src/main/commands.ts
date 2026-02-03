@@ -1,3 +1,4 @@
+import type { ExtendedPaint } from '../types';
 import { extractProperties } from './extraction';
 import { loadProperties, saveProperties } from './storage';
 
@@ -55,15 +56,11 @@ export const ALL_GRANULES = [
 
  */
 
-export async function handleCopyCommand(
-  options: { shouldClose?: boolean } = { shouldClose: true }
-) {
+export async function handleCopyCommand() {
   const selection = figma.currentPage.selection;
 
   if (selection.length !== 1) {
     figma.notify('Please select exactly one object to copy.');
-
-    if (options.shouldClose) figma.closePlugin();
 
     return;
   }
@@ -77,10 +74,39 @@ export async function handleCopyCommand(
   let preview: Uint8Array | null = null;
 
   try {
+    // Determine optimal scale for preview
+    // Target matches the plugin window width (default 320) and fixed height (~120) * 2 for retina
+    // We fetch the window size, defaulting to 320 if not set.
+    const savedSize = await figma.clientStorage.getAsync('plugin_window_size');
+    const windowWidth =
+      savedSize && typeof savedSize === 'object' && 'width' in savedSize
+        ? (savedSize as { width: number }).width
+        : 320;
+
+    const targetWidth = windowWidth * 2;
+    const TARGET_HEIGHT = 240; // 120 * 2
+
+    // Discrete scale steps to use to avoid aliasing artifacts from arbitrary scaling
+    const SCALES = [2, 1.5, 1, 0.5, 0.25, 0.1];
+
+    // Calculate the absolute maximum scale that fits within dimensions, capped at 2x
+    const scaleUpperLimit = Math.min(
+      2,
+      targetWidth / node.width,
+      TARGET_HEIGHT / node.height
+    );
+
+    // Find the largest discrete scale that fits within the limit
+    let scale = SCALES.find((s) => s <= scaleUpperLimit);
+
+    // If even the smallest discrete scale don't fit (node is huge), fall back to the calculated limit
+    if (scale === undefined) {
+      scale = scaleUpperLimit;
+    }
+
     const bytes = await node.exportAsync({
       format: 'PNG',
-
-      constraint: { type: 'SCALE', value: 2 },
+      constraint: { type: 'SCALE', value: scale },
     });
 
     preview = bytes;
@@ -88,8 +114,36 @@ export async function handleCopyCommand(
     console.error('Failed to generate preview', e);
   }
 
+  // Calculate brightness to determine appropriate background contrast
+  // If component is light, we want dark background. If component is dark, we want light background.
+  let previewLabel: 'light' | 'dark' = 'light';
+  if ('fills' in properties && Array.isArray(properties.fills)) {
+    // Check if we have any visible fills
+    const visibleFills = (properties.fills as ExtendedPaint[]).filter(
+      (f) => f.visible !== false
+    );
+    if (visibleFills.length > 0) {
+      // Use the top-most fill for simplicity (last in array for Figma visual stack usually? No, first is top in API)
+      // Figma API: "The first fill in the array is the top fill."
+      const topFill = visibleFills[0];
+      if (topFill.type === 'SOLID') {
+        const { r, g, b } = topFill.color;
+        // Relative luminance formula: 0.2126*R + 0.7152*G + 0.0722*B
+        const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        // If luminance is high (light), label is 'light' (so UI knows component is light).
+        // UI will sets background to dark for light components.
+        previewLabel = luminance > 0.5 ? 'light' : 'dark';
+      } else if (topFill.type === 'IMAGE' || topFill.type === 'VIDEO') {
+        // Assume images might be mixed, default to 'light' (dark bg) or mid-grey?
+        // Let's stick to default 'light' component (dark bg) as it's safer for images usually.
+        previewLabel = 'light';
+      }
+    }
+  }
+
   const data = Object.assign({}, properties, {
     preview,
+    previewLabel,
     name: node.name,
     id: node.id,
     ancestors: getAncestors(node),
@@ -99,12 +153,12 @@ export async function handleCopyCommand(
 
   figma.notify(`Properties copied from ${node.name}`);
 
-  if (options.shouldClose) {
-    figma.closePlugin();
-  } else {
-    // Notify UI
-
+  // Notify UI
+  try {
     figma.ui.postMessage({ type: 'COPY_COMPLETED', data });
+  } catch (e) {
+    console.log('Failed to notify UI', e);
+    // UI likely not open, ignore
   }
 }
 
@@ -112,16 +166,11 @@ export async function handleCopyCommand(
  * Handles 'paste' commands from Quick Actions.
  */
 
-export async function handlePasteCommand(
-  granules: string[],
-  options: { shouldClose?: boolean } = { shouldClose: true }
-) {
+export async function handlePasteCommand(granules: string[]) {
   const data = await loadProperties();
 
   if (!data) {
     figma.notify('No properties copied yet. Use Copy first.');
-
-    if (options.shouldClose) figma.closePlugin();
 
     return;
   }
@@ -130,8 +179,6 @@ export async function handlePasteCommand(
 
   if (selection.length === 0) {
     figma.notify('Please select at least one object to paste to.');
-
-    if (options.shouldClose) figma.closePlugin();
 
     return;
   }
@@ -280,10 +327,6 @@ export async function handlePasteCommand(
   }
 
   figma.notify(message);
-
-  if (options.shouldClose) {
-    figma.closePlugin();
-  }
 }
 
 function getAncestors(node: SceneNode): { name: string; id: string }[] {

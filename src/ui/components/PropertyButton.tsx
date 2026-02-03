@@ -6,6 +6,7 @@ interface PropertyButtonProps {
   available: boolean;
   onPaste: (granules: string[]) => void;
   preview?: React.ReactNode;
+  className?: string;
 }
 
 export const PropertyButton: React.FC<PropertyButtonProps> = ({
@@ -14,11 +15,12 @@ export const PropertyButton: React.FC<PropertyButtonProps> = ({
   available,
   onPaste,
   preview,
+  className = '',
 }) => {
   return (
     <button
       type='button'
-      className='property-button'
+      className={`property-button ${className}`.trim()}
       disabled={!available}
       onClick={() => onPaste(granules)}
     >

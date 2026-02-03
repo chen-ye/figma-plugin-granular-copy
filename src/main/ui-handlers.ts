@@ -6,11 +6,11 @@ import { handleCopyCommand, handlePasteCommand } from './commands';
  */
 export async function handleUIMessage(msg: PluginMessage) {
   if (msg.type === 'COPY_SELECTION') {
-    await handleCopyCommand({ shouldClose: false });
+    await handleCopyCommand();
   } else if (msg.type === 'PASTE_PROPERTY') {
     const granules = msg.granules;
     if (Array.isArray(granules)) {
-      await handlePasteCommand(granules, { shouldClose: false });
+      await handlePasteCommand(granules);
     }
   } else if (msg.type === 'SELECT_NODE') {
     const nodeId = msg.id;

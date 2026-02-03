@@ -158,6 +158,7 @@ export const App: React.FC = () => {
         id={data?.id}
         ancestors={data?.ancestors}
         preview={data?.preview}
+        previewLabel={data?.previewLabel}
       />
 
       <div className='scroll-container'>
@@ -168,6 +169,7 @@ export const App: React.FC = () => {
             available={isAvailable(['fills'])}
             onPaste={onPaste}
             preview={getPreview('Fills')}
+            className='col-span-2'
           />
           <PropertyButton
             label='Strokes'
@@ -183,6 +185,7 @@ export const App: React.FC = () => {
             available={isAvailable(['strokes'])}
             onPaste={onPaste}
             preview={getPreview('Strokes')}
+            className='col-span-2'
           />
           <PropertyButton
             label='Effects'

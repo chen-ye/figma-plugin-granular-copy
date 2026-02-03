@@ -49,6 +49,10 @@ describe('Main Process', () => {
     // Execute
     await import('./main');
 
+    // Simulate run event
+    const onRun = (figma.on as any).mock.calls[0][1];
+    onRun({ command: '' });
+
     // Give some time for async code to run
     await new Promise((resolve) => setTimeout(resolve, 50));
 
@@ -73,9 +77,19 @@ describe('Main Process', () => {
     // Execute
     await import('./main');
 
+    // Simulate run event
+    // Find the 'run' handler (might be called multiple times if tests run in parallel/sequence without clearing modules fully, but beforeEach resets modules)
+    const calls = (figma.on as any).mock.calls;
+    const runCall = calls.find((c: any[]) => c[0] === 'run');
+    if (runCall) {
+      runCall[1]({ command: 'open-ui' });
+    }
+
+    // Give some time for async code to run (getAsync)
+    await new Promise((resolve) => setTimeout(resolve, 10));
+
     // Verify
     expect(figma.showUI).toHaveBeenCalled();
-    await new Promise((resolve) => setTimeout(resolve, 10));
 
     expect(figma.ui.postMessage).toHaveBeenCalledWith(
       expect.objectContaining({ type: 'DATA_UPDATE' })
