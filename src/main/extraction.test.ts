@@ -8,6 +8,9 @@ describe('Property Extraction', () => {
     vi.stubGlobal('figma', {
       mixed,
       getStyleById: vi.fn(),
+      variables: {
+        getVariableById: vi.fn(),
+      },
     });
   });
 
@@ -279,5 +282,72 @@ describe('Property Extraction', () => {
     const result = extractProperties(mockNode, ['textStyleId']);
     expect(result.textStyleId).toBe('style-123');
     expect(result.textStyleName).toBe('Heading / H1');
+  });
+
+  it('should resolve fillStyleId to fillStyleName', () => {
+    const mockStyle = {
+      id: 'style-fill-1',
+      name: 'Brand / Primary',
+      type: 'PAINT',
+    };
+
+    // Global stub is already set up in beforeAll, we just need to update the mock implementation
+    // if we want to be strict, or just rely on the mock we added in the previous test.
+    // Let's make the mock more robust in the test itself or rely on the previous one?
+    // The previous test set a specific implementation. Let's update it.
+    
+    // Resetting/Updating the mock for this test case
+    const getStyleById = vi.fn().mockImplementation((id) => {
+      if (id === 'style-fill-1') return mockStyle;
+      return null;
+    });
+    vi.stubGlobal('figma', {
+      mixed: Symbol('mixed'),
+      getStyleById,
+      variables: {
+        getVariableById: vi.fn(),
+      }
+    });
+
+    const mockNode = {
+      fillStyleId: 'style-fill-1',
+    } as any;
+
+    const result = extractProperties(mockNode, ['fillStyleId']);
+    expect(result.fillStyleId).toBe('style-fill-1');
+    expect(result.fillStyleName).toBe('Brand / Primary');
+  });
+
+  it('should resolve fill variable bindings to fillVariableName', () => {
+    const mockVariable = {
+      id: 'var-fill-1',
+      name: 'Color/Primary',
+      resolveForConsumer: vi.fn().mockReturnValue({ value: { r: 1, g: 0, b: 0 } }),
+    };
+
+    vi.stubGlobal('figma', {
+      mixed: Symbol('mixed'),
+      getStyleById: vi.fn(),
+      variables: {
+        getVariableById: vi.fn().mockImplementation((id) => {
+          if (id === 'var-fill-1') return mockVariable;
+          return null;
+        }),
+      }
+    });
+
+    const mockNode = {
+      fills: [
+        {
+          type: 'SOLID',
+          boundVariables: {
+            color: { type: 'VARIABLE_ALIAS', id: 'var-fill-1' },
+          },
+        },
+      ],
+    } as any;
+
+    const result = extractProperties(mockNode, ['fills']);
+    expect(result.fillVariableName).toBe('Color/Primary');
   });
 });
