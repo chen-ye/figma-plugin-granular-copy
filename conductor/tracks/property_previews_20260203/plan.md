@@ -36,7 +36,7 @@ Implement end-to-end support for Fills, handling the complexity of color swatche
     - [ ] Update `App.tsx` to integrate `ColorPreview` for Fills
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Color & Fill Previews' (Protocol in workflow.md)
 
-## Phase 3: Stroke & Effect Previews
+## Phase 3: Stroke & Effect Previews [checkpoint: 4556a8a]
 Implement end-to-end support for Strokes and Effects.
 
 - [x] Task: Backend - Enhance extraction.ts for Strokes & Effects [a52b98f]
