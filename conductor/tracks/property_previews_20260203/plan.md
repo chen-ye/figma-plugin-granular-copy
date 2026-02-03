@@ -53,7 +53,7 @@ Implement end-to-end support for Strokes and Effects.
 ## Phase 4: Final Polish
 Verify consistency and edge cases across all previews.
 
-- [ ] Task: Final Verification and Styling Polish
+- [~] Task: Final Verification and Styling Polish
     - [ ] Verify "Unknown Style" indicators display correctly
     - [ ] Ensure visual consistency with Figma's native aesthetic
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Final Polish' (Protocol in workflow.md)
