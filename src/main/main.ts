@@ -109,8 +109,10 @@ figma.on('run', ({ command }: RunEvent) => {
   } else if (command === 'paste-all') {
     executeAndMaybeClose(() => handlePasteCommand(ALL_GRANULES));
   } else if (command === 'open-ui' || !command) {
-    // Load saved size or default
-    figma.clientStorage.getAsync('plugin_window_size').then((savedSize) => {
+    // Load saved size or use defaults
+    (async () => {
+      const savedSize =
+        await figma.clientStorage.getAsync('plugin_window_size');
       let width = 320;
       let height = 640;
       if (
@@ -125,20 +127,21 @@ figma.on('run', ({ command }: RunEvent) => {
       }
       figma.showUI(__html__, { width, height, themeColors: true });
       sendInitialState();
-    });
+    })();
   }
 });
 
 /**
  * Sends the current selection and data to the UI.
  */
-function sendInitialState() {
-  // Send initial state
-  loadProperties().then((data) => {
-    figma.ui.postMessage({ type: 'DATA_UPDATE', data });
-  });
+async function sendInitialState() {
+  // Send selection immediately (sync operation)
   const supportedGranules = getSupportedGranules(figma.currentPage.selection);
   figma.ui.postMessage({ type: 'SELECTION_UPDATE', supportedGranules });
+
+  // Load and send data in parallel
+  const data = await loadProperties();
+  figma.ui.postMessage({ type: 'DATA_UPDATE', data });
 }
 
 figma.ui.onmessage = (msg: PluginMessage) => {

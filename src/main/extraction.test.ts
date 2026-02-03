@@ -1,6 +1,25 @@
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { extractProperties } from './extraction';
 
+/**
+ * Factory for creating mock SceneNode objects with geometry properties.
+ */
+function createMockNode(
+  overrides: Partial<{
+    fills: unknown[];
+    strokes: unknown[];
+    effects: unknown[];
+    [key: string]: unknown;
+  }> = {}
+): SceneNode {
+  return {
+    fills: overrides.fills ?? [],
+    strokes: overrides.strokes ?? [],
+    effects: overrides.effects ?? [],
+    ...overrides,
+  } as unknown as SceneNode;
+}
+
 describe('Property Extraction', () => {
   const mixed = Symbol('mixed');
 
@@ -17,18 +36,16 @@ describe('Property Extraction', () => {
   });
 
   it('should extract fills from a node', async () => {
-    const mockNode = {
+    const mockNode = createMockNode({
       fills: [{ type: 'SOLID', color: { r: 1, g: 0, b: 0 } }],
-      strokes: [],
-      effects: [],
-    } as unknown as SceneNode;
+    });
 
     const result = await extractProperties(mockNode, ['fills']);
     expect(result.fills).toEqual((mockNode as GeometryMixin).fills);
   });
 
   it('should extract fills with variable bindings', async () => {
-    const mockNode = {
+    const mockNode = createMockNode({
       fills: [
         {
           type: 'SOLID',
@@ -36,9 +53,7 @@ describe('Property Extraction', () => {
           boundVariables: { color: { type: 'VARIABLE_ALIAS', id: 'var-123' } },
         },
       ],
-      strokes: [],
-      effects: [],
-    } as unknown as SceneNode;
+    });
 
     const result = await extractProperties(mockNode, ['fills']);
     expect(result.fills?.[0].boundVariables?.color).toEqual({
