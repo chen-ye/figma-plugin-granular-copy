@@ -50,7 +50,7 @@ Implement end-to-end support for Strokes and Effects.
     - [ ] Update `App.tsx` to integrate `StrokePreview` and `EffectPreview`
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Stroke & Effect Previews' (Protocol in workflow.md)
 
-## Phase 4: Final Polish
+## Phase 4: Final Polish [checkpoint: f6786b4]
 Verify consistency and edge cases across all previews.
 
 - [x] Task: Final Verification and Styling Polish [f331a79]
