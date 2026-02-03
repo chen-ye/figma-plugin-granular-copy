@@ -266,3 +266,36 @@ body {
   color: var(--figma-color-text-tertiary);
   font-size: var(--figma-text-body-medium-size);
 }
+
+.color-preview {
+  display: flex;
+  align-items: center;
+  gap: var(--figma-spacer-2);
+}
+
+.swatch-container {
+  display: flex;
+  gap: 2px;
+}
+
+.color-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--figma-color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-size: 8px;
+  color: var(--figma-color-text-secondary);
+}
+
+.color-name {
+  color: var(--figma-color-text-tertiary);
+  font-size: var(--figma-text-body-medium-size);
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
