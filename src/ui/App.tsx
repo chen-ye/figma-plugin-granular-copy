@@ -6,6 +6,7 @@ import { PropertyCategory } from './components/PropertyCategory';
 import { PropertyButton } from './components/PropertyButton';
 import { ValuePreview } from './components/ValuePreview';
 import { TypographyPreview } from './components/TypographyPreview';
+import { ColorPreview } from './components/ColorPreview';
 import './App.css';
 
 export const App: React.FC = () => {
@@ -29,6 +30,14 @@ export const App: React.FC = () => {
   const getPreview = (label: string) => {
     if (!data) return null;
     switch (label) {
+      case 'Fills':
+        return (
+          <ColorPreview
+            fills={data.fills as any[]}
+            styleName={data.fillStyleName as string}
+            variableName={data.fillVariableName as string}
+          />
+        );
       case 'Opacity':
         return typeof data.opacity === 'number' ? (
           <ValuePreview value={Math.round(data.opacity * 100)} unit='%' />
@@ -139,6 +148,7 @@ export const App: React.FC = () => {
             granules={['fills']}
             available={isAvailable(['fills'])}
             onPaste={onPaste}
+            preview={getPreview('Fills')}
           />
           <PropertyButton
             label='Strokes'
