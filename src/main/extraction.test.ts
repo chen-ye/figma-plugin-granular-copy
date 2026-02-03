@@ -8,6 +8,7 @@ describe('Property Extraction', () => {
     vi.stubGlobal('figma', {
       mixed,
       getStyleById: vi.fn(),
+      getStyleByIdAsync: vi.fn(),
       variables: {
         getVariableById: vi.fn(),
         getVariableByIdAsync: vi.fn(),
@@ -270,12 +271,12 @@ describe('Property Extraction', () => {
       type: 'TEXT',
     };
 
-    // Enhance the global stub with getStyleById
+    // Enhance the global stub with getStyleByIdAsync
     vi.stubGlobal('figma', {
       mixed: Symbol('mixed'),
-      getStyleById: vi.fn().mockImplementation((id) => {
-        if (id === 'style-123') return mockStyle;
-        return null;
+      getStyleByIdAsync: vi.fn().mockImplementation((id) => {
+        if (id === 'style-123') return Promise.resolve(mockStyle);
+        return Promise.resolve(null);
       }),
     });
 
@@ -301,13 +302,14 @@ describe('Property Extraction', () => {
     // The previous test set a specific implementation. Let's update it.
 
     // Resetting/Updating the mock for this test case
-    const getStyleById = vi.fn().mockImplementation((id) => {
-      if (id === 'style-fill-1') return mockStyle;
-      return null;
+    // Resetting/Updating the mock for this test case
+    const getStyleByIdAsync = vi.fn().mockImplementation((id) => {
+      if (id === 'style-fill-1') return Promise.resolve(mockStyle);
+      return Promise.resolve(null);
     });
     vi.stubGlobal('figma', {
       mixed: Symbol('mixed'),
-      getStyleById,
+      getStyleByIdAsync,
       variables: {
         getVariableById: vi.fn(),
         getVariableByIdAsync: vi.fn(),
@@ -366,13 +368,13 @@ describe('Property Extraction', () => {
       type: 'PAINT',
     };
 
-    const getStyleById = vi.fn().mockImplementation((id) => {
-      if (id === 'style-stroke-1') return mockStyle;
-      return null;
+    const getStyleByIdAsync = vi.fn().mockImplementation((id) => {
+      if (id === 'style-stroke-1') return Promise.resolve(mockStyle);
+      return Promise.resolve(null);
     });
     vi.stubGlobal('figma', {
       mixed: Symbol('mixed'),
-      getStyleById,
+      getStyleByIdAsync,
       variables: {
         getVariableById: vi.fn(),
         getVariableByIdAsync: vi.fn(),
@@ -428,13 +430,13 @@ describe('Property Extraction', () => {
       type: 'EFFECT',
     };
 
-    const getStyleById = vi.fn().mockImplementation((id) => {
-      if (id === 'style-effect-1') return mockStyle;
-      return null;
-    });
+    // Enhance the global stub with getStyleByIdAsync
     vi.stubGlobal('figma', {
       mixed: Symbol('mixed'),
-      getStyleById,
+      getStyleByIdAsync: vi.fn().mockImplementation((id) => {
+        if (id === 'style-effect-1') return Promise.resolve(mockStyle);
+        return Promise.resolve(null);
+      }),
       variables: {
         getVariableById: vi.fn(),
         getVariableByIdAsync: vi.fn(),
@@ -445,5 +447,38 @@ describe('Property Extraction', () => {
     const result = await extractProperties(mockNode, ['effectStyleId']);
     expect(result.effectStyleId).toBe('style-effect-1');
     expect(result.effectStyleName).toBe('Shadow / Elevation 1');
+  });
+
+  it('should resolve paragraph properties', async () => {
+    const mockNode = {
+      type: 'TEXT',
+      paragraphSpacing: mixed,
+      paragraphIndent: mixed,
+      listSpacing: mixed,
+      getRangeParagraphSpacing: vi.fn().mockReturnValue(10),
+      getRangeParagraphIndent: vi.fn().mockReturnValue(20),
+      getRangeListSpacing: vi.fn().mockReturnValue(30),
+      characters: 'Text',
+    } as any;
+
+    const result = await extractProperties(mockNode, [
+      'paragraphSpacing',
+      'paragraphIndent',
+      'listSpacing',
+    ]);
+    expect(result.paragraphSpacing).toBe(10);
+    expect(result.paragraphIndent).toBe(20);
+    expect(result.listSpacing).toBe(30);
+  });
+
+  it('should omit unresolved mixed values', async () => {
+    const mockNode = {
+      type: 'RECTANGLE',
+      cornerRadius: mixed,
+      // No top/bottom individual radii provided, so it remains mixed
+    } as any;
+
+    const result = await extractProperties(mockNode, ['cornerRadius']);
+    expect(result).not.toHaveProperty('cornerRadius');
   });
 });

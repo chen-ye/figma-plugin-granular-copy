@@ -7,6 +7,7 @@ export async function extractProperties(
   granules: string[]
 ): Promise<any> {
   const result: any = {};
+  const tasks: Promise<void>[] = [];
 
   for (const granule of granules) {
     if (granule in node) {
@@ -16,35 +17,64 @@ export async function extractProperties(
         value = resolveMixedValue(node, granule);
       }
 
+      // If value is still mixed after attempted resolution, we skip it
+      // to avoid serializing Symbols which causes storage errors.
+      if (value === figma.mixed) {
+        // debug logging
+        // console.log('Skipping mixed value for', granule);
+        continue;
+      }
+
+      // Check if it's failing comparison
+      // if (String(value) === 'Symbol(mixed)' && value !== figma.mixed) {
+      //   console.log('MISMATCH SYMBOLS', granule, value, figma.mixed);
+      // }
+
       result[granule] = value;
 
       // Enrich with style names
       if (granule === 'textStyleId' && typeof value === 'string') {
-        const style = await figma.getStyleByIdAsync(value);
-        if (style) {
-          result.textStyleName = style.name;
-        }
+        tasks.push(
+          (async () => {
+            const style = await figma.getStyleByIdAsync(value);
+            if (style) {
+              result.textStyleName = style.name;
+            }
+          })()
+        );
       }
 
       if (granule === 'fillStyleId' && typeof value === 'string') {
-        const style = await figma.getStyleByIdAsync(value);
-        if (style) {
-          result.fillStyleName = style.name;
-        }
+        tasks.push(
+          (async () => {
+            const style = await figma.getStyleByIdAsync(value);
+            if (style) {
+              result.fillStyleName = style.name;
+            }
+          })()
+        );
       }
 
       if (granule === 'strokeStyleId' && typeof value === 'string') {
-        const style = await figma.getStyleByIdAsync(value);
-        if (style) {
-          result.strokeStyleName = style.name;
-        }
+        tasks.push(
+          (async () => {
+            const style = await figma.getStyleByIdAsync(value);
+            if (style) {
+              result.strokeStyleName = style.name;
+            }
+          })()
+        );
       }
 
       if (granule === 'effectStyleId' && typeof value === 'string') {
-        const style = await figma.getStyleByIdAsync(value);
-        if (style) {
-          result.effectStyleName = style.name;
-        }
+        tasks.push(
+          (async () => {
+            const style = await figma.getStyleByIdAsync(value);
+            if (style) {
+              result.effectStyleName = style.name;
+            }
+          })()
+        );
       }
 
       // Enrich with variable names for Fills
@@ -53,15 +83,19 @@ export async function extractProperties(
         const boundVariables = value[0]?.boundVariables;
         if (boundVariables?.color?.type === 'VARIABLE_ALIAS') {
           const variableId = boundVariables.color.id;
-          try {
-            const variable =
-              await figma.variables.getVariableByIdAsync(variableId);
-            if (variable) {
-              result.fillVariableName = variable.name;
-            }
-          } catch (e) {
-            console.warn(`Failed to resolve variable ${variableId}`, e);
-          }
+          tasks.push(
+            (async () => {
+              try {
+                const variable =
+                  await figma.variables.getVariableByIdAsync(variableId);
+                if (variable) {
+                  result.fillVariableName = variable.name;
+                }
+              } catch (e) {
+                console.warn(`Failed to resolve variable ${variableId}`, e);
+              }
+            })()
+          );
         }
       }
 
@@ -70,25 +104,32 @@ export async function extractProperties(
         const boundVariables = value[0]?.boundVariables;
         if (boundVariables?.color?.type === 'VARIABLE_ALIAS') {
           const variableId = boundVariables.color.id;
-          try {
-            const variable =
-              await figma.variables.getVariableByIdAsync(variableId);
-            if (variable) {
-              result.strokeVariableName = variable.name;
-            }
-          } catch (e) {
-            console.warn(`Failed to resolve variable ${variableId}`, e);
-          }
+          tasks.push(
+            (async () => {
+              try {
+                const variable =
+                  await figma.variables.getVariableByIdAsync(variableId);
+                if (variable) {
+                  result.strokeVariableName = variable.name;
+                }
+              } catch (e) {
+                console.warn(`Failed to resolve variable ${variableId}`, e);
+              }
+            })()
+          );
         }
       }
     }
   }
+
+  await Promise.all(tasks);
 
   return result;
 }
 
 function resolveMixedValue(node: SceneNode, granule: string): any {
   if (node.type === 'TEXT') {
+    // console.log('resolveMixedValue TEXT', granule);
     // Use the first character's style as the "dominant" one
     // We check if characters exist to avoid errors, though usually a node exists
     if (node.characters.length === 0) return figma.mixed;
@@ -112,6 +153,12 @@ function resolveMixedValue(node: SceneNode, granule: string): any {
         return node.getRangeTextStyleId(0, 1);
       case 'fillStyleId':
         return node.getRangeFillStyleId(0, 1);
+      case 'paragraphSpacing':
+        return node.getRangeParagraphSpacing(0, 1);
+      case 'paragraphIndent':
+        return node.getRangeParagraphIndent(0, 1);
+      case 'listSpacing':
+        return node.getRangeListSpacing(0, 1);
     }
   }
 
