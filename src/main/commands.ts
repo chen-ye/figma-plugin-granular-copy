@@ -69,17 +69,17 @@ export async function handleCopyCommand() {
 
   const node = selection[0];
 
-  // Extract all properties. extraction utility handles missing properties gracefully.
-
-  const properties = await extractProperties(node, ALL_GRANULES);
+  // Extract properties and get window size in parallel (they're independent)
+  const [properties, savedSize] = await Promise.all([
+    extractProperties(node, ALL_GRANULES),
+    figma.clientStorage.getAsync('plugin_window_size'),
+  ]);
 
   let preview: Uint8Array | null = null;
 
   try {
     // Determine optimal scale for preview
     // Target matches the plugin window width (default 320) and fixed height (~120) * 2 for retina
-    // We fetch the window size, defaulting to 320 if not set.
-    const savedSize = await figma.clientStorage.getAsync('plugin_window_size');
     const windowWidth =
       savedSize && typeof savedSize === 'object' && 'width' in savedSize
         ? (savedSize as { width: number }).width
