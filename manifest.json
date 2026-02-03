@@ -29,6 +29,6 @@
     { "separator": true },
     { "name": "Paste All", "command": "paste-all" },
     { "separator": true },
-    { "name": "Paste...", "command": "paste-ui" }
+    { "name": "Open Palette...", "command": "open-ui" }
   ]
 }

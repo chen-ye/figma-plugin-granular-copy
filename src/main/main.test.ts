@@ -56,9 +56,9 @@ describe('Main Process', () => {
     );
   });
 
-  it('should show UI and send initial state for paste-ui command', async () => {
+  it('should show UI and send initial state for open-ui command', async () => {
     // Setup
-    (figma as any).command = 'paste-ui';
+    (figma as any).command = 'open-ui';
 
     // Execute
     await import('./main');
@@ -77,7 +77,7 @@ describe('Main Process', () => {
 
   it('should send initial state when UI_READY message is received', async () => {
     // Setup
-    (figma as any).command = 'paste-ui';
+    (figma as any).command = 'open-ui';
 
     // Execute
     await import('./main');

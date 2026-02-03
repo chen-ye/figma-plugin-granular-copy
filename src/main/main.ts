@@ -68,7 +68,7 @@ if (command === 'copy') {
   handlePasteCommand(['exportSettings']);
 } else if (command === 'paste-all') {
   handlePasteCommand(ALL_GRANULES);
-} else {
+} else if (command === 'open-ui') {
   // Load saved size or default
   figma.clientStorage.getAsync('plugin_window_size').then((savedSize) => {
     let width = 320;
