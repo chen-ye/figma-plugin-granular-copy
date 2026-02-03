@@ -43,7 +43,7 @@ Implement end-to-end support for Strokes and Effects.
     - [ ] Implement style/variable resolution for Strokes
     - [ ] Implement style resolution for Effects
     - [ ] Update result object with companion fields
-- [ ] Task: UI - Create `StrokePreview` and `EffectPreview` Components
+- [x] Task: UI - Create StrokePreview and EffectPreview Components [536a36c]
     - [ ] Implement `StrokePreview.tsx` and `EffectPreview.tsx`
     - [ ] Add unit tests for both
 - [ ] Task: Integration - Strokes & Effects
