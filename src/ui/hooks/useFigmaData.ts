@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 
 export type FigmaData = {
+  id?: string;
   name?: string;
+  ancestors?: { name: string; id: string }[];
   preview?: Uint8Array | number[];
   [key: string]: unknown;
 } | null;

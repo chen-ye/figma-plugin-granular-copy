@@ -1,4 +1,4 @@
-import type React from 'react';
+import React, { useRef } from 'react';
 import { useFigmaData } from './hooks/useFigmaData';
 import { PreviewHeader } from './components/PreviewHeader';
 import { HeaderActions } from './components/HeaderActions';
@@ -24,10 +24,83 @@ export const App: React.FC = () => {
     return hasData && hasSupport;
   };
 
+  // use refs for mutable values to avoid re-renders during drag
+  const rafRef = React.useRef<number>(0);
+  const nextHeightRef = React.useRef<number | null>(null);
+
+  const onResizeStart = (e: React.PointerEvent<HTMLDivElement>) => {
+    const target = e.currentTarget;
+    const startY = e.clientY;
+    const startHeight = document.documentElement.clientHeight;
+    target.setPointerCapture(e.pointerId);
+
+    const onPointerMove = (moveEvent: PointerEvent) => {
+      const deltaY = moveEvent.clientY - startY;
+      const newHeight = Math.round(Math.max(300, startHeight + deltaY));
+
+      // Throttle with RAF
+      nextHeightRef.current = newHeight;
+      if (!rafRef.current) {
+        rafRef.current = requestAnimationFrame(() => {
+          rafRef.current = 0;
+          if (nextHeightRef.current !== null) {
+            parent.postMessage(
+              {
+                pluginMessage: {
+                  type: 'RESIZE_UI',
+                  width: window.innerWidth,
+                  height: nextHeightRef.current,
+                },
+              },
+              '*'
+            );
+            nextHeightRef.current = null;
+          }
+        });
+      }
+    };
+
+    const onPointerUp = (upEvent: PointerEvent) => {
+      target.releasePointerCapture(upEvent.pointerId);
+      target.removeEventListener('pointermove', onPointerMove);
+      target.removeEventListener('pointerup', onPointerUp);
+      document.body.style.cursor = 'auto';
+
+      // Cancel any pending RAF
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = 0;
+      }
+
+      // Save the final size
+      const deltaY = upEvent.clientY - startY;
+      const finalHeight = Math.round(Math.max(300, startHeight + deltaY));
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'SAVE_UI_SIZE',
+            width: window.innerWidth,
+            height: finalHeight,
+          },
+        },
+        '*'
+      );
+    };
+
+    target.addEventListener('pointermove', onPointerMove);
+    target.addEventListener('pointerup', onPointerUp);
+    document.body.style.cursor = 'ns-resize';
+  };
+
   return (
     <div className='app'>
       <HeaderActions />
-      <PreviewHeader name={data?.name} preview={data?.preview} />
+      <PreviewHeader
+        name={data?.name}
+        id={data?.id}
+        ancestors={data?.ancestors}
+        preview={data?.preview}
+      />
 
       <div className='scroll-container'>
         <PropertyCategory title='Visuals'>
@@ -170,6 +243,7 @@ export const App: React.FC = () => {
           Paste All
         </button>
       </div>
+      <div className='resize-handle' onPointerDown={onResizeStart} />
     </div>
   );
 };

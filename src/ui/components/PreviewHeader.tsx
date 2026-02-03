@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
 
 interface PreviewHeaderProps {
-  name: string;
-  preview: Uint8Array | number[] | null;
+  id?: string;
+  name?: string;
+  ancestors?: { name: string; id: string }[];
+  preview?: Uint8Array | number[] | null;
 }
 
 export const PreviewHeader: React.FC<PreviewHeaderProps> = ({
+  id,
   name,
+  ancestors,
   preview,
 }) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -36,6 +40,10 @@ export const PreviewHeader: React.FC<PreviewHeaderProps> = ({
     };
   }, [preview]);
 
+  const onSelectNode = (id: string) => {
+    parent.postMessage({ pluginMessage: { type: 'SELECT_NODE', id } }, '*');
+  };
+
   return (
     <div className='preview-header'>
       <div className='preview-thumbnail'>
@@ -46,7 +54,35 @@ export const PreviewHeader: React.FC<PreviewHeaderProps> = ({
         )}
       </div>
       <div className='preview-info'>
-        <span className='node-name'>{name || 'No selection'}</span>
+        {ancestors && ancestors.length > 0 && (
+          <span className='ancestor-path'>
+            {ancestors.map((ancestor, index) => (
+              <span key={ancestor.id}>
+                <button
+                  type='button'
+                  className='path-segment'
+                  onClick={() => onSelectNode(ancestor.id)}
+                >
+                  {ancestor.name}
+                </button>
+                {' / '}
+              </span>
+            ))}
+          </span>
+        )}
+        <span className='node-name'>
+          {id ? (
+            <button
+              type='button'
+              className='path-segment'
+              onClick={() => onSelectNode(id)}
+            >
+              {name || 'No selection'}
+            </button>
+          ) : (
+            name || 'No selection'
+          )}
+        </span>
       </div>
     </div>
   );

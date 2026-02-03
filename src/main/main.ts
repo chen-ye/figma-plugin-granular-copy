@@ -68,12 +68,18 @@ if (command === 'copy') {
   handlePasteCommand(['exportSettings']);
 } else if (command === 'paste-all') {
   handlePasteCommand(ALL_GRANULES);
-} else if (command === 'paste-ui') {
-  figma.showUI(__html__, { width: 320, height: 500, themeColors: true });
-  sendInitialState();
 } else {
-  figma.showUI(__html__);
-  sendInitialState();
+  // Load saved size or default
+  figma.clientStorage.getAsync('plugin_window_size').then((savedSize) => {
+    let width = 320;
+    let height = 640;
+    if (savedSize) {
+      width = savedSize.width || 320;
+      height = savedSize.height || 640;
+    }
+    figma.showUI(__html__, { width, height, themeColors: true });
+    sendInitialState();
+  });
 }
 
 /**

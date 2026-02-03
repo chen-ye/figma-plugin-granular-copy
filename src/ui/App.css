@@ -117,6 +117,35 @@ body {
 .node-name {
   font-weight: var(--figma-text-body-medium-strong-weight);
   font-size: var(--figma-text-body-medium-size);
+  color: var(--figma-color-text);
+}
+
+.ancestor-path {
+  font-weight: var(--figma-text-body-medium-weight);
+  font-size: var(--figma-text-body-medium-size);
+  color: var(--figma-color-text-tertiary);
+}
+
+.path-segment {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: var(--figma-color-text-secondary);
+  cursor: pointer;
+}
+
+.path-segment:hover {
+  text-decoration: underline;
+  color: var(--figma-color-text);
+}
+
+.node-name .path-segment {
+  color: inherit;
+  font-weight: inherit;
 }
 
 .scroll-container {
@@ -198,4 +227,30 @@ body {
   color: var(--figma-color-text-ondisabled);
   cursor: default;
   pointer-events: none;
+}
+
+.resize-handle {
+  height: 12px;
+  width: 100%;
+  cursor: ns-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  /* Visual Hint */
+  background: transparent;
+  transition: background-color 0.2s;
+}
+
+.resize-handle:hover {
+  background-color: var(--figma-color-bg-hover);
+}
+
+/* Optional: Add a grabber icon or line via pseudo-element */
+.resize-handle::after {
+  content: '';
+  width: 24px;
+  height: 3px;
+  background-color: var(--figma-color-border);
+  border-radius: 2px;
 }

@@ -91,6 +91,8 @@ export async function handleCopyCommand(
   const data = Object.assign({}, properties, {
     preview,
     name: node.name,
+    id: node.id,
+    ancestors: getAncestors(node),
   });
 
   await saveProperties(data);
@@ -273,4 +275,14 @@ export async function handlePasteCommand(
   if (options.shouldClose) {
     figma.closePlugin();
   }
+}
+
+function getAncestors(node: SceneNode): { name: string; id: string }[] {
+  const ancestors: { name: string; id: string }[] = [];
+  let current = node.parent;
+  while (current && current.type !== 'PAGE' && current.type !== 'DOCUMENT') {
+    ancestors.unshift({ name: current.name, id: current.id });
+    current = current.parent;
+  }
+  return ancestors;
 }
