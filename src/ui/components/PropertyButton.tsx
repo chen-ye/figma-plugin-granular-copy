@@ -5,6 +5,7 @@ interface PropertyButtonProps {
   granules: string[];
   available: boolean;
   onPaste: (granules: string[]) => void;
+  preview?: React.ReactNode;
 }
 
 export const PropertyButton: React.FC<PropertyButtonProps> = ({
@@ -12,6 +13,7 @@ export const PropertyButton: React.FC<PropertyButtonProps> = ({
   granules,
   available,
   onPaste,
+  preview,
 }) => {
   return (
     <button
@@ -19,7 +21,8 @@ export const PropertyButton: React.FC<PropertyButtonProps> = ({
       disabled={!available}
       onClick={() => onPaste(granules)}
     >
-      {label}
+      <span>{label}</span>
+      {preview && <div className='property-preview'>{preview}</div>}
     </button>
   );
 };

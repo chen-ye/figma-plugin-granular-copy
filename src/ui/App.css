@@ -186,8 +186,10 @@ body {
   text-overflow: ellipsis;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   color: var(--figma-color-text);
   font-size: var(--figma-text-body-medium-size);
+  width: 100%;
 }
 
 .property-button:hover:not(:disabled) {
