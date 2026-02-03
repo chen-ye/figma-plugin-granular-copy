@@ -39,7 +39,7 @@ Implement end-to-end support for Fills, handling the complexity of color swatche
 ## Phase 3: Stroke & Effect Previews
 Implement end-to-end support for Strokes and Effects.
 
-- [ ] Task: Backend - Enhance `extraction.ts` for Strokes & Effects
+- [x] Task: Backend - Enhance extraction.ts for Strokes & Effects [a52b98f]
     - [ ] Implement style/variable resolution for Strokes
     - [ ] Implement style resolution for Effects
     - [ ] Update result object with companion fields
