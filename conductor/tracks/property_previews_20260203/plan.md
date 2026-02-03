@@ -22,7 +22,7 @@ Establish the `preview` prop pattern and implement end-to-end support for simple
     - [ ] Update `App.tsx` to use `ValuePreview` and `TypographyPreview`
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Infrastructure & Scalar Previews' (Protocol in workflow.md)
 
-## Phase 2: Color & Fill Previews
+## Phase 2: Color & Fill Previews [checkpoint: e58b357]
 Implement end-to-end support for Fills, handling the complexity of color swatches, style resolution, and variable bindings.
 
 - [x] Task: Backend - Enhance extraction.ts for Fills [37b0410]
