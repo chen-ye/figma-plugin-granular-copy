@@ -18,7 +18,7 @@ Establish the `preview` prop pattern and implement end-to-end support for simple
 - [x] Task: UI - Create TypographyPreview Component [598c767]
     - [ ] Implement `TypographyPreview.tsx` with Style Name support
     - [ ] Add unit tests in `TypographyPreview.test.tsx`
-- [ ] Task: Integration - Scalar & Typography
+- [x] Task: Integration - Scalar & Typography [26a23c1]
     - [ ] Update `App.tsx` to use `ValuePreview` and `TypographyPreview`
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Infrastructure & Scalar Previews' (Protocol in workflow.md)
 
