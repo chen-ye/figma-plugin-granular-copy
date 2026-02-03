@@ -261,3 +261,8 @@ body {
   color: var(--figma-color-text-tertiary);
   font-size: var(--figma-text-body-medium-size);
 }
+
+.typography-preview {
+  color: var(--figma-color-text-tertiary);
+  font-size: var(--figma-text-body-medium-size);
+}
