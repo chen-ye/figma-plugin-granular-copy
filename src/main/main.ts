@@ -70,18 +70,31 @@ if (command === 'copy') {
   handlePasteCommand(ALL_GRANULES);
 } else if (command === 'paste-ui') {
   figma.showUI(__html__, { width: 320, height: 500, themeColors: true });
+  sendInitialState();
+} else {
+  figma.showUI(__html__);
+  sendInitialState();
+}
 
+/**
+ * Sends the current selection and data to the UI.
+ */
+function sendInitialState() {
   // Send initial state
   loadProperties().then((data) => {
     figma.ui.postMessage({ type: 'DATA_UPDATE', data });
   });
   const supportedGranules = getSupportedGranules(figma.currentPage.selection);
   figma.ui.postMessage({ type: 'SELECTION_UPDATE', supportedGranules });
-} else {
-  figma.showUI(__html__);
 }
 
-figma.ui.onmessage = handleUIMessage;
+figma.ui.onmessage = (msg: any) => {
+  if (msg.type === 'UI_READY') {
+    sendInitialState();
+  } else {
+    handleUIMessage(msg);
+  }
+};
 
 figma.on('selectionchange', () => {
   const selection = figma.currentPage.selection;

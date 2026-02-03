@@ -20,6 +20,9 @@ export function useFigmaData() {
 
     window.addEventListener('message', handleMessage);
 
+    // Notify backend that UI is ready to receive data
+    parent.postMessage({ pluginMessage: { type: 'UI_READY' } }, '*');
+
     // Request initial data if needed, but usually main sends it on open
     // parent.postMessage({ pluginMessage: { type: 'REQUEST_DATA' } }, '*');
 
