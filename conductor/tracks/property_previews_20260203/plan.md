@@ -29,7 +29,7 @@ Implement end-to-end support for Fills, handling the complexity of color swatche
     - [ ] Implement style resolution for Fills (`fillStyleId`)
     - [ ] Implement variable resolution for Fills (`figma.variables.getVariableById`)
     - [ ] Update result object with `fillStyleName` and `fillVariableName`
-- [ ] Task: UI - Create `ColorPreview` Component
+- [x] Task: UI - Create ColorPreview Component [402dc33]
     - [ ] Implement `ColorPreview.tsx` with swatches and Style/Variable priority logic
     - [ ] Add unit tests in `ColorPreview.test.tsx`
 - [ ] Task: Integration - Fills
