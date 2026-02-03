@@ -48,6 +48,8 @@ export const ALL_GRANULES = [
   'textDecoration',
   'x',
   'y',
+  'width',
+  'height',
 ];
 
 /**
