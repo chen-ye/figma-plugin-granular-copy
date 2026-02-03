@@ -1,7 +1,13 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeAll } from 'vitest';
 import { extractProperties } from './extraction';
 
 describe('Property Extraction', () => {
+  const mixed = Symbol('mixed');
+
+  beforeAll(() => {
+    vi.stubGlobal('figma', { mixed });
+  });
+
   it('should extract fills from a node', () => {
     const mockNode = {
       fills: [{ type: 'SOLID', color: { r: 1, g: 0, b: 0 } }],
@@ -68,9 +74,6 @@ describe('Property Extraction', () => {
   });
 
   it('should extract individual corner radii', () => {
-    const mixed = Symbol('mixed');
-    vi.stubGlobal('figma', { mixed });
-
     const mockNode = {
       cornerRadius: mixed,
       topLeftRadius: 10,
@@ -87,7 +90,8 @@ describe('Property Extraction', () => {
       'bottomRightRadius',
     ]);
 
-    expect(result.cornerRadius).toBe(mixed);
+    // cornerRadius is mixed, so it should be resolved to topLeftRadius (10)
+    expect(result.cornerRadius).toBe(10);
     expect(result.topLeftRadius).toBe(10);
     expect(result.topRightRadius).toBe(20);
     expect(result.bottomLeftRadius).toBe(0);
@@ -235,5 +239,17 @@ describe('Property Extraction', () => {
     expect(result.characters).toBe('Hello World');
     expect(result.textStyleId).toBe('style-123');
     expect(result.fontSize).toBe(16);
+  });
+
+  it('should resolve dominant value for mixed properties (Text)', () => {
+    const mockNode = {
+      type: 'TEXT',
+      fontSize: mixed,
+      getRangeFontSize: vi.fn().mockReturnValue(12),
+      characters: 'Hello',
+    } as any;
+
+    const result = extractProperties(mockNode, ['fontSize']);
+    expect(result.fontSize).toBe(12);
   });
 });
