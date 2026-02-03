@@ -32,7 +32,7 @@ Implement end-to-end support for Fills, handling the complexity of color swatche
 - [x] Task: UI - Create ColorPreview Component [402dc33]
     - [ ] Implement `ColorPreview.tsx` with swatches and Style/Variable priority logic
     - [ ] Add unit tests in `ColorPreview.test.tsx`
-- [ ] Task: Integration - Fills
+- [x] Task: Integration - Fills [af78329]
     - [ ] Update `App.tsx` to integrate `ColorPreview` for Fills
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Color & Fill Previews' (Protocol in workflow.md)
 
