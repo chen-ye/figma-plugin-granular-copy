@@ -15,7 +15,7 @@ function checkUIOpen(): Promise<boolean> {
     pongResolver = resolve;
     try {
       figma.ui.postMessage({ type: 'PING' });
-    } catch (e) {
+    } catch (_e) {
       if (pongResolver) {
         pongResolver(false);
         pongResolver = null;

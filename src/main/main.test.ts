@@ -1,6 +1,27 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { PluginMessage } from '../types';
 
+// Mock figma type with mutable command property for testing
+interface MockFigmaAPI {
+  command: string;
+  showUI: ReturnType<typeof vi.fn>;
+  ui: {
+    postMessage: ReturnType<typeof vi.fn>;
+    onmessage: ((msg: PluginMessage) => void) | null;
+  };
+  on: ReturnType<typeof vi.fn>;
+  currentPage: { selection: SceneNode[] };
+  clientStorage: {
+    getAsync: ReturnType<typeof vi.fn>;
+    setAsync: ReturnType<typeof vi.fn>;
+  };
+  notify: ReturnType<typeof vi.fn>;
+  closePlugin: ReturnType<typeof vi.fn>;
+}
+
+// Type for figma.on mock call: [eventType, handler]
+type FigmaOnMockCall = [string, (event: { command: string }) => void];
+
 // Mock dependencies
 vi.mock('./commands', () => ({
   handleCopyCommand: vi.fn(),
@@ -43,14 +64,15 @@ describe('Main Process', () => {
 
   it('should show UI and send initial state when no command is provided', async () => {
     // Setup
-    // biome-ignore lint/suspicious/noExplicitAny: Mocking global
-    (figma as any).command = '';
+    (figma as unknown as MockFigmaAPI).command = '';
 
     // Execute
     await import('./main');
 
     // Simulate run event
-    const onRun = (figma.on as any).mock.calls[0][1];
+    const mockCalls = vi.mocked(figma.on).mock
+      .calls as unknown as FigmaOnMockCall[];
+    const onRun = mockCalls[0][1];
     onRun({ command: '' });
 
     // Give some time for async code to run
@@ -71,16 +93,16 @@ describe('Main Process', () => {
 
   it('should show UI and send initial state for open-ui command', async () => {
     // Setup
-    // biome-ignore lint/suspicious/noExplicitAny: Mocking global
-    (figma as any).command = 'open-ui';
+    (figma as unknown as MockFigmaAPI).command = 'open-ui';
 
     // Execute
     await import('./main');
 
     // Simulate run event
     // Find the 'run' handler (might be called multiple times if tests run in parallel/sequence without clearing modules fully, but beforeEach resets modules)
-    const calls = (figma.on as any).mock.calls;
-    const runCall = calls.find((c: any[]) => c[0] === 'run');
+    const mockCalls = vi.mocked(figma.on).mock
+      .calls as unknown as FigmaOnMockCall[];
+    const runCall = mockCalls.find((c) => c[0] === 'run');
     if (runCall) {
       runCall[1]({ command: 'open-ui' });
     }
@@ -101,8 +123,7 @@ describe('Main Process', () => {
 
   it('should send initial state when UI_READY message is received', async () => {
     // Setup
-    // biome-ignore lint/suspicious/noExplicitAny: Mocking global
-    (figma as any).command = 'open-ui';
+    (figma as unknown as MockFigmaAPI).command = 'open-ui';
 
     // Execute
     await import('./main');

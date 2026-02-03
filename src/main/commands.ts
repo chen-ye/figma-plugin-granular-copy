@@ -299,8 +299,10 @@ export async function handlePasteCommand(granules: string[]) {
           nodeSupportedAny = true;
 
           try {
-            // biome-ignore lint/suspicious/noExplicitAny: Dynamic assignment
-            (node as any)[granule] = data[granule];
+            // Dynamic assignment requires type erasure since granules are runtime strings.
+            // The 'granule in node' check above guarantees property exists.
+            (node as unknown as Record<string, unknown>)[granule] =
+              data[granule];
 
             appliedAny = true;
           } catch (e) {

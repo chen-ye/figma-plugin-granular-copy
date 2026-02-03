@@ -1,4 +1,4 @@
-import type { ExtractionResult } from '../types';
+import type { ExtendedPaint, ExtractionResult } from '../types';
 
 /**
  * Extracts specific properties from a Figma node.
@@ -13,8 +13,9 @@ export async function extractProperties(
 
   for (const granule of granules) {
     if (granule in node) {
-      // biome-ignore lint/suspicious/noExplicitAny: Dynamic property access
-      let value = (node as any)[granule];
+      // Dynamic access is required here since granules are runtime strings.
+      // The 'in' check above guarantees the property exists on the node.
+      let value = (node as unknown as Record<string, unknown>)[granule];
 
       if (value === figma.mixed) {
         value = resolveMixedValue(node, granule);
@@ -75,12 +76,12 @@ export async function extractProperties(
 
       // Enrich with variable names for Fills
       if (granule === 'fills' && Array.isArray(value) && value.length > 0) {
-        // biome-ignore lint/suspicious/noExplicitAny: cloning for mutation
-        const paints = JSON.parse(JSON.stringify(value)) as any[];
+        // Clone paints for mutation (adding variableName)
+        const paints = JSON.parse(JSON.stringify(value)) as ExtendedPaint[];
 
         let hasUpdates = false;
 
-        const paintTasks = paints.map(async (paint: any) => {
+        const paintTasks = paints.map(async (paint) => {
           if (paint.boundVariables?.color?.type === 'VARIABLE_ALIAS') {
             const variableId = paint.boundVariables.color.id;
             try {
@@ -108,12 +109,12 @@ export async function extractProperties(
 
       // Enrich with variable names for Strokes
       if (granule === 'strokes' && Array.isArray(value) && value.length > 0) {
-        // biome-ignore lint/suspicious/noExplicitAny: cloning for mutation
-        const paints = JSON.parse(JSON.stringify(value)) as any[];
+        // Clone paints for mutation (adding variableName)
+        const paints = JSON.parse(JSON.stringify(value)) as ExtendedPaint[];
 
         let hasUpdates = false;
 
-        const paintTasks = paints.map(async (paint: any) => {
+        const paintTasks = paints.map(async (paint) => {
           if (paint.boundVariables?.color?.type === 'VARIABLE_ALIAS') {
             const variableId = paint.boundVariables.color.id;
             try {
@@ -181,8 +182,8 @@ function resolveMixedValue(node: SceneNode, granule: string): unknown {
   }
 
   if (granule === 'cornerRadius' && 'topLeftRadius' in node) {
-    // biome-ignore lint/suspicious/noExplicitAny: Check existence first
-    return (node as any).topLeftRadius;
+    // Type narrowing: 'topLeftRadius' is on RectangleCornerMixin
+    return (node as RectangleCornerMixin).topLeftRadius;
   }
 
   return figma.mixed;

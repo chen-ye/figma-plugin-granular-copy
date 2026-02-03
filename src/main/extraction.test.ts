@@ -461,8 +461,7 @@ describe('Property Extraction', () => {
       getRangeParagraphSpacing: vi.fn().mockReturnValue(10),
       getRangeParagraphIndent: vi.fn().mockReturnValue(20),
       getRangeListSpacing: vi.fn().mockReturnValue(30),
-      // biome-ignore lint/suspicious/noExplicitAny: Mocking
-      characters: 'Text' as any,
+      characters: 'Text',
     } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, [

@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { ExtendedPaint, ExtractionResult } from '../types';
 import { handleCopyCommand, handlePasteCommand } from './commands';
 import * as extraction from './extraction';
 import * as storage from './storage';
@@ -53,8 +54,9 @@ describe('Commands: Copy', () => {
     } as unknown as SceneNode;
     figma.currentPage.selection = [mockNode];
     const mockProps = { fills: [] };
-    // biome-ignore lint/suspicious/noExplicitAny: Mocking
-    vi.mocked(extraction.extractProperties).mockResolvedValue(mockProps as any);
+    vi.mocked(extraction.extractProperties).mockResolvedValue(
+      mockProps as ExtractionResult
+    );
 
     await handleCopyCommand();
 
@@ -84,8 +86,9 @@ describe('Commands: Copy', () => {
     } as unknown as SceneNode;
     figma.currentPage.selection = [mockNode];
     const mockProps = { fills: [] };
-    // biome-ignore lint/suspicious/noExplicitAny: Mocking
-    vi.mocked(extraction.extractProperties).mockResolvedValue(mockProps as any);
+    vi.mocked(extraction.extractProperties).mockResolvedValue(
+      mockProps as ExtractionResult
+    );
 
     await handleCopyCommand();
 
@@ -105,8 +108,9 @@ describe('Commands: Copy', () => {
     } as unknown as SceneNode;
     figma.currentPage.selection = [mockNode];
     const mockProps = { fills: [] };
-    // biome-ignore lint/suspicious/noExplicitAny: Mocking
-    vi.mocked(extraction.extractProperties).mockResolvedValue(mockProps as any);
+    vi.mocked(extraction.extractProperties).mockResolvedValue(
+      mockProps as ExtractionResult
+    );
 
     // Simulate postMessage throwing error (headless mode)
     figma.ui.postMessage = vi.fn().mockImplementation(() => {
@@ -140,8 +144,9 @@ describe('Commands: Copy', () => {
     } as unknown as SceneNode;
     figma.currentPage.selection = [mockNode];
     const mockProps = { fills: [] };
-    // biome-ignore lint/suspicious/noExplicitAny: Mocking
-    vi.mocked(extraction.extractProperties).mockResolvedValue(mockProps as any);
+    vi.mocked(extraction.extractProperties).mockResolvedValue(
+      mockProps as ExtractionResult
+    );
 
     await handleCopyCommand();
 
@@ -186,8 +191,9 @@ describe('Commands: Copy', () => {
       height: 100,
     } as unknown as SceneNode;
     figma.currentPage.selection = [mockNode];
-    // biome-ignore lint/suspicious/noExplicitAny: Mocking
-    vi.mocked(extraction.extractProperties).mockResolvedValue({} as any);
+    vi.mocked(extraction.extractProperties).mockResolvedValue(
+      {} as ExtractionResult
+    );
 
     await handleCopyCommand();
 
@@ -217,8 +223,9 @@ describe('Commands: Copy', () => {
     const mockProps = {
       fills: [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 }, visible: true }],
     };
-    // biome-ignore lint/suspicious/noExplicitAny: Mocking
-    vi.mocked(extraction.extractProperties).mockResolvedValue(mockProps as any);
+    vi.mocked(extraction.extractProperties).mockResolvedValue(
+      mockProps as ExtractionResult
+    );
 
     await handleCopyCommand();
 
@@ -249,8 +256,9 @@ describe('Commands: Copy', () => {
     const mockProps = {
       fills: [{ type: 'SOLID', color: { r: 0, g: 0, b: 0 }, visible: true }],
     };
-    // biome-ignore lint/suspicious/noExplicitAny: Mocking
-    vi.mocked(extraction.extractProperties).mockResolvedValue(mockProps as any);
+    vi.mocked(extraction.extractProperties).mockResolvedValue(
+      mockProps as ExtractionResult
+    );
 
     await handleCopyCommand();
 
@@ -283,7 +291,7 @@ describe('Commands: Copy', () => {
 
     // Mock extraction returning fills
     vi.mocked(extraction.extractProperties).mockResolvedValueOnce({
-      fills: [{ type: 'SOLID', color: { r: 1, g: 0, b: 0 } } as any],
+      fills: [{ type: 'SOLID', color: { r: 1, g: 0, b: 0 } } as ExtendedPaint],
     });
 
     await handleCopyCommand();
@@ -342,8 +350,9 @@ describe('Commands: Paste', () => {
     const mockProps = {
       fills: [{ type: 'SOLID', color: { r: 1, g: 0, b: 0 } }],
     };
-    // biome-ignore lint/suspicious/noExplicitAny: Mocking
-    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps as any);
+    vi.mocked(storage.loadProperties).mockResolvedValue(
+      mockProps as ExtractionResult
+    );
 
     const mockNode1 = { name: 'Node 1', fills: [] } as unknown as SceneNode;
     const mockNode2 = { name: 'Node 2', fills: [] } as unknown as SceneNode;
@@ -359,8 +368,9 @@ describe('Commands: Paste', () => {
 
   it('should handle incompatible nodes and list them in notification', async () => {
     const mockProps = { fills: [{ type: 'SOLID' }] };
-    // biome-ignore lint/suspicious/noExplicitAny: Mocking
-    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps as any);
+    vi.mocked(storage.loadProperties).mockResolvedValue(
+      mockProps as ExtractionResult
+    );
 
     // We mock that 'fills' property exists on Node 1 but not Node 2
     const mockNode1 = { name: 'Rectangle' };
@@ -379,8 +389,10 @@ describe('Commands: Paste', () => {
 
     await handlePasteCommand(['fills']);
 
-    // biome-ignore lint/suspicious/noExplicitAny: Dynamic test object
-    expect((mockNode1 as any).fills).toEqual(mockProps.fills);
+    // Dynamic property access for test verification
+    expect((mockNode1 as Record<string, unknown>).fills).toEqual(
+      mockProps.fills
+    );
     expect(figma.notify).toHaveBeenCalledWith(
       'Pasted fills to 1 object. Skipped Group (incompatible).'
     );
@@ -396,8 +408,9 @@ describe('Commands: Paste', () => {
       constraints: { horizontal: 'MIN', vertical: 'MIN' },
       blendMode: 'DARKEN',
     };
-    // biome-ignore lint/suspicious/noExplicitAny: Mocking
-    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps as any);
+    vi.mocked(storage.loadProperties).mockResolvedValue(
+      mockProps as ExtractionResult
+    );
 
     const mockNode = {
       name: 'Node',
@@ -439,8 +452,9 @@ describe('Commands: Paste', () => {
       primaryAxisSizingMode: 'FIXED',
       counterAxisSizingMode: 'FILL',
     };
-    // biome-ignore lint/suspicious/noExplicitAny: Mocking
-    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps as any);
+    vi.mocked(storage.loadProperties).mockResolvedValue(
+      mockProps as ExtractionResult
+    );
 
     const mockParent = { type: 'FRAME', layoutMode: 'HORIZONTAL' };
     const mockNode = {
@@ -463,8 +477,9 @@ describe('Commands: Paste', () => {
       width: 100,
       height: 200,
     };
-    // biome-ignore lint/suspicious/noExplicitAny: Mocking
-    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps as any);
+    vi.mocked(storage.loadProperties).mockResolvedValue(
+      mockProps as ExtractionResult
+    );
 
     const resizeMock = vi.fn();
     const mockNode = {
@@ -484,8 +499,9 @@ describe('Commands: Paste', () => {
       textStyleId: 'style-456',
       fontSize: 20,
     };
-    // biome-ignore lint/suspicious/noExplicitAny: Mocking
-    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps as any);
+    vi.mocked(storage.loadProperties).mockResolvedValue(
+      mockProps as ExtractionResult
+    );
 
     const mockNode = {
       name: 'Text Node',
