@@ -1,17 +1,38 @@
 :root {
-  --figma-color-bg: #ffffff;
-  --figma-color-text: #333333;
-  --figma-color-border: #e6e6e6;
-  --figma-color-blue: #18a0fb;
-  --figma-color-disabled: #b3b3b3;
-  --figma-color-secondary-text: #808080;
+  /* UI3 Extracted Tokens */
+  --figma-text-heading-large-size: 24px;
+  --figma-text-heading-large-weight: 550;
+  --figma-text-heading-large-line-height: 32px;
+  --figma-text-heading-large-letter-spacing: -1.7px;
+
+  --figma-text-body-medium-size: 11px;
+  --figma-text-body-medium-weight: 450;
+  --figma-text-body-medium-strong-weight: 550;
+  --figma-text-body-medium-line-height: 16px;
+  --figma-text-body-medium-letter-spacing: 0.5px;
+
+  --figma-radius-medium: 5px;
+  --figma-radius-preview: 13px;
+
+  --figma-border-width: 1px;
+
+  --figma-spacer-1: 4px;
+  --figma-spacer-2: 8px;
+  --figma-spacer-3: 16px;
+
+  --figma-height-button-standard: 32px;
+  --figma-height-button-compact: 24px;
+  --figma-height-preview: 120px;
 }
 
 body {
   margin: 0;
   padding: 0;
   font-family: 'Inter', sans-serif;
-  font-size: 11px;
+  font-size: var(--figma-text-body-medium-size);
+  font-weight: var(--figma-text-body-medium-weight);
+  line-height: var(--figma-text-body-medium-line-height);
+  letter-spacing: var(--figma-text-body-medium-letter-spacing);
   color: var(--figma-color-text);
   background-color: var(--figma-color-bg);
   user-select: none;
@@ -33,34 +54,39 @@ body {
 
 .copy-button {
   width: 100%;
-  height: 28px;
-  background-color: var(--figma-color-blue);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-weight: 500;
+  height: var(--figma-height-button-standard);
+  background-color: transparent;
+  color: var(--figma-color-text);
+  border: var(--figma-border-width) solid var(--figma-color-border);
+  border-radius: var(--figma-radius-medium);
+  font-weight: var(--figma-text-body-medium-weight);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--figma-spacer-2);
 }
 
 .copy-button:hover {
-  background-color: #0d8de3;
+  background-color: var(--figma-color-bg-hover);
 }
 
 .preview-header {
-  padding: 12px;
+  padding: var(--figma-spacer-1) var(--figma-spacer-3);
   display: flex;
-  align-items: center;
-  gap: 12px;
-  border-bottom: 1px solid var(--figma-color-border);
-  background-color: #f5f5f5;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--figma-spacer-2);
+  border-bottom: none;
+  background-color: transparent;
 }
 
 .preview-thumbnail {
-  width: 48px;
-  height: 48px;
-  background-color: white;
-  border: 1px solid var(--figma-color-border);
-  border-radius: 4px;
+  width: 100%;
+  height: var(--figma-height-preview);
+  background-color: var(--figma-color-bg-secondary);
+  border: none;
+  border-radius: var(--figma-radius-preview);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,12 +121,12 @@ body {
 }
 
 .category-title {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--figma-color-secondary-text);
-  margin: 0 0 8px 4px;
-  letter-spacing: 0.05em;
+  font-size: var(--figma-text-body-medium-size);
+  font-weight: var(--figma-text-body-medium-strong-weight);
+  text-transform: none;
+  color: var(--figma-color-text-secondary);
+  margin: 0 0 var(--figma-spacer-2) var(--figma-spacer-1);
+  letter-spacing: 0;
 }
 
 .category-grid {
@@ -110,26 +136,30 @@ body {
 }
 
 .property-button {
-  height: 24px;
+  height: var(--figma-height-button-compact);
   background-color: transparent;
-  border: 1px solid var(--figma-color-border);
-  border-radius: 4px;
+  border: var(--figma-border-width) solid var(--figma-color-border);
+  border-radius: var(--figma-radius-medium);
   text-align: left;
-  padding: 0 8px;
+  padding: 0 var(--figma-spacer-2);
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  color: var(--figma-color-text);
+  font-size: var(--figma-text-body-medium-size);
 }
 
 .property-button:hover:not(:disabled) {
-  background-color: #f0f0f0;
-  border-color: #ccc;
+  background-color: var(--figma-color-bg-hover);
+  border-color: var(--figma-color-border);
 }
 
 .property-button:disabled {
   color: var(--figma-color-disabled);
-  border-color: #eee;
+  border-color: var(--figma-color-border);
   cursor: default;
 }
 
@@ -140,14 +170,15 @@ body {
 
 .paste-all-button {
   width: 100%;
-  height: 32px;
-  background-color: transparent;
-  border: 1px solid var(--figma-color-text);
-  border-radius: 6px;
-  font-weight: 600;
+  height: var(--figma-height-button-standard);
+  background-color: var(--figma-color-bg-brand);
+  color: var(--figma-color-text-onbrand);
+  border: none;
+  border-radius: var(--figma-radius-medium);
+  font-weight: var(--figma-text-body-medium-weight);
   cursor: pointer;
 }
 
 .paste-all-button:hover {
-  background-color: #f5f5f5;
+  background-color: var(--figma-color-bg-brand-hover);
 }
