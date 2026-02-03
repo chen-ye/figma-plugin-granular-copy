@@ -1,10 +1,10 @@
 /// <reference types="vitest" />
 // @vitest-environment jsdom
 
-import { render, screen, fireEvent, cleanup } from '@testing-library/react';
-import { PropertyButton } from './PropertyButton';
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { PropertyButton } from './PropertyButton';
 
 describe('PropertyButton', () => {
   afterEach(() => {
@@ -39,8 +39,8 @@ describe('PropertyButton', () => {
     render(
       <PropertyButton
         {...defaultProps}
-        // @ts-ignore - Prop doesn't exist yet
-        preview={<div data-testid="preview-element">Preview Content</div>}
+        // @ts-expect-error - Prop doesn't exist yet
+        preview={<div data-testid='preview-element'>Preview Content</div>}
       />
     );
     expect(screen.getByTestId('preview-element')).toBeDefined();

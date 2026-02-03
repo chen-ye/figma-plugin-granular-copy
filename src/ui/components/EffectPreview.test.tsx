@@ -1,10 +1,10 @@
 /// <reference types="vitest" />
 // @vitest-environment jsdom
 
-import { render, screen, cleanup } from '@testing-library/react';
-import { EffectPreview } from './EffectPreview';
-import { describe, it, expect, afterEach } from 'vitest';
+import { cleanup, render, screen } from '@testing-library/react';
 import React from 'react';
+import { afterEach, describe, expect, it } from 'vitest';
+import { EffectPreview } from './EffectPreview';
 
 describe('EffectPreview', () => {
   afterEach(cleanup);
@@ -20,7 +20,7 @@ describe('EffectPreview', () => {
   });
 
   it('should render style name if provided', () => {
-    render(<EffectPreview count={1} styleName="Effect Style" />);
+    render(<EffectPreview count={1} styleName='Effect Style' />);
     expect(screen.getByText('Effect Style')).toBeDefined();
   });
 });

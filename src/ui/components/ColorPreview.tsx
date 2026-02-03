@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 
 interface ColorPreviewProps {
   fills: any[]; // Using any for Figma types to keep it simple, should be Paint[]
@@ -13,19 +13,25 @@ export const ColorPreview: React.FC<ColorPreviewProps> = ({
 }) => {
   if (!fills || fills.length === 0) return null;
 
-  const visibleFills = fills.filter((fill) => fill.visible !== false).slice(0, 4); // Max 4 swatches
+  const visibleFills = fills
+    .filter((fill) => fill.visible !== false)
+    .slice(0, 4); // Max 4 swatches
 
   return (
-    <div className="color-preview">
-      <div className="swatch-container">
+    <div className='color-preview'>
+      <div className='swatch-container'>
         {visibleFills.map((fill, index) => (
-          <div key={index} className="color-swatch" style={getSwatchStyle(fill)}>
-            {fill.type === 'IMAGE' && <span className="swatch-label">IMG</span>}
+          <div
+            key={index}
+            className='color-swatch'
+            style={getSwatchStyle(fill)}
+          >
+            {fill.type === 'IMAGE' && <span className='swatch-label'>IMG</span>}
           </div>
         ))}
       </div>
       {(styleName || variableName) && (
-        <span className="color-name">{styleName || variableName}</span>
+        <span className='color-name'>{styleName || variableName}</span>
       )}
     </div>
   );

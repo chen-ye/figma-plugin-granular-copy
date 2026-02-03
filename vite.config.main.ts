@@ -1,10 +1,10 @@
+import * as path from 'node:path';
 import { defineConfig } from 'vite';
-import path from 'path';
 
 export default defineConfig({
   build: {
     minify: false,
-    target: 'esnext',
+    target: 'es2018',
     outDir: 'dist',
     emptyOutDir: true,
     sourcemap: true,

@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { saveProperties, loadProperties } from './storage';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { loadProperties, saveProperties } from './storage';
 
 describe('Storage Service', () => {
   beforeEach(() => {

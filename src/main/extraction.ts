@@ -2,7 +2,10 @@
  * Extracts specific properties from a Figma node.
  * Handles granules like 'fills', 'strokes', and 'effects'.
  */
-export function extractProperties(node: SceneNode, granules: string[]): any {
+export async function extractProperties(
+  node: SceneNode,
+  granules: string[]
+): Promise<any> {
   const result: any = {};
 
   for (const granule of granules) {
@@ -17,28 +20,28 @@ export function extractProperties(node: SceneNode, granules: string[]): any {
 
       // Enrich with style names
       if (granule === 'textStyleId' && typeof value === 'string') {
-        const style = figma.getStyleById(value);
+        const style = await figma.getStyleByIdAsync(value);
         if (style) {
           result.textStyleName = style.name;
         }
       }
 
       if (granule === 'fillStyleId' && typeof value === 'string') {
-        const style = figma.getStyleById(value);
+        const style = await figma.getStyleByIdAsync(value);
         if (style) {
           result.fillStyleName = style.name;
         }
       }
 
       if (granule === 'strokeStyleId' && typeof value === 'string') {
-        const style = figma.getStyleById(value);
+        const style = await figma.getStyleByIdAsync(value);
         if (style) {
           result.strokeStyleName = style.name;
         }
       }
 
       if (granule === 'effectStyleId' && typeof value === 'string') {
-        const style = figma.getStyleById(value);
+        const style = await figma.getStyleByIdAsync(value);
         if (style) {
           result.effectStyleName = style.name;
         }
@@ -50,9 +53,14 @@ export function extractProperties(node: SceneNode, granules: string[]): any {
         const boundVariables = value[0]?.boundVariables;
         if (boundVariables?.color?.type === 'VARIABLE_ALIAS') {
           const variableId = boundVariables.color.id;
-          const variable = figma.variables.getVariableById(variableId);
-          if (variable) {
-            result.fillVariableName = variable.name;
+          try {
+            const variable =
+              await figma.variables.getVariableByIdAsync(variableId);
+            if (variable) {
+              result.fillVariableName = variable.name;
+            }
+          } catch (e) {
+            console.warn(`Failed to resolve variable ${variableId}`, e);
           }
         }
       }
@@ -62,9 +70,14 @@ export function extractProperties(node: SceneNode, granules: string[]): any {
         const boundVariables = value[0]?.boundVariables;
         if (boundVariables?.color?.type === 'VARIABLE_ALIAS') {
           const variableId = boundVariables.color.id;
-          const variable = figma.variables.getVariableById(variableId);
-          if (variable) {
-            result.strokeVariableName = variable.name;
+          try {
+            const variable =
+              await figma.variables.getVariableByIdAsync(variableId);
+            if (variable) {
+              result.strokeVariableName = variable.name;
+            }
+          } catch (e) {
+            console.warn(`Failed to resolve variable ${variableId}`, e);
           }
         }
       }

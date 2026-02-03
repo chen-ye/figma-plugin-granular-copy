@@ -1,7 +1,7 @@
 import {
+  ALL_GRANULES,
   handleCopyCommand,
   handlePasteCommand,
-  ALL_GRANULES,
 } from './commands';
 import { loadProperties } from './storage.ts';
 import { handleUIMessage } from './ui-handlers';

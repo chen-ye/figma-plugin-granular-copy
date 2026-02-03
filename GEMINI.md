@@ -1,5 +1,7 @@
 # Gemini Memory
 
+Remember, many sync figma.variables.functions such as getVariableById are deprecated and cannot be called ith documentAccess: dynamic-page. Use async versions such as figma.variables.getVariableByIdAsync instead.
+
 ## References
 
 - **Figma CSS Variables**:

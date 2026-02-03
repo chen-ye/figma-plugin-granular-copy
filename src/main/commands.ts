@@ -1,5 +1,5 @@
 import { extractProperties } from './extraction';
-import { saveProperties, loadProperties } from './storage';
+import { loadProperties, saveProperties } from './storage';
 
 /**
  * List of all properties we attempt to extract during a copy operation.
@@ -72,7 +72,7 @@ export async function handleCopyCommand(
 
   // Extract all properties. extraction utility handles missing properties gracefully.
 
-  const properties = extractProperties(node, ALL_GRANULES);
+  const properties = await extractProperties(node, ALL_GRANULES);
 
   let preview: Uint8Array | null = null;
 

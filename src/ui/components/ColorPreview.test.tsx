@@ -1,10 +1,10 @@
 /// <reference types="vitest" />
 // @vitest-environment jsdom
 
-import { render, screen, cleanup } from '@testing-library/react';
-import { ColorPreview } from './ColorPreview';
-import { describe, it, expect, afterEach } from 'vitest';
+import { cleanup, render, screen } from '@testing-library/react';
 import React from 'react';
+import { afterEach, describe, expect, it } from 'vitest';
+import { ColorPreview } from './ColorPreview';
 
 describe('ColorPreview', () => {
   afterEach(cleanup);
@@ -41,24 +41,20 @@ describe('ColorPreview', () => {
 
   it('should display style name if provided', () => {
     const fills = [{ type: 'SOLID', color: { r: 0, g: 0, b: 0 } }];
-    render(<ColorPreview fills={fills} styleName="Brand Color" />);
+    render(<ColorPreview fills={fills} styleName='Brand Color' />);
     expect(screen.getByText('Brand Color')).toBeDefined();
   });
 
   it('should display variable name if provided and no style name', () => {
     const fills = [{ type: 'SOLID', color: { r: 0, g: 0, b: 0 } }];
-    render(<ColorPreview fills={fills} variableName="Color/Primary" />);
+    render(<ColorPreview fills={fills} variableName='Color/Primary' />);
     expect(screen.getByText('Color/Primary')).toBeDefined();
   });
 
   it('should prioritize style name over variable name', () => {
     const fills = [{ type: 'SOLID', color: { r: 0, g: 0, b: 0 } }];
     render(
-      <ColorPreview
-        fills={fills}
-        styleName="Style"
-        variableName="Variable"
-      />
+      <ColorPreview fills={fills} styleName='Style' variableName='Variable' />
     );
     expect(screen.getByText('Style')).toBeDefined();
     expect(screen.queryByText('Variable')).toBeNull();

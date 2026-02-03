@@ -1,14 +1,14 @@
-import React, { useRef } from 'react';
-import { useFigmaData } from './hooks/useFigmaData';
-import { PreviewHeader } from './components/PreviewHeader';
-import { HeaderActions } from './components/HeaderActions';
-import { PropertyCategory } from './components/PropertyCategory';
-import { PropertyButton } from './components/PropertyButton';
-import { ValuePreview } from './components/ValuePreview';
-import { TypographyPreview } from './components/TypographyPreview';
+import React from 'react';
 import { ColorPreview } from './components/ColorPreview';
-import { StrokePreview } from './components/StrokePreview';
 import { EffectPreview } from './components/EffectPreview';
+import { HeaderActions } from './components/HeaderActions';
+import { PreviewHeader } from './components/PreviewHeader';
+import { PropertyButton } from './components/PropertyButton';
+import { PropertyCategory } from './components/PropertyCategory';
+import { StrokePreview } from './components/StrokePreview';
+import { TypographyPreview } from './components/TypographyPreview';
+import { ValuePreview } from './components/ValuePreview';
+import { useFigmaData } from './hooks/useFigmaData';
 import './App.css';
 
 export const App: React.FC = () => {

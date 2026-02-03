@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 
 interface PropertyButtonProps {
   label: string;
@@ -17,6 +17,7 @@ export const PropertyButton: React.FC<PropertyButtonProps> = ({
 }) => {
   return (
     <button
+      type='button'
       className='property-button'
       disabled={!available}
       onClick={() => onPaste(granules)}

@@ -1,8 +1,8 @@
 /// <reference types="vitest" />
 // @vitest-environment jsdom
 
-import { describe, it, expect } from 'vitest';
-import { render, screen, act } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 import { App } from './App';
 
 describe('UI Integration', () => {

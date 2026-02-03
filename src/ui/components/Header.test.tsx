@@ -1,10 +1,10 @@
 /// <reference types="vitest" />
 // @vitest-environment jsdom
 
-import { render, screen, fireEvent } from '@testing-library/react';
-import { PreviewHeader } from './PreviewHeader';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 import { HeaderActions } from './HeaderActions';
-import { describe, it, expect, vi } from 'vitest';
+import { PreviewHeader } from './PreviewHeader';
 
 describe('PreviewHeader', () => {
   it('should render the node name', () => {

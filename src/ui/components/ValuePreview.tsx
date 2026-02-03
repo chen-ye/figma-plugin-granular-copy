@@ -1,11 +1,14 @@
-import React from 'react';
+import type React from 'react';
 
 interface ValuePreviewProps {
   value: number | string;
   unit?: string;
 }
 
-export const ValuePreview: React.FC<ValuePreviewProps> = ({ value, unit = '' }) => {
+export const ValuePreview: React.FC<ValuePreviewProps> = ({
+  value,
+  unit = '',
+}) => {
   let displayValue = value;
 
   if (typeof value === 'number') {
@@ -13,7 +16,7 @@ export const ValuePreview: React.FC<ValuePreviewProps> = ({ value, unit = '' }) 
   }
 
   return (
-    <span className="value-preview">
+    <span className='value-preview'>
       {displayValue}
       {unit}
     </span>

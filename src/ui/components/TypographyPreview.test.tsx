@@ -1,10 +1,10 @@
 /// <reference types="vitest" />
 // @vitest-environment jsdom
 
-import { render, screen, cleanup } from '@testing-library/react';
-import { TypographyPreview } from './TypographyPreview';
-import { describe, it, expect, afterEach } from 'vitest';
+import { cleanup, render, screen } from '@testing-library/react';
 import React from 'react';
+import { afterEach, describe, expect, it } from 'vitest';
+import { TypographyPreview } from './TypographyPreview';
 
 describe('TypographyPreview', () => {
   afterEach(cleanup);
@@ -12,7 +12,7 @@ describe('TypographyPreview', () => {
   it('should render the style name if provided', () => {
     render(
       <TypographyPreview
-        textStyleName="Heading / H1"
+        textStyleName='Heading / H1'
         fontName={{ family: 'Inter', style: 'Bold' }}
         fontSize={24}
       />

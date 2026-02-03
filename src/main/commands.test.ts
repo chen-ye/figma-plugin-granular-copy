@@ -1,7 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { handleCopyCommand, handlePasteCommand } from './commands';
-import * as storage from './storage';
 import * as extraction from './extraction';
+import * as storage from './storage';
 
 vi.mock('./storage');
 vi.mock('./extraction');
@@ -41,7 +41,7 @@ describe('Commands: Copy', () => {
     } as any;
     figma.currentPage.selection = [mockNode];
     const mockProps = { fills: [] };
-    vi.mocked(extraction.extractProperties).mockReturnValue(mockProps);
+    vi.mocked(extraction.extractProperties).mockResolvedValue(mockProps);
 
     await handleCopyCommand();
 
@@ -69,7 +69,7 @@ describe('Commands: Copy', () => {
     } as any;
     figma.currentPage.selection = [mockNode];
     const mockProps = { fills: [] };
-    vi.mocked(extraction.extractProperties).mockReturnValue(mockProps);
+    vi.mocked(extraction.extractProperties).mockResolvedValue(mockProps);
 
     await handleCopyCommand();
 

@@ -1,6 +1,6 @@
-import { describe, it, expect, vi } from 'vitest';
-import { handleUIMessage } from './ui-handlers';
+import { describe, expect, it, vi } from 'vitest';
 import * as commands from './commands';
+import { handleUIMessage } from './ui-handlers';
 
 vi.mock('./commands');
 

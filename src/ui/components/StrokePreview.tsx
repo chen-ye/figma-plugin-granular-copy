@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 
 interface StrokePreviewProps {
   weight?: number;
@@ -12,10 +12,12 @@ export const StrokePreview: React.FC<StrokePreviewProps> = ({
   variableName,
 }) => {
   return (
-    <div className="stroke-preview">
-      {weight !== undefined && <span className="stroke-weight">{weight}px</span>}
+    <div className='stroke-preview'>
+      {weight !== undefined && (
+        <span className='stroke-weight'>{weight}px</span>
+      )}
       {(styleName || variableName) && (
-        <span className="stroke-name">{styleName || variableName}</span>
+        <span className='stroke-name'>{styleName || variableName}</span>
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 // Mock dependencies
 vi.mock('./commands', () => ({
@@ -46,7 +46,7 @@ describe('Main Process', () => {
 
     // Execute
     await import('./main');
-    
+
     // Give some time for async code to run
     await new Promise((resolve) => setTimeout(resolve, 50));
 

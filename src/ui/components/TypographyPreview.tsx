@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 
 interface TypographyPreviewProps {
   textStyleName?: string;
@@ -15,11 +15,7 @@ export const TypographyPreview: React.FC<TypographyPreviewProps> = ({
   fontSize,
 }) => {
   if (textStyleName) {
-    return (
-      <span className="typography-preview">
-        {textStyleName}
-      </span>
-    );
+    return <span className='typography-preview'>{textStyleName}</span>;
   }
 
   const parts = [];
@@ -29,9 +25,5 @@ export const TypographyPreview: React.FC<TypographyPreviewProps> = ({
 
   if (parts.length === 0) return null;
 
-  return (
-    <span className="typography-preview">
-      {parts.join(' ')}
-    </span>
-  );
+  return <span className='typography-preview'>{parts.join(' ')}</span>;
 };

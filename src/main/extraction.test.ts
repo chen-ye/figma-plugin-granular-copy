@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeAll } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { extractProperties } from './extraction';
 
 describe('Property Extraction', () => {
@@ -10,22 +10,23 @@ describe('Property Extraction', () => {
       getStyleById: vi.fn(),
       variables: {
         getVariableById: vi.fn(),
+        getVariableByIdAsync: vi.fn(),
       },
     });
   });
 
-  it('should extract fills from a node', () => {
+  it('should extract fills from a node', async () => {
     const mockNode = {
       fills: [{ type: 'SOLID', color: { r: 1, g: 0, b: 0 } }],
       strokes: [],
       effects: [],
     } as any;
 
-    const result = extractProperties(mockNode, ['fills']);
+    const result = await extractProperties(mockNode, ['fills']);
     expect(result.fills).toEqual(mockNode.fills);
   });
 
-  it('should extract fills with variable bindings', () => {
+  it('should extract fills with variable bindings', async () => {
     const mockNode = {
       fills: [
         {
@@ -38,14 +39,14 @@ describe('Property Extraction', () => {
       effects: [],
     } as any;
 
-    const result = extractProperties(mockNode, ['fills']);
+    const result = await extractProperties(mockNode, ['fills']);
     expect(result.fills?.[0].boundVariables?.color).toEqual({
       type: 'VARIABLE_ALIAS',
       id: 'var-123',
     });
   });
 
-  it('should extract strokes and effects', () => {
+  it('should extract strokes and effects', async () => {
     const mockNode = {
       fills: [],
       strokes: [{ type: 'SOLID', color: { r: 0, g: 1, b: 0 } }],
@@ -60,12 +61,12 @@ describe('Property Extraction', () => {
       ],
     } as any;
 
-    const result = extractProperties(mockNode, ['strokes', 'effects']);
+    const result = await extractProperties(mockNode, ['strokes', 'effects']);
     expect(result.strokes).toEqual(mockNode.strokes);
     expect(result.effects).toEqual(mockNode.effects);
   });
 
-  it('should extract opacity and corner radius', () => {
+  it('should extract opacity and corner radius', async () => {
     const mockNode = {
       opacity: 0.5,
       cornerRadius: 8,
@@ -74,12 +75,15 @@ describe('Property Extraction', () => {
       effects: [],
     } as any;
 
-    const result = extractProperties(mockNode, ['opacity', 'cornerRadius']);
+    const result = await extractProperties(mockNode, [
+      'opacity',
+      'cornerRadius',
+    ]);
     expect(result.opacity).toBe(0.5);
     expect(result.cornerRadius).toBe(8);
   });
 
-  it('should extract individual corner radii', () => {
+  it('should extract individual corner radii', async () => {
     const mockNode = {
       cornerRadius: mixed,
       topLeftRadius: 10,
@@ -88,7 +92,7 @@ describe('Property Extraction', () => {
       bottomRightRadius: 5,
     } as any;
 
-    const result = extractProperties(mockNode, [
+    const result = await extractProperties(mockNode, [
       'cornerRadius',
       'topLeftRadius',
       'topRightRadius',
@@ -104,7 +108,7 @@ describe('Property Extraction', () => {
     expect(result.bottomRightRadius).toBe(5);
   });
 
-  it('should extract visual and metadata properties', () => {
+  it('should extract visual and metadata properties', async () => {
     const mockNode = {
       rotation: 45,
       opacity: 0.8,
@@ -118,7 +122,7 @@ describe('Property Extraction', () => {
       ],
     } as any;
 
-    const result = extractProperties(mockNode, [
+    const result = await extractProperties(mockNode, [
       'rotation',
       'opacity',
       'blendMode',
@@ -130,7 +134,7 @@ describe('Property Extraction', () => {
     expect(result.exportSettings).toEqual(mockNode.exportSettings);
   });
 
-  it('should extract position and layout grids', () => {
+  it('should extract position and layout grids', async () => {
     const mockNode = {
       x: 100,
       y: 200,
@@ -148,22 +152,22 @@ describe('Property Extraction', () => {
       ],
     } as any;
 
-    const result = extractProperties(mockNode, ['x', 'y', 'layoutGrids']);
+    const result = await extractProperties(mockNode, ['x', 'y', 'layoutGrids']);
     expect(result.x).toBe(100);
     expect(result.y).toBe(200);
     expect(result.layoutGrids).toEqual(mockNode.layoutGrids);
   });
 
-  it('should extract constraints', () => {
+  it('should extract constraints', async () => {
     const mockNode = {
       constraints: { horizontal: 'STRETCH', vertical: 'CENTER' },
     } as any;
 
-    const result = extractProperties(mockNode, ['constraints']);
+    const result = await extractProperties(mockNode, ['constraints']);
     expect(result.constraints).toEqual(mockNode.constraints);
   });
 
-  it('should extract auto layout properties', () => {
+  it('should extract auto layout properties', async () => {
     const mockNode = {
       layoutMode: 'HORIZONTAL',
       primaryAxisAlignItems: 'CENTER',
@@ -176,7 +180,7 @@ describe('Property Extraction', () => {
       layoutWrap: 'NO_WRAP',
     } as any;
 
-    const result = extractProperties(mockNode, [
+    const result = await extractProperties(mockNode, [
       'layoutMode',
       'primaryAxisAlignItems',
       'counterAxisAlignItems',
@@ -194,7 +198,7 @@ describe('Property Extraction', () => {
     expect(result.layoutWrap).toBe('NO_WRAP');
   });
 
-  it('should extract contextual sizing properties', () => {
+  it('should extract contextual sizing properties', async () => {
     const mockNode = {
       primaryAxisSizingMode: 'FIXED',
       counterAxisSizingMode: 'HUG',
@@ -202,7 +206,7 @@ describe('Property Extraction', () => {
       layoutGrow: 1,
     } as any;
 
-    const result = extractProperties(mockNode, [
+    const result = await extractProperties(mockNode, [
       'primaryAxisSizingMode',
       'counterAxisSizingMode',
       'layoutAlign',
@@ -215,7 +219,7 @@ describe('Property Extraction', () => {
     expect(result.layoutGrow).toBe(1);
   });
 
-  it('should extract text properties', () => {
+  it('should extract text properties', async () => {
     const mockNode = {
       characters: 'Hello World',
       textStyleId: 'style-123',
@@ -229,7 +233,7 @@ describe('Property Extraction', () => {
       textDecoration: 'NONE',
     } as any;
 
-    const result = extractProperties(mockNode, [
+    const result = await extractProperties(mockNode, [
       'characters',
       'textStyleId',
       'fontName',
@@ -247,7 +251,7 @@ describe('Property Extraction', () => {
     expect(result.fontSize).toBe(16);
   });
 
-  it('should resolve dominant value for mixed properties (Text)', () => {
+  it('should resolve dominant value for mixed properties (Text)', async () => {
     const mockNode = {
       type: 'TEXT',
       fontSize: mixed,
@@ -255,11 +259,11 @@ describe('Property Extraction', () => {
       characters: 'Hello',
     } as any;
 
-    const result = extractProperties(mockNode, ['fontSize']);
+    const result = await extractProperties(mockNode, ['fontSize']);
     expect(result.fontSize).toBe(12);
   });
 
-  it('should resolve textStyleId to textStyleName', () => {
+  it('should resolve textStyleId to textStyleName', async () => {
     const mockStyle = {
       id: 'style-123',
       name: 'Heading / H1',
@@ -279,12 +283,12 @@ describe('Property Extraction', () => {
       textStyleId: 'style-123',
     } as any;
 
-    const result = extractProperties(mockNode, ['textStyleId']);
+    const result = await extractProperties(mockNode, ['textStyleId']);
     expect(result.textStyleId).toBe('style-123');
     expect(result.textStyleName).toBe('Heading / H1');
   });
 
-  it('should resolve fillStyleId to fillStyleName', () => {
+  it('should resolve fillStyleId to fillStyleName', async () => {
     const mockStyle = {
       id: 'style-fill-1',
       name: 'Brand / Primary',
@@ -295,7 +299,7 @@ describe('Property Extraction', () => {
     // if we want to be strict, or just rely on the mock we added in the previous test.
     // Let's make the mock more robust in the test itself or rely on the previous one?
     // The previous test set a specific implementation. Let's update it.
-    
+
     // Resetting/Updating the mock for this test case
     const getStyleById = vi.fn().mockImplementation((id) => {
       if (id === 'style-fill-1') return mockStyle;
@@ -306,34 +310,38 @@ describe('Property Extraction', () => {
       getStyleById,
       variables: {
         getVariableById: vi.fn(),
-      }
+        getVariableByIdAsync: vi.fn(),
+      },
     });
 
     const mockNode = {
       fillStyleId: 'style-fill-1',
     } as any;
 
-    const result = extractProperties(mockNode, ['fillStyleId']);
+    const result = await extractProperties(mockNode, ['fillStyleId']);
     expect(result.fillStyleId).toBe('style-fill-1');
     expect(result.fillStyleName).toBe('Brand / Primary');
   });
 
-  it('should resolve fill variable bindings to fillVariableName', () => {
+  it('should resolve fill variable bindings to fillVariableName', async () => {
     const mockVariable = {
       id: 'var-fill-1',
       name: 'Color/Primary',
-      resolveForConsumer: vi.fn().mockReturnValue({ value: { r: 1, g: 0, b: 0 } }),
+      resolveForConsumer: vi
+        .fn()
+        .mockReturnValue({ value: { r: 1, g: 0, b: 0 } }),
     };
 
     vi.stubGlobal('figma', {
       mixed: Symbol('mixed'),
       getStyleById: vi.fn(),
       variables: {
-        getVariableById: vi.fn().mockImplementation((id) => {
-          if (id === 'var-fill-1') return mockVariable;
-          return null;
+        getVariableById: vi.fn(),
+        getVariableByIdAsync: vi.fn().mockImplementation((id) => {
+          if (id === 'var-fill-1') return Promise.resolve(mockVariable);
+          return Promise.resolve(null);
         }),
-      }
+      },
     });
 
     const mockNode = {
@@ -347,11 +355,11 @@ describe('Property Extraction', () => {
       ],
     } as any;
 
-    const result = extractProperties(mockNode, ['fills']);
+    const result = await extractProperties(mockNode, ['fills']);
     expect(result.fillVariableName).toBe('Color/Primary');
   });
 
-  it('should resolve strokeStyleId to strokeStyleName', () => {
+  it('should resolve strokeStyleId to strokeStyleName', async () => {
     const mockStyle = {
       id: 'style-stroke-1',
       name: 'Stroke / Secondary',
@@ -365,29 +373,35 @@ describe('Property Extraction', () => {
     vi.stubGlobal('figma', {
       mixed: Symbol('mixed'),
       getStyleById,
-      variables: { getVariableById: vi.fn() },
+      variables: {
+        getVariableById: vi.fn(),
+        getVariableByIdAsync: vi.fn(),
+      },
     });
 
     const mockNode = { strokeStyleId: 'style-stroke-1' } as any;
-    const result = extractProperties(mockNode, ['strokeStyleId']);
+    const result = await extractProperties(mockNode, ['strokeStyleId']);
     expect(result.strokeStyleId).toBe('style-stroke-1');
     expect(result.strokeStyleName).toBe('Stroke / Secondary');
   });
 
-  it('should resolve stroke variable bindings to strokeVariableName', () => {
+  it('should resolve stroke variable bindings to strokeVariableName', async () => {
     const mockVariable = {
       id: 'var-stroke-1',
       name: 'Color/Secondary',
-      resolveForConsumer: vi.fn().mockReturnValue({ value: { r: 0, g: 1, b: 0 } }),
+      resolveForConsumer: vi
+        .fn()
+        .mockReturnValue({ value: { r: 0, g: 1, b: 0 } }),
     };
 
     vi.stubGlobal('figma', {
       mixed: Symbol('mixed'),
       getStyleById: vi.fn(),
       variables: {
-        getVariableById: vi.fn().mockImplementation((id) => {
-          if (id === 'var-stroke-1') return mockVariable;
-          return null;
+        getVariableById: vi.fn(),
+        getVariableByIdAsync: vi.fn().mockImplementation((id) => {
+          if (id === 'var-stroke-1') return Promise.resolve(mockVariable);
+          return Promise.resolve(null);
         }),
       },
     });
@@ -403,11 +417,11 @@ describe('Property Extraction', () => {
       ],
     } as any;
 
-    const result = extractProperties(mockNode, ['strokes']);
+    const result = await extractProperties(mockNode, ['strokes']);
     expect(result.strokeVariableName).toBe('Color/Secondary');
   });
 
-  it('should resolve effectStyleId to effectStyleName', () => {
+  it('should resolve effectStyleId to effectStyleName', async () => {
     const mockStyle = {
       id: 'style-effect-1',
       name: 'Shadow / Elevation 1',
@@ -421,11 +435,14 @@ describe('Property Extraction', () => {
     vi.stubGlobal('figma', {
       mixed: Symbol('mixed'),
       getStyleById,
-      variables: { getVariableById: vi.fn() },
+      variables: {
+        getVariableById: vi.fn(),
+        getVariableByIdAsync: vi.fn(),
+      },
     });
 
     const mockNode = { effectStyleId: 'style-effect-1' } as any;
-    const result = extractProperties(mockNode, ['effectStyleId']);
+    const result = await extractProperties(mockNode, ['effectStyleId']);
     expect(result.effectStyleId).toBe('style-effect-1');
     expect(result.effectStyleName).toBe('Shadow / Elevation 1');
   });

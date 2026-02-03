@@ -1,9 +1,9 @@
 /// <reference types="vitest" />
 // @vitest-environment jsdom
 
-import { renderHook, act } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useFigmaData } from './useFigmaData';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 describe('useFigmaData', () => {
   beforeEach(() => {
