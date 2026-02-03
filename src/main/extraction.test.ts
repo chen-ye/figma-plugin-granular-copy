@@ -5,7 +5,10 @@ describe('Property Extraction', () => {
   const mixed = Symbol('mixed');
 
   beforeAll(() => {
-    vi.stubGlobal('figma', { mixed });
+    vi.stubGlobal('figma', {
+      mixed,
+      getStyleById: vi.fn(),
+    });
   });
 
   it('should extract fills from a node', () => {
@@ -251,5 +254,30 @@ describe('Property Extraction', () => {
 
     const result = extractProperties(mockNode, ['fontSize']);
     expect(result.fontSize).toBe(12);
+  });
+
+  it('should resolve textStyleId to textStyleName', () => {
+    const mockStyle = {
+      id: 'style-123',
+      name: 'Heading / H1',
+      type: 'TEXT',
+    };
+
+    // Enhance the global stub with getStyleById
+    vi.stubGlobal('figma', {
+      mixed: Symbol('mixed'),
+      getStyleById: vi.fn().mockImplementation((id) => {
+        if (id === 'style-123') return mockStyle;
+        return null;
+      }),
+    });
+
+    const mockNode = {
+      textStyleId: 'style-123',
+    } as any;
+
+    const result = extractProperties(mockNode, ['textStyleId']);
+    expect(result.textStyleId).toBe('style-123');
+    expect(result.textStyleName).toBe('Heading / H1');
   });
 });

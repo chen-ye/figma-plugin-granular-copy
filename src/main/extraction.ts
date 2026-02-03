@@ -14,6 +14,14 @@ export function extractProperties(node: SceneNode, granules: string[]): any {
       }
 
       result[granule] = value;
+
+      // Enrich with style names
+      if (granule === 'textStyleId' && typeof value === 'string') {
+        const style = figma.getStyleById(value);
+        if (style) {
+          result.textStyleName = style.name;
+        }
+      }
     }
   }
 
