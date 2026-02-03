@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { PluginMessage } from '../types';
 
 // Mock dependencies
 vi.mock('./commands', () => ({
@@ -42,6 +43,7 @@ describe('Main Process', () => {
 
   it('should show UI and send initial state when no command is provided', async () => {
     // Setup
+    // biome-ignore lint/suspicious/noExplicitAny: Mocking global
     (figma as any).command = '';
 
     // Execute
@@ -65,6 +67,7 @@ describe('Main Process', () => {
 
   it('should show UI and send initial state for open-ui command', async () => {
     // Setup
+    // biome-ignore lint/suspicious/noExplicitAny: Mocking global
     (figma as any).command = 'open-ui';
 
     // Execute
@@ -84,6 +87,7 @@ describe('Main Process', () => {
 
   it('should send initial state when UI_READY message is received', async () => {
     // Setup
+    // biome-ignore lint/suspicious/noExplicitAny: Mocking global
     (figma as any).command = 'open-ui';
 
     // Execute
@@ -93,7 +97,7 @@ describe('Main Process', () => {
     vi.clearAllMocks();
 
     // Simulate sending UI_READY message
-    const onMessage = figma.ui.onmessage as (msg: any) => void;
+    const onMessage = figma.ui.onmessage as (msg: PluginMessage) => void;
     await onMessage({ type: 'UI_READY' });
 
     // Verify

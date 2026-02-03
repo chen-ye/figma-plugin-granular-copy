@@ -1,4 +1,5 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
+import type { ExtractionResult } from '../types';
 import { loadProperties, saveProperties } from './storage';
 
 describe('Storage Service', () => {
@@ -12,7 +13,9 @@ describe('Storage Service', () => {
   });
 
   it('should save properties to figma.clientStorage', async () => {
-    const data = { fills: [{ type: 'SOLID', color: { r: 1, g: 0, b: 0 } }] };
+    const data = {
+      fills: [{ type: 'SOLID', color: { r: 1, g: 0, b: 0 } }],
+    } as ExtractionResult;
     await saveProperties(data);
     expect(figma.clientStorage.setAsync).toHaveBeenCalledWith(
       'granular_copy_data',
@@ -21,8 +24,10 @@ describe('Storage Service', () => {
   });
 
   it('should load properties from figma.clientStorage', async () => {
-    const data = { fills: [{ type: 'SOLID', color: { r: 1, g: 0, b: 0 } }] };
-    (figma.clientStorage.getAsync as any).mockResolvedValue(data);
+    const data = {
+      fills: [{ type: 'SOLID', color: { r: 1, g: 0, b: 0 } }],
+    } as ExtractionResult;
+    (figma.clientStorage.getAsync as Mock).mockResolvedValue(data);
     const result = await loadProperties();
     expect(result).toEqual(data);
     expect(figma.clientStorage.getAsync).toHaveBeenCalledWith(
@@ -33,7 +38,7 @@ describe('Storage Service', () => {
   it('should handle errors during save', async () => {
     const data = { fills: [] };
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    (figma.clientStorage.setAsync as any).mockRejectedValue(
+    (figma.clientStorage.setAsync as Mock).mockRejectedValue(
       new Error('Save failed')
     );
 
@@ -46,7 +51,7 @@ describe('Storage Service', () => {
 
   it('should handle errors during load', async () => {
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    (figma.clientStorage.getAsync as any).mockRejectedValue(
+    (figma.clientStorage.getAsync as Mock).mockRejectedValue(
       new Error('Load failed')
     );
 

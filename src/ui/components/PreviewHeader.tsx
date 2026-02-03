@@ -56,7 +56,7 @@ export const PreviewHeader: React.FC<PreviewHeaderProps> = ({
       <div className='preview-info'>
         {ancestors && ancestors.length > 0 && (
           <span className='ancestor-path'>
-            {ancestors.map((ancestor, index) => (
+            {ancestors.map((ancestor, _index) => (
               <span key={ancestor.id}>
                 <button
                   type='button'

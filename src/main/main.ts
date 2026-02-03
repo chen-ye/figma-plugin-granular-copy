@@ -1,9 +1,10 @@
+import type { PluginMessage } from '../types';
 import {
   ALL_GRANULES,
   handleCopyCommand,
   handlePasteCommand,
 } from './commands';
-import { loadProperties } from './storage.ts';
+import { loadProperties } from './storage';
 import { handleUIMessage } from './ui-handlers';
 
 const { command } = figma;
@@ -68,14 +69,20 @@ if (command === 'copy') {
   handlePasteCommand(['exportSettings']);
 } else if (command === 'paste-all') {
   handlePasteCommand(ALL_GRANULES);
-} else if (command === 'open-ui') {
+} else if (command === 'open-ui' || !command) {
   // Load saved size or default
   figma.clientStorage.getAsync('plugin_window_size').then((savedSize) => {
     let width = 320;
     let height = 640;
-    if (savedSize) {
-      width = savedSize.width || 320;
-      height = savedSize.height || 640;
+    if (
+      savedSize &&
+      typeof savedSize === 'object' &&
+      'width' in savedSize &&
+      'height' in savedSize
+    ) {
+      const size = savedSize as { width: number; height: number };
+      width = size.width || 320;
+      height = size.height || 640;
     }
     figma.showUI(__html__, { width, height, themeColors: true });
     sendInitialState();
@@ -94,7 +101,7 @@ function sendInitialState() {
   figma.ui.postMessage({ type: 'SELECTION_UPDATE', supportedGranules });
 }
 
-figma.ui.onmessage = (msg: any) => {
+figma.ui.onmessage = (msg: PluginMessage) => {
   if (msg.type === 'UI_READY') {
     sendInitialState();
   } else {

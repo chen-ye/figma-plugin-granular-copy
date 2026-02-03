@@ -1,3 +1,5 @@
+import type { ExtractionResult } from '../types';
+
 /**
  * Extracts specific properties from a Figma node.
  * Handles granules like 'fills', 'strokes', and 'effects'.
@@ -5,12 +7,13 @@
 export async function extractProperties(
   node: SceneNode,
   granules: string[]
-): Promise<any> {
-  const result: any = {};
+): Promise<ExtractionResult> {
+  const result: ExtractionResult = {};
   const tasks: Promise<void>[] = [];
 
   for (const granule of granules) {
     if (granule in node) {
+      // biome-ignore lint/suspicious/noExplicitAny: Dynamic property access
       let value = (node as any)[granule];
 
       if (value === figma.mixed) {
@@ -20,15 +23,8 @@ export async function extractProperties(
       // If value is still mixed after attempted resolution, we skip it
       // to avoid serializing Symbols which causes storage errors.
       if (value === figma.mixed) {
-        // debug logging
-        // console.log('Skipping mixed value for', granule);
         continue;
       }
-
-      // Check if it's failing comparison
-      // if (String(value) === 'Symbol(mixed)' && value !== figma.mixed) {
-      //   console.log('MISMATCH SYMBOLS', granule, value, figma.mixed);
-      // }
 
       result[granule] = value;
 
@@ -127,9 +123,8 @@ export async function extractProperties(
   return result;
 }
 
-function resolveMixedValue(node: SceneNode, granule: string): any {
+function resolveMixedValue(node: SceneNode, granule: string): unknown {
   if (node.type === 'TEXT') {
-    // console.log('resolveMixedValue TEXT', granule);
     // Use the first character's style as the "dominant" one
     // We check if characters exist to avoid errors, though usually a node exists
     if (node.characters.length === 0) return figma.mixed;
@@ -163,6 +158,7 @@ function resolveMixedValue(node: SceneNode, granule: string): any {
   }
 
   if (granule === 'cornerRadius' && 'topLeftRadius' in node) {
+    // biome-ignore lint/suspicious/noExplicitAny: Check existence first
     return (node as any).topLeftRadius;
   }
 

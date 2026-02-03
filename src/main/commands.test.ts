@@ -26,7 +26,10 @@ describe('Commands: Copy', () => {
   });
 
   it('should notify and close if multiple objects are selected', async () => {
-    figma.currentPage.selection = [{} as any, {} as any];
+    figma.currentPage.selection = [
+      {} as unknown as SceneNode,
+      {} as unknown as SceneNode,
+    ];
     await handleCopyCommand();
     expect(figma.notify).toHaveBeenCalledWith(
       'Please select exactly one object to copy.'
@@ -38,10 +41,13 @@ describe('Commands: Copy', () => {
     const mockNode = {
       name: 'Test Node',
       exportAsync: vi.fn().mockResolvedValue(new Uint8Array([])),
-    } as any;
+      id: '1:1',
+      parent: null,
+    } as unknown as SceneNode;
     figma.currentPage.selection = [mockNode];
     const mockProps = { fills: [] };
-    vi.mocked(extraction.extractProperties).mockResolvedValue(mockProps);
+    // biome-ignore lint/suspicious/noExplicitAny: Mocking
+    vi.mocked(extraction.extractProperties).mockResolvedValue(mockProps as any);
 
     await handleCopyCommand();
 
@@ -62,25 +68,31 @@ describe('Commands: Copy', () => {
     expect(figma.closePlugin).toHaveBeenCalled();
   });
 
-  it.skip('should capture thumbnail during copy', async () => {
+  it('should capture thumbnail during copy', async () => {
+    const exportAsyncMock = vi
+      .fn()
+      .mockResolvedValue(new Uint8Array([137, 80, 78, 71]));
     const mockNode = {
       name: 'Test Node',
-      exportAsync: vi.fn().mockResolvedValue(new Uint8Array([137, 80, 78, 71])), // Mock PNG bytes
-    } as any;
+      exportAsync: exportAsyncMock,
+      id: '1:1',
+      parent: null,
+    } as unknown as SceneNode;
     figma.currentPage.selection = [mockNode];
     const mockProps = { fills: [] };
-    vi.mocked(extraction.extractProperties).mockResolvedValue(mockProps);
+    // biome-ignore lint/suspicious/noExplicitAny: Mocking
+    vi.mocked(extraction.extractProperties).mockResolvedValue(mockProps as any);
 
     await handleCopyCommand();
 
-    expect(mockNode.exportAsync).toHaveBeenCalledWith({
+    expect(exportAsyncMock).toHaveBeenCalledWith({
       format: 'PNG',
       constraint: { type: 'SCALE', value: 2 },
     });
     expect(storage.saveProperties).toHaveBeenCalledWith(
       expect.objectContaining({
         ...mockProps,
-        preview: expect.any(String),
+        preview: expect.any(Uint8Array),
         name: 'Test Node',
       })
     );
@@ -93,6 +105,7 @@ describe('Commands: Paste', () => {
       currentPage: { selection: [] },
       notify: vi.fn(),
       closePlugin: vi.fn(),
+      loadFontAsync: vi.fn().mockResolvedValue(undefined),
     });
     vi.clearAllMocks();
   });
@@ -110,23 +123,25 @@ describe('Commands: Paste', () => {
     const mockProps = {
       fills: [{ type: 'SOLID', color: { r: 1, g: 0, b: 0 } }],
     };
-    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps);
+    // biome-ignore lint/suspicious/noExplicitAny: Mocking
+    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps as any);
 
-    const mockNode1 = { name: 'Node 1', fills: [] } as any;
-    const mockNode2 = { name: 'Node 2', fills: [] } as any;
+    const mockNode1 = { name: 'Node 1', fills: [] } as unknown as SceneNode;
+    const mockNode2 = { name: 'Node 2', fills: [] } as unknown as SceneNode;
     figma.currentPage.selection = [mockNode1, mockNode2];
 
     await handlePasteCommand(['fills']);
 
-    expect(mockNode1.fills).toEqual(mockProps.fills);
-    expect(mockNode2.fills).toEqual(mockProps.fills);
+    expect((mockNode1 as GeometryMixin).fills).toEqual(mockProps.fills);
+    expect((mockNode2 as GeometryMixin).fills).toEqual(mockProps.fills);
     expect(figma.notify).toHaveBeenCalledWith('Pasted fills to 2 objects');
     expect(figma.closePlugin).toHaveBeenCalled();
   });
 
   it('should handle incompatible nodes and list them in notification', async () => {
     const mockProps = { fills: [{ type: 'SOLID' }] };
-    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps);
+    // biome-ignore lint/suspicious/noExplicitAny: Mocking
+    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps as any);
 
     // We mock that 'fills' property exists on Node 1 but not Node 2
     const mockNode1 = { name: 'Rectangle' };
@@ -136,12 +151,16 @@ describe('Commands: Paste', () => {
       enumerable: true,
     });
 
-    const mockNode2 = { name: 'Group' } as any;
+    const mockNode2 = { name: 'Group' } as unknown as SceneNode;
 
-    figma.currentPage.selection = [mockNode1 as any, mockNode2];
+    figma.currentPage.selection = [
+      mockNode1 as unknown as SceneNode,
+      mockNode2,
+    ];
 
     await handlePasteCommand(['fills']);
 
+    // biome-ignore lint/suspicious/noExplicitAny: Dynamic test object
     expect((mockNode1 as any).fills).toEqual(mockProps.fills);
     expect(figma.notify).toHaveBeenCalledWith(
       'Pasted fills to 1 object. Skipped Group (incompatible).'
@@ -158,7 +177,8 @@ describe('Commands: Paste', () => {
       constraints: { horizontal: 'MIN', vertical: 'MIN' },
       blendMode: 'DARKEN',
     };
-    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps);
+    // biome-ignore lint/suspicious/noExplicitAny: Mocking
+    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps as any);
 
     const mockNode = {
       name: 'Node',
@@ -169,7 +189,7 @@ describe('Commands: Paste', () => {
       y: 0,
       constraints: { horizontal: 'CENTER', vertical: 'CENTER' },
       blendMode: 'NORMAL',
-    } as any;
+    } as unknown as SceneNode;
     figma.currentPage.selection = [mockNode];
 
     await handlePasteCommand([
@@ -182,13 +202,15 @@ describe('Commands: Paste', () => {
       'blendMode',
     ]);
 
-    expect(mockNode.rotation).toBe(45);
-    expect(mockNode.opacity).toBe(0.5);
-    expect(mockNode.cornerRadius).toBe(10);
-    expect(mockNode.x).toBe(50);
-    expect(mockNode.y).toBe(50);
-    expect(mockNode.constraints).toEqual(mockProps.constraints);
-    expect(mockNode.blendMode).toBe('DARKEN');
+    expect((mockNode as LayoutMixin).rotation).toBe(45);
+    expect((mockNode as BlendMixin).opacity).toBe(0.5);
+    expect((mockNode as RectangleNode).cornerRadius).toBe(10);
+    expect((mockNode as LayoutMixin).x).toBe(50);
+    expect((mockNode as LayoutMixin).y).toBe(50);
+    expect((mockNode as ConstraintMixin).constraints).toEqual(
+      mockProps.constraints
+    );
+    expect((mockNode as BlendMixin).blendMode).toBe('DARKEN');
   });
 
   it('should apply contextual sizing modes when inside auto layout', async () => {
@@ -198,7 +220,8 @@ describe('Commands: Paste', () => {
       primaryAxisSizingMode: 'FIXED',
       counterAxisSizingMode: 'FILL',
     };
-    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps);
+    // biome-ignore lint/suspicious/noExplicitAny: Mocking
+    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps as any);
 
     const mockParent = { type: 'FRAME', layoutMode: 'HORIZONTAL' };
     const mockNode = {
@@ -207,13 +230,13 @@ describe('Commands: Paste', () => {
       primaryAxisSizingMode: 'HUG',
       counterAxisSizingMode: 'HUG',
       resize: vi.fn(),
-    } as any;
+    } as unknown as SceneNode;
     figma.currentPage.selection = [mockNode];
 
     await handlePasteCommand(['width', 'height']);
 
-    expect(mockNode.primaryAxisSizingMode).toBe('FIXED');
-    expect(mockNode.counterAxisSizingMode).toBe('FILL');
+    expect((mockNode as FrameNode).primaryAxisSizingMode).toBe('FIXED');
+    expect((mockNode as FrameNode).counterAxisSizingMode).toBe('FILL');
   });
 
   it('should apply raw dimensions when not in auto layout', async () => {
@@ -221,17 +244,19 @@ describe('Commands: Paste', () => {
       width: 100,
       height: 200,
     };
-    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps);
+    // biome-ignore lint/suspicious/noExplicitAny: Mocking
+    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps as any);
 
+    const resizeMock = vi.fn();
     const mockNode = {
       name: 'Node',
-      resize: vi.fn(),
-    } as any;
+      resize: resizeMock,
+    } as unknown as SceneNode;
     figma.currentPage.selection = [mockNode];
 
     await handlePasteCommand(['width', 'height']);
 
-    expect(mockNode.resize).toHaveBeenCalledWith(100, 200);
+    expect(resizeMock).toHaveBeenCalledWith(100, 200);
   });
 
   it('should apply text content and styles', async () => {
@@ -240,12 +265,8 @@ describe('Commands: Paste', () => {
       textStyleId: 'style-456',
       fontSize: 20,
     };
-    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps);
-
-    vi.stubGlobal('figma', {
-      ...figma,
-      loadFontAsync: vi.fn().mockResolvedValue(undefined),
-    });
+    // biome-ignore lint/suspicious/noExplicitAny: Mocking
+    vi.mocked(storage.loadProperties).mockResolvedValue(mockProps as any);
 
     const mockNode = {
       name: 'Text Node',
@@ -254,13 +275,13 @@ describe('Commands: Paste', () => {
       textStyleId: '',
       fontSize: 12,
       fontName: { family: 'Inter', style: 'Regular' },
-    } as any;
+    } as unknown as SceneNode;
     figma.currentPage.selection = [mockNode];
 
     await handlePasteCommand(['characters', 'textStyleId', 'fontSize']);
 
-    expect(mockNode.characters).toBe('New Content');
-    expect(mockNode.textStyleId).toBe('style-456');
-    expect(mockNode.fontSize).toBe(20);
+    expect((mockNode as TextNode).characters).toBe('New Content');
+    expect((mockNode as TextNode).textStyleId).toBe('style-456');
+    expect((mockNode as TextNode).fontSize).toBe(20);
   });
 });

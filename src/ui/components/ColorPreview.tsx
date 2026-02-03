@@ -1,7 +1,8 @@
 import type React from 'react';
+import type { ExtendedPaint } from '../../types';
 
 interface ColorPreviewProps {
-  fills: any[]; // Using any for Figma types to keep it simple, should be Paint[]
+  fills: ExtendedPaint[];
   styleName?: string;
   variableName?: string;
 }
@@ -22,6 +23,7 @@ export const ColorPreview: React.FC<ColorPreviewProps> = ({
       <div className='swatch-container'>
         {visibleFills.map((fill, index) => (
           <div
+            // biome-ignore lint/suspicious/noArrayIndexKey: Color fills have no unique ID
             key={index}
             className='color-swatch'
             style={getSwatchStyle(fill)}
@@ -37,7 +39,7 @@ export const ColorPreview: React.FC<ColorPreviewProps> = ({
   );
 };
 
-function getSwatchStyle(fill: any): React.CSSProperties {
+function getSwatchStyle(fill: ExtendedPaint): React.CSSProperties {
   const style: React.CSSProperties = {
     backgroundColor: 'transparent',
   };

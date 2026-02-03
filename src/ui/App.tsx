@@ -35,21 +35,17 @@ export const App: React.FC = () => {
       case 'Fills':
         return (
           <ColorPreview
-            fills={data.fills as any[]}
-            styleName={data.fillStyleName as string}
-            variableName={data.fillVariableName as string}
+            fills={data.fills || []}
+            styleName={data.fillStyleName}
+            variableName={data.fillVariableName}
           />
         );
       case 'Strokes':
         return (
           <StrokePreview
-            weight={
-              typeof data.strokeWeight === 'number'
-                ? data.strokeWeight
-                : undefined
-            }
-            styleName={data.strokeStyleName as string}
-            variableName={data.strokeVariableName as string}
+            weight={data.strokeWeight}
+            styleName={data.strokeStyleName}
+            variableName={data.strokeVariableName}
           />
         );
       case 'Effects':
@@ -58,7 +54,7 @@ export const App: React.FC = () => {
             count={
               Array.isArray(data.effects) ? data.effects.length : undefined
             }
-            styleName={data.effectStyleName as string}
+            styleName={data.effectStyleName}
           />
         );
       case 'Opacity':
@@ -76,9 +72,9 @@ export const App: React.FC = () => {
       case 'Text Styles':
         return (
           <TypographyPreview
-            textStyleName={data.textStyleName as string}
-            fontName={data.fontName as any}
-            fontSize={data.fontSize as number}
+            textStyleName={data.textStyleName}
+            fontName={data.fontName}
+            fontSize={data.fontSize}
           />
         );
       default:

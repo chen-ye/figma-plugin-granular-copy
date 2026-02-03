@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
+import type { ExtractionResult } from '../../types';
 
-export type FigmaData = {
-  id?: string;
-  name?: string;
-  ancestors?: { name: string; id: string }[];
-  preview?: Uint8Array | number[];
-  [key: string]: unknown;
-} | null;
+export type FigmaData =
+  | (ExtractionResult & {
+      id?: string;
+      name?: string;
+      ancestors?: { name: string; id: string }[];
+      preview?: Uint8Array | number[];
+    })
+  | null;
 
 export function useFigmaData() {
   const [data, setData] = useState<FigmaData>(null);

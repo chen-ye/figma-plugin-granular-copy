@@ -1,9 +1,11 @@
+import type { ExtractionResult } from '../types';
+
 const STORAGE_KEY = 'granular_copy_data';
 
 /**
  * Saves extracted properties to Figma's client storage.
  */
-export async function saveProperties(data: any): Promise<void> {
+export async function saveProperties(data: ExtractionResult): Promise<void> {
   try {
     await figma.clientStorage.setAsync(STORAGE_KEY, data);
   } catch (error) {
@@ -14,7 +16,7 @@ export async function saveProperties(data: any): Promise<void> {
 /**
  * Loads previously saved properties from Figma's client storage.
  */
-export async function loadProperties(): Promise<any> {
+export async function loadProperties(): Promise<ExtractionResult | null> {
   try {
     return await figma.clientStorage.getAsync(STORAGE_KEY);
   } catch (error) {

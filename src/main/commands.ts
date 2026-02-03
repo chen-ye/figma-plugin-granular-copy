@@ -182,7 +182,7 @@ export async function handlePasteCommand(
       const isInsideAutoLayout =
         parent &&
         'layoutMode' in parent &&
-        (parent as any).layoutMode !== 'NONE';
+        (parent as FrameNode).layoutMode !== 'NONE';
 
       if (
         isInsideAutoLayout &&
@@ -194,7 +194,8 @@ export async function handlePasteCommand(
           'primaryAxisSizingMode' in data &&
           'primaryAxisSizingMode' in node
         ) {
-          (node as any).primaryAxisSizingMode = data.primaryAxisSizingMode;
+          (node as FrameNode).primaryAxisSizingMode =
+            data.primaryAxisSizingMode as 'FIXED' | 'AUTO';
 
           appliedAny = true;
         }
@@ -203,7 +204,8 @@ export async function handlePasteCommand(
           'counterAxisSizingMode' in data &&
           'counterAxisSizingMode' in node
         ) {
-          (node as any).counterAxisSizingMode = data.counterAxisSizingMode;
+          (node as FrameNode).counterAxisSizingMode =
+            data.counterAxisSizingMode as 'FIXED' | 'AUTO';
 
           appliedAny = true;
         }
@@ -212,12 +214,18 @@ export async function handlePasteCommand(
       } else if ('resize' in node) {
         // Apply raw dimensions if not in Auto Layout (or no modes in data)
 
-        const w = 'width' in data ? data.width : node.width;
+        const w =
+          'width' in data && typeof data.width === 'number'
+            ? data.width
+            : (node.width as number);
 
-        const h = 'height' in data ? data.height : node.height;
+        const h =
+          'height' in data && typeof data.height === 'number'
+            ? data.height
+            : (node.height as number);
 
         try {
-          (node as any).resize(w, h);
+          (node as LayoutMixin).resize(w, h);
 
           appliedAny = true;
         } catch (e) {
@@ -242,6 +250,7 @@ export async function handlePasteCommand(
           nodeSupportedAny = true;
 
           try {
+            // biome-ignore lint/suspicious/noExplicitAny: Dynamic assignment
             (node as any)[granule] = data[granule];
 
             appliedAny = true;

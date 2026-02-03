@@ -21,10 +21,10 @@ describe('Property Extraction', () => {
       fills: [{ type: 'SOLID', color: { r: 1, g: 0, b: 0 } }],
       strokes: [],
       effects: [],
-    } as any;
+    } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, ['fills']);
-    expect(result.fills).toEqual(mockNode.fills);
+    expect(result.fills).toEqual((mockNode as GeometryMixin).fills);
   });
 
   it('should extract fills with variable bindings', async () => {
@@ -38,7 +38,7 @@ describe('Property Extraction', () => {
       ],
       strokes: [],
       effects: [],
-    } as any;
+    } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, ['fills']);
     expect(result.fills?.[0].boundVariables?.color).toEqual({
@@ -60,11 +60,11 @@ describe('Property Extraction', () => {
           visible: true,
         },
       ],
-    } as any;
+    } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, ['strokes', 'effects']);
-    expect(result.strokes).toEqual(mockNode.strokes);
-    expect(result.effects).toEqual(mockNode.effects);
+    expect(result.strokes).toEqual((mockNode as GeometryMixin).strokes);
+    expect(result.effects).toEqual((mockNode as BlendMixin).effects);
   });
 
   it('should extract opacity and corner radius', async () => {
@@ -74,7 +74,7 @@ describe('Property Extraction', () => {
       fills: [],
       strokes: [],
       effects: [],
-    } as any;
+    } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, [
       'opacity',
@@ -91,7 +91,7 @@ describe('Property Extraction', () => {
       topRightRadius: 20,
       bottomLeftRadius: 0,
       bottomRightRadius: 5,
-    } as any;
+    } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, [
       'cornerRadius',
@@ -121,7 +121,7 @@ describe('Property Extraction', () => {
           constraint: { type: 'SCALE', value: 2 },
         },
       ],
-    } as any;
+    } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, [
       'rotation',
@@ -132,7 +132,9 @@ describe('Property Extraction', () => {
     expect(result.rotation).toBe(45);
     expect(result.opacity).toBe(0.8);
     expect(result.blendMode).toBe('MULTIPLY');
-    expect(result.exportSettings).toEqual(mockNode.exportSettings);
+    expect(result.exportSettings).toEqual(
+      (mockNode as ExportMixin).exportSettings
+    );
   });
 
   it('should extract position and layout grids', async () => {
@@ -151,21 +153,23 @@ describe('Property Extraction', () => {
           offset: 0,
         },
       ],
-    } as any;
+    } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, ['x', 'y', 'layoutGrids']);
     expect(result.x).toBe(100);
     expect(result.y).toBe(200);
-    expect(result.layoutGrids).toEqual(mockNode.layoutGrids);
+    expect(result.layoutGrids).toEqual((mockNode as FrameNode).layoutGrids);
   });
 
   it('should extract constraints', async () => {
     const mockNode = {
       constraints: { horizontal: 'STRETCH', vertical: 'CENTER' },
-    } as any;
+    } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, ['constraints']);
-    expect(result.constraints).toEqual(mockNode.constraints);
+    expect(result.constraints).toEqual(
+      (mockNode as ConstraintMixin).constraints
+    );
   });
 
   it('should extract auto layout properties', async () => {
@@ -179,7 +183,7 @@ describe('Property Extraction', () => {
       paddingBottom: 20,
       itemSpacing: 8,
       layoutWrap: 'NO_WRAP',
-    } as any;
+    } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, [
       'layoutMode',
@@ -205,7 +209,7 @@ describe('Property Extraction', () => {
       counterAxisSizingMode: 'HUG',
       layoutAlign: 'STRETCH',
       layoutGrow: 1,
-    } as any;
+    } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, [
       'primaryAxisSizingMode',
@@ -232,7 +236,7 @@ describe('Property Extraction', () => {
       paragraphIndent: 0,
       textCase: 'ORIGINAL',
       textDecoration: 'NONE',
-    } as any;
+    } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, [
       'characters',
@@ -258,7 +262,7 @@ describe('Property Extraction', () => {
       fontSize: mixed,
       getRangeFontSize: vi.fn().mockReturnValue(12),
       characters: 'Hello',
-    } as any;
+    } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, ['fontSize']);
     expect(result.fontSize).toBe(12);
@@ -282,7 +286,7 @@ describe('Property Extraction', () => {
 
     const mockNode = {
       textStyleId: 'style-123',
-    } as any;
+    } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, ['textStyleId']);
     expect(result.textStyleId).toBe('style-123');
@@ -296,12 +300,6 @@ describe('Property Extraction', () => {
       type: 'PAINT',
     };
 
-    // Global stub is already set up in beforeAll, we just need to update the mock implementation
-    // if we want to be strict, or just rely on the mock we added in the previous test.
-    // Let's make the mock more robust in the test itself or rely on the previous one?
-    // The previous test set a specific implementation. Let's update it.
-
-    // Resetting/Updating the mock for this test case
     // Resetting/Updating the mock for this test case
     const getStyleByIdAsync = vi.fn().mockImplementation((id) => {
       if (id === 'style-fill-1') return Promise.resolve(mockStyle);
@@ -318,7 +316,7 @@ describe('Property Extraction', () => {
 
     const mockNode = {
       fillStyleId: 'style-fill-1',
-    } as any;
+    } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, ['fillStyleId']);
     expect(result.fillStyleId).toBe('style-fill-1');
@@ -355,7 +353,7 @@ describe('Property Extraction', () => {
           },
         },
       ],
-    } as any;
+    } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, ['fills']);
     expect(result.fillVariableName).toBe('Color/Primary');
@@ -381,7 +379,9 @@ describe('Property Extraction', () => {
       },
     });
 
-    const mockNode = { strokeStyleId: 'style-stroke-1' } as any;
+    const mockNode = {
+      strokeStyleId: 'style-stroke-1',
+    } as unknown as SceneNode;
     const result = await extractProperties(mockNode, ['strokeStyleId']);
     expect(result.strokeStyleId).toBe('style-stroke-1');
     expect(result.strokeStyleName).toBe('Stroke / Secondary');
@@ -417,7 +417,7 @@ describe('Property Extraction', () => {
           },
         },
       ],
-    } as any;
+    } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, ['strokes']);
     expect(result.strokeVariableName).toBe('Color/Secondary');
@@ -443,13 +443,16 @@ describe('Property Extraction', () => {
       },
     });
 
-    const mockNode = { effectStyleId: 'style-effect-1' } as any;
+    const mockNode = {
+      effectStyleId: 'style-effect-1',
+    } as unknown as SceneNode;
     const result = await extractProperties(mockNode, ['effectStyleId']);
     expect(result.effectStyleId).toBe('style-effect-1');
     expect(result.effectStyleName).toBe('Shadow / Elevation 1');
   });
 
   it('should resolve paragraph properties', async () => {
+    const mixed = figma.mixed;
     const mockNode = {
       type: 'TEXT',
       paragraphSpacing: mixed,
@@ -458,8 +461,9 @@ describe('Property Extraction', () => {
       getRangeParagraphSpacing: vi.fn().mockReturnValue(10),
       getRangeParagraphIndent: vi.fn().mockReturnValue(20),
       getRangeListSpacing: vi.fn().mockReturnValue(30),
-      characters: 'Text',
-    } as any;
+      // biome-ignore lint/suspicious/noExplicitAny: Mocking
+      characters: 'Text' as any,
+    } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, [
       'paragraphSpacing',
@@ -472,11 +476,12 @@ describe('Property Extraction', () => {
   });
 
   it('should omit unresolved mixed values', async () => {
+    const mixed = figma.mixed;
     const mockNode = {
       type: 'RECTANGLE',
       cornerRadius: mixed,
       // No top/bottom individual radii provided, so it remains mixed
-    } as any;
+    } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, ['cornerRadius']);
     expect(result).not.toHaveProperty('cornerRadius');
