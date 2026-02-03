@@ -256,3 +256,8 @@ body {
   background-color: var(--figma-color-border);
   border-radius: 2px;
 }
+
+.value-preview {
+  color: var(--figma-color-text-tertiary);
+  font-size: var(--figma-text-body-medium-size);
+}
