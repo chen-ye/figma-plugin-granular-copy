@@ -46,7 +46,7 @@ Implement end-to-end support for Strokes and Effects.
 - [x] Task: UI - Create StrokePreview and EffectPreview Components [536a36c]
     - [ ] Implement `StrokePreview.tsx` and `EffectPreview.tsx`
     - [ ] Add unit tests for both
-- [ ] Task: Integration - Strokes & Effects
+- [x] Task: Integration - Strokes & Effects [f6805bf]
     - [ ] Update `App.tsx` to integrate `StrokePreview` and `EffectPreview`
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Stroke & Effect Previews' (Protocol in workflow.md)
 
