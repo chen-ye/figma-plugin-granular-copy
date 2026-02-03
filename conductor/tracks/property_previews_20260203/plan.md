@@ -12,7 +12,7 @@ Establish the `preview` prop pattern and implement end-to-end support for simple
 - [x] Task: Backend - Enhance extraction.ts for Text Styles [e7bb2f6]
     - [ ] Implement `textStyleId` resolution to names
     - [ ] Add `textStyleName` to the result object
-- [ ] Task: UI - Create `ValuePreview` Component
+- [x] Task: UI - Create ValuePreview Component [849ca4f]
     - [ ] Implement `ValuePreview.tsx` for numeric/scalar values
     - [ ] Add unit tests in `ValuePreview.test.tsx`
 - [ ] Task: UI - Create `TypographyPreview` Component
