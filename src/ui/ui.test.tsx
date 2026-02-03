@@ -8,7 +8,7 @@ import { App } from './App';
 describe('UI Integration', () => {
   it('should enable paste buttons when data is copied', async () => {
     render(<App />);
-    const fillsButton = screen.getByText('Fills');
+    const fillsButton = screen.getByRole('button', { name: 'Fills' });
 
     // Initially disabled
     expect(fillsButton).toHaveProperty('disabled', true);

@@ -4,6 +4,8 @@ import { PreviewHeader } from './components/PreviewHeader';
 import { HeaderActions } from './components/HeaderActions';
 import { PropertyCategory } from './components/PropertyCategory';
 import { PropertyButton } from './components/PropertyButton';
+import { ValuePreview } from './components/ValuePreview';
+import { TypographyPreview } from './components/TypographyPreview';
 import './App.css';
 
 export const App: React.FC = () => {
@@ -22,6 +24,34 @@ export const App: React.FC = () => {
     const hasData = granules.some((g) => g in data);
     const hasSupport = granules.some((g) => supportedGranules.includes(g));
     return hasData && hasSupport;
+  };
+
+  const getPreview = (label: string) => {
+    if (!data) return null;
+    switch (label) {
+      case 'Opacity':
+        return typeof data.opacity === 'number' ? (
+          <ValuePreview value={Math.round(data.opacity * 100)} unit='%' />
+        ) : null;
+      case 'Corner Radius':
+        return typeof data.cornerRadius === 'number' ? (
+          <ValuePreview value={data.cornerRadius} />
+        ) : null;
+      case 'Rotation':
+        return typeof data.rotation === 'number' ? (
+          <ValuePreview value={Math.round(data.rotation)} unit='°' />
+        ) : null;
+      case 'Text Styles':
+        return (
+          <TypographyPreview
+            textStyleName={data.textStyleName as string}
+            fontName={data.fontName as any}
+            fontSize={data.fontSize as number}
+          />
+        );
+      default:
+        return null;
+    }
   };
 
   // use refs for mutable values to avoid re-renders during drag
@@ -135,6 +165,7 @@ export const App: React.FC = () => {
             granules={['opacity']}
             available={isAvailable(['opacity'])}
             onPaste={onPaste}
+            preview={getPreview('Opacity')}
           />
           <PropertyButton
             label='Corner Radius'
@@ -147,6 +178,7 @@ export const App: React.FC = () => {
             ]}
             available={isAvailable(['cornerRadius'])}
             onPaste={onPaste}
+            preview={getPreview('Corner Radius')}
           />
           <PropertyButton
             label='Blend Mode'
@@ -168,6 +200,13 @@ export const App: React.FC = () => {
             granules={['width', 'height']}
             available={isAvailable(['width', 'height'])}
             onPaste={onPaste}
+          />
+          <PropertyButton
+            label='Rotation'
+            granules={['rotation']}
+            available={isAvailable(['rotation'])}
+            onPaste={onPaste}
+            preview={getPreview('Rotation')}
           />
           <PropertyButton
             label='Auto Layout'
@@ -221,6 +260,7 @@ export const App: React.FC = () => {
             ]}
             available={isAvailable(['textStyleId', 'fontSize'])}
             onPaste={onPaste}
+            preview={getPreview('Text Styles')}
           />
         </PropertyCategory>
 
