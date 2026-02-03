@@ -3,31 +3,55 @@
 
 import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
+import type { ExtendedPaint } from '../../types';
 import { StrokePreview } from './StrokePreview';
 
 describe('StrokePreview', () => {
   afterEach(cleanup);
 
+  const solidStroke: ExtendedPaint = {
+    type: 'SOLID',
+    color: { r: 0, g: 0, b: 0 },
+  } as ExtendedPaint;
+
   it('should render stroke weight', () => {
-    render(<StrokePreview weight={2} />);
+    render(<StrokePreview strokes={[solidStroke]} weight={2} />);
     expect(screen.getByText('2px')).toBeDefined();
   });
 
+  it('should render stroke swatches', () => {
+    render(<StrokePreview strokes={[solidStroke, solidStroke]} weight={1} />);
+    expect(document.querySelectorAll('.color-swatch')).toHaveLength(2);
+  });
+
   it('should render style name if provided', () => {
-    render(<StrokePreview weight={1} styleName='Stroke Style' />);
+    render(
+      <StrokePreview
+        strokes={[solidStroke]}
+        weight={1}
+        styleName='Stroke Style'
+      />
+    );
     expect(screen.getByText('Stroke Style')).toBeDefined();
   });
 
-  it('should render variable name if provided', () => {
-    render(<StrokePreview weight={1} variableName='Stroke Variable' />);
-    expect(screen.getByText('Stroke Variable')).toBeDefined();
+  it('should render variable name from stroke', () => {
+    const strokeWithVar: ExtendedPaint = {
+      ...solidStroke,
+      variableName: 'Stroke/Primary',
+    };
+    render(<StrokePreview strokes={[strokeWithVar]} weight={1} />);
+    expect(screen.getByText('Stroke/Primary')).toBeDefined();
   });
 
-  it('should prioritize style over variable', () => {
-    render(
-      <StrokePreview weight={1} styleName='Style' variableName='Variable' />
-    );
-    expect(screen.getByText('Style')).toBeDefined();
-    expect(screen.queryByText('Variable')).toBeNull();
+  it('should limit to 4 swatches', () => {
+    const strokes = Array(6).fill(solidStroke) as ExtendedPaint[];
+    render(<StrokePreview strokes={strokes} weight={1} />);
+    expect(document.querySelectorAll('.color-swatch')).toHaveLength(4);
+  });
+
+  it('should return null for empty strokes', () => {
+    const { container } = render(<StrokePreview strokes={[]} weight={1} />);
+    expect(container.firstChild).toBeNull();
   });
 });

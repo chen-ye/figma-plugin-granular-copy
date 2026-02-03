@@ -51,9 +51,9 @@ export const App: React.FC = () => {
       case 'Strokes':
         return (
           <StrokePreview
+            strokes={data.strokes || []}
             weight={data.strokeWeight}
             styleName={data.strokeStyleName}
-            variableName={data.strokeVariableName}
           />
         );
       case 'Effects':
