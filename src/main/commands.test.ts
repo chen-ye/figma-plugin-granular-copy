@@ -260,6 +260,62 @@ describe('Commands: Copy', () => {
       })
     );
   });
+
+  it('should clear previous properties when copying a new node with fewer properties', async () => {
+    // Setup initial copy with fills
+    const mockNode1 = {
+      name: 'Rect',
+      fills: [{ type: 'SOLID', color: { r: 1, g: 0, b: 0 } }],
+      exportAsync: vi.fn().mockResolvedValue(new Uint8Array([])),
+      id: '1:1',
+      parent: null,
+      width: 100,
+      height: 100,
+    } as unknown as SceneNode;
+
+    // Simulate node having 'fills' property
+    Object.defineProperty(mockNode1, 'fills', {
+      value: [],
+      enumerable: true,
+    });
+
+    figma.currentPage.selection = [mockNode1];
+
+    // Mock extraction returning fills
+    vi.mocked(extraction.extractProperties).mockResolvedValueOnce({
+      fills: [{ type: 'SOLID', color: { r: 1, g: 0, b: 0 } } as any],
+    });
+
+    await handleCopyCommand();
+
+    // Verify first save has fills
+    expect(storage.saveProperties).toHaveBeenLastCalledWith(
+      expect.objectContaining({ fills: expect.anything() })
+    );
+
+    // Setup second copy with NO fills (e.g. Group)
+    const mockNode2 = {
+      name: 'Group',
+      exportAsync: vi.fn().mockResolvedValue(new Uint8Array([])),
+      id: '1:2',
+      parent: null,
+      width: 100,
+      height: 100,
+      // No fills property
+    } as unknown as SceneNode;
+
+    figma.currentPage.selection = [mockNode2];
+
+    // Mock extraction returning empty object (no fills)
+    vi.mocked(extraction.extractProperties).mockResolvedValueOnce({});
+
+    await handleCopyCommand();
+
+    // Verify second save does NOT have fills
+    expect(storage.saveProperties).toHaveBeenLastCalledWith(
+      expect.not.objectContaining({ fills: expect.anything() })
+    );
+  });
 });
 
 describe('Commands: Paste', () => {

@@ -1,5 +1,9 @@
 import type { PluginMessage } from '../types';
-import { handleCopyCommand, handlePasteCommand } from './commands';
+import {
+  ALL_GRANULES,
+  handleCopyCommand,
+  handlePasteCommand,
+} from './commands';
 
 /**
  * Handles messages sent from the UI (iframe) to the main process.
@@ -10,7 +14,11 @@ export async function handleUIMessage(msg: PluginMessage) {
   } else if (msg.type === 'PASTE_PROPERTY') {
     const granules = msg.granules;
     if (Array.isArray(granules)) {
-      await handlePasteCommand(granules);
+      if (granules.includes('all')) {
+        await handlePasteCommand(ALL_GRANULES);
+      } else {
+        await handlePasteCommand(granules);
+      }
     }
   } else if (msg.type === 'SELECT_NODE') {
     const nodeId = msg.id;
