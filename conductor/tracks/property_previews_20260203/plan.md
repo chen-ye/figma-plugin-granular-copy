@@ -25,7 +25,7 @@ Establish the `preview` prop pattern and implement end-to-end support for simple
 ## Phase 2: Color & Fill Previews
 Implement end-to-end support for Fills, handling the complexity of color swatches, style resolution, and variable bindings.
 
-- [ ] Task: Backend - Enhance `extraction.ts` for Fills
+- [x] Task: Backend - Enhance extraction.ts for Fills [37b0410]
     - [ ] Implement style resolution for Fills (`fillStyleId`)
     - [ ] Implement variable resolution for Fills (`figma.variables.getVariableById`)
     - [ ] Update result object with `fillStyleName` and `fillVariableName`
