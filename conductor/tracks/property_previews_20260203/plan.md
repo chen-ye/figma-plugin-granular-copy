@@ -15,7 +15,7 @@ Establish the `preview` prop pattern and implement end-to-end support for simple
 - [x] Task: UI - Create ValuePreview Component [849ca4f]
     - [ ] Implement `ValuePreview.tsx` for numeric/scalar values
     - [ ] Add unit tests in `ValuePreview.test.tsx`
-- [ ] Task: UI - Create `TypographyPreview` Component
+- [x] Task: UI - Create TypographyPreview Component [598c767]
     - [ ] Implement `TypographyPreview.tsx` with Style Name support
     - [ ] Add unit tests in `TypographyPreview.test.tsx`
 - [ ] Task: Integration - Scalar & Typography
