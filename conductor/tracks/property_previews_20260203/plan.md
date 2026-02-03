@@ -9,7 +9,7 @@ Establish the `preview` prop pattern and implement end-to-end support for simple
 - [x] Task: Backend - Implement "Dominant Value" logic for Mixed Properties [213ac22]
     - [ ] Create unit tests for `figma.mixed` scenarios in `extraction.test.ts`
     - [ ] Implement logic to extract the first/dominant value when `figma.mixed` is encountered
-- [ ] Task: Backend - Enhance `extraction.ts` for Text Styles
+- [x] Task: Backend - Enhance extraction.ts for Text Styles [e7bb2f6]
     - [ ] Implement `textStyleId` resolution to names
     - [ ] Add `textStyleName` to the result object
 - [ ] Task: UI - Create `ValuePreview` Component
