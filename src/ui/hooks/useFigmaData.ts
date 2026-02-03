@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react';
 
+export type FigmaData = {
+  name?: string;
+  preview?: Uint8Array | number[];
+  [key: string]: unknown;
+} | null;
+
 export function useFigmaData() {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<FigmaData>(null);
   const [supportedGranules, setSupportedGranules] = useState<string[]>([]);
 
   useEffect(() => {
@@ -11,10 +17,16 @@ export function useFigmaData() {
       if (!msg) return;
 
       const { type, data: msgData, supportedGranules: msgSupported } = msg;
-      if (type === 'DATA_UPDATE' || type === 'COPY_COMPLETED') {
-        setData(msgData);
-      } else if (type === 'SELECTION_UPDATE') {
-        setSupportedGranules(msgSupported || []);
+
+      switch (type) {
+        case 'DATA_UPDATE':
+        case 'COPY_COMPLETED':
+          // Ensure we always set a new object reference to trigger reactivity
+          setData(msgData ? { ...msgData } : null);
+          break;
+        case 'SELECTION_UPDATE':
+          setSupportedGranules(msgSupported || []);
+          break;
       }
     };
 

@@ -162,7 +162,11 @@ export const App: React.FC = () => {
       </div>
 
       <div className='footer'>
-        <button type='button' className='paste-all-button' onClick={() => onPaste(['all'])}>
+        <button
+          type='button'
+          className='paste-all-button'
+          onClick={() => onPaste(['all'])}
+        >
           Paste All
         </button>
       </div>

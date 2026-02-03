@@ -23,7 +23,9 @@ export const PreviewHeader: React.FC<PreviewHeaderProps> = ({
       blob = new Blob([preview as unknown as BlobPart], { type: 'image/png' });
     } else {
       // It might come in as a regular array from JSON serialization
-      blob = new Blob([new Uint8Array(preview) as unknown as BlobPart], { type: 'image/png' });
+      blob = new Blob([new Uint8Array(preview) as unknown as BlobPart], {
+        type: 'image/png',
+      });
     }
 
     const url = URL.createObjectURL(blob);

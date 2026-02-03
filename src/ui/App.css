@@ -23,6 +23,8 @@
   --figma-height-button-standard: 32px;
   --figma-height-button-compact: 24px;
   --figma-height-preview: 120px;
+
+  color-scheme: light dark;
 }
 
 body {
@@ -46,8 +48,8 @@ body {
 }
 
 .header-actions {
-  padding: 8px;
-  border-bottom: 1px solid var(--figma-color-border);
+  padding: var(--figma-spacer-2) var(--figma-spacer-3);
+  border-bottom: var(--figma-border-width) solid var(--figma-color-border);
   display: flex;
   justify-content: center;
 }
@@ -71,13 +73,20 @@ body {
   background-color: var(--figma-color-bg-hover);
 }
 
+.copy-button:disabled {
+  border-color: var(--figma-color-border-disabled);
+  color: var(--figma-color-text-disabled);
+  cursor: default;
+  pointer-events: none;
+}
+
 .preview-header {
   padding: var(--figma-spacer-1) var(--figma-spacer-3);
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: var(--figma-spacer-2);
-  border-bottom: none;
+  border-bottom: var(--figma-border-width) solid var(--figma-color-border);
   background-color: transparent;
 }
 
@@ -102,22 +111,22 @@ body {
 .preview-placeholder {
   width: 100%;
   height: 100%;
-  background-color: #eee;
+  background-color: var(--figma-color-bg-secondary);
 }
 
 .node-name {
-  font-weight: 600;
-  font-size: 12px;
+  font-weight: var(--figma-text-body-medium-strong-weight);
+  font-size: var(--figma-text-body-medium-size);
 }
 
 .scroll-container {
   flex: 1;
   overflow-y: auto;
-  padding: 8px;
+  padding: var(--figma-spacer-2) var(--figma-spacer-3);
 }
 
 .property-category {
-  margin-bottom: 16px;
+  margin-bottom: var(--figma-spacer-3);
 }
 
 .category-title {
@@ -132,7 +141,7 @@ body {
 .category-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 4px;
+  gap: var(--figma-spacer-1);
 }
 
 .property-button {
@@ -158,14 +167,15 @@ body {
 }
 
 .property-button:disabled {
-  color: var(--figma-color-disabled);
-  border-color: var(--figma-color-border);
+  color: var(--figma-color-text-disabled);
+  border-color: var(--figma-color-border-disabled);
   cursor: default;
+  pointer-events: none;
 }
 
 .footer {
-  padding: 8px;
-  border-top: 1px solid var(--figma-color-border);
+  padding: var(--figma-spacer-2) var(--figma-spacer-3);
+  border-top: var(--figma-border-width) solid var(--figma-color-border);
 }
 
 .paste-all-button {
@@ -181,4 +191,11 @@ body {
 
 .paste-all-button:hover {
   background-color: var(--figma-color-bg-brand-hover);
+}
+
+.paste-all-button:disabled {
+  background-color: var(--figma-color-bg-disabled);
+  color: var(--figma-color-text-ondisabled);
+  cursor: default;
+  pointer-events: none;
 }
