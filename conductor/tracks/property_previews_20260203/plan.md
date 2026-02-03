@@ -1,6 +1,6 @@
 # Implementation Plan: Property Previews
 
-## Phase 1: Infrastructure & Scalar Previews (Values & Typography)
+## Phase 1: Infrastructure & Scalar Previews (Values & Typography) [checkpoint: 636d373]
 Establish the `preview` prop pattern and implement end-to-end support for simpler scalar values (Opacity, Rotation, Corner Radius) and Typography.
 
 - [x] Task: Update PropertyButton Component [a90efd3]
