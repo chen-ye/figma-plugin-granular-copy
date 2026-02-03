@@ -6,7 +6,7 @@ Establish the `preview` prop pattern and implement end-to-end support for simple
 - [x] Task: Update PropertyButton Component [a90efd3]
     - [ ] Update `PropertyButton.tsx` to accept a `preview` prop
     - [ ] Refactor layout to Flexbox (justify-content: space-between)
-- [ ] Task: Backend - Implement "Dominant Value" logic for Mixed Properties
+- [x] Task: Backend - Implement "Dominant Value" logic for Mixed Properties [213ac22]
     - [ ] Create unit tests for `figma.mixed` scenarios in `extraction.test.ts`
     - [ ] Implement logic to extract the first/dominant value when `figma.mixed` is encountered
 - [ ] Task: Backend - Enhance `extraction.ts` for Text Styles
