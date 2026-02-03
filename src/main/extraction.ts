@@ -30,6 +30,20 @@ export function extractProperties(node: SceneNode, granules: string[]): any {
         }
       }
 
+      if (granule === 'strokeStyleId' && typeof value === 'string') {
+        const style = figma.getStyleById(value);
+        if (style) {
+          result.strokeStyleName = style.name;
+        }
+      }
+
+      if (granule === 'effectStyleId' && typeof value === 'string') {
+        const style = figma.getStyleById(value);
+        if (style) {
+          result.effectStyleName = style.name;
+        }
+      }
+
       // Enrich with variable names for Fills
       if (granule === 'fills' && Array.isArray(value) && value.length > 0) {
         // Check for bound variables on the first fill (dominant)
@@ -39,6 +53,18 @@ export function extractProperties(node: SceneNode, granules: string[]): any {
           const variable = figma.variables.getVariableById(variableId);
           if (variable) {
             result.fillVariableName = variable.name;
+          }
+        }
+      }
+
+      // Enrich with variable names for Strokes
+      if (granule === 'strokes' && Array.isArray(value) && value.length > 0) {
+        const boundVariables = value[0]?.boundVariables;
+        if (boundVariables?.color?.type === 'VARIABLE_ALIAS') {
+          const variableId = boundVariables.color.id;
+          const variable = figma.variables.getVariableById(variableId);
+          if (variable) {
+            result.strokeVariableName = variable.name;
           }
         }
       }

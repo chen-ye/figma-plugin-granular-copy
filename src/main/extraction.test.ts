@@ -350,4 +350,83 @@ describe('Property Extraction', () => {
     const result = extractProperties(mockNode, ['fills']);
     expect(result.fillVariableName).toBe('Color/Primary');
   });
+
+  it('should resolve strokeStyleId to strokeStyleName', () => {
+    const mockStyle = {
+      id: 'style-stroke-1',
+      name: 'Stroke / Secondary',
+      type: 'PAINT',
+    };
+
+    const getStyleById = vi.fn().mockImplementation((id) => {
+      if (id === 'style-stroke-1') return mockStyle;
+      return null;
+    });
+    vi.stubGlobal('figma', {
+      mixed: Symbol('mixed'),
+      getStyleById,
+      variables: { getVariableById: vi.fn() },
+    });
+
+    const mockNode = { strokeStyleId: 'style-stroke-1' } as any;
+    const result = extractProperties(mockNode, ['strokeStyleId']);
+    expect(result.strokeStyleId).toBe('style-stroke-1');
+    expect(result.strokeStyleName).toBe('Stroke / Secondary');
+  });
+
+  it('should resolve stroke variable bindings to strokeVariableName', () => {
+    const mockVariable = {
+      id: 'var-stroke-1',
+      name: 'Color/Secondary',
+      resolveForConsumer: vi.fn().mockReturnValue({ value: { r: 0, g: 1, b: 0 } }),
+    };
+
+    vi.stubGlobal('figma', {
+      mixed: Symbol('mixed'),
+      getStyleById: vi.fn(),
+      variables: {
+        getVariableById: vi.fn().mockImplementation((id) => {
+          if (id === 'var-stroke-1') return mockVariable;
+          return null;
+        }),
+      },
+    });
+
+    const mockNode = {
+      strokes: [
+        {
+          type: 'SOLID',
+          boundVariables: {
+            color: { type: 'VARIABLE_ALIAS', id: 'var-stroke-1' },
+          },
+        },
+      ],
+    } as any;
+
+    const result = extractProperties(mockNode, ['strokes']);
+    expect(result.strokeVariableName).toBe('Color/Secondary');
+  });
+
+  it('should resolve effectStyleId to effectStyleName', () => {
+    const mockStyle = {
+      id: 'style-effect-1',
+      name: 'Shadow / Elevation 1',
+      type: 'EFFECT',
+    };
+
+    const getStyleById = vi.fn().mockImplementation((id) => {
+      if (id === 'style-effect-1') return mockStyle;
+      return null;
+    });
+    vi.stubGlobal('figma', {
+      mixed: Symbol('mixed'),
+      getStyleById,
+      variables: { getVariableById: vi.fn() },
+    });
+
+    const mockNode = { effectStyleId: 'style-effect-1' } as any;
+    const result = extractProperties(mockNode, ['effectStyleId']);
+    expect(result.effectStyleId).toBe('style-effect-1');
+    expect(result.effectStyleName).toBe('Shadow / Elevation 1');
+  });
 });
