@@ -31,16 +31,16 @@
 }
 
 body {
-  margin: 0;
   padding: 0;
+  margin: 0;
   font-family: 'Inter', sans-serif;
   font-size: var(--figma-text-body-medium-size);
   font-weight: var(--figma-text-body-medium-weight);
   line-height: var(--figma-text-body-medium-line-height);
-  letter-spacing: var(--figma-text-body-medium-letter-spacing);
   color: var(--figma-color-text);
-  background-color: var(--figma-color-bg);
+  letter-spacing: var(--figma-text-body-medium-letter-spacing);
   user-select: none;
+  background-color: var(--figma-color-bg);
 }
 
 .app {
@@ -51,25 +51,25 @@ body {
 }
 
 .header-actions {
-  padding: var(--figma-spacer-2) var(--figma-spacer-3);
-  border-bottom: var(--figma-border-width) solid var(--figma-color-border);
   display: flex;
   justify-content: center;
+  padding: var(--figma-spacer-2) var(--figma-spacer-3);
+  border-bottom: var(--figma-border-width) solid var(--figma-color-border);
 }
 
 .copy-button {
-  width: 100%;
-  height: var(--figma-height-button-standard);
-  background-color: transparent;
-  color: var(--figma-color-text);
-  border: var(--figma-border-width) solid var(--figma-color-border);
-  border-radius: var(--figma-radius-medium);
-  font-weight: var(--figma-text-body-medium-weight);
-  cursor: pointer;
   display: flex;
+  gap: var(--figma-spacer-2);
   align-items: center;
   justify-content: center;
-  gap: var(--figma-spacer-2);
+  width: 100%;
+  height: var(--figma-height-button-standard);
+  font-weight: var(--figma-text-body-medium-weight);
+  color: var(--figma-color-text);
+  cursor: pointer;
+  background-color: transparent;
+  border: var(--figma-border-width) solid var(--figma-color-border);
+  border-radius: var(--figma-radius-medium);
 }
 
 .copy-button:hover {
@@ -77,34 +77,34 @@ body {
 }
 
 .copy-button:disabled {
-  border-color: var(--figma-color-border-disabled);
   color: var(--figma-color-text-disabled);
-  cursor: default;
   pointer-events: none;
+  cursor: default;
+  border-color: var(--figma-color-border-disabled);
 }
 
 .preview-header {
-  padding: var(--figma-spacer-2) var(--figma-spacer-3);
   display: flex;
   flex-direction: column;
-  align-items: stretch;
   gap: var(--figma-spacer-2);
-  border-bottom: var(--figma-border-width) solid var(--figma-color-border);
+  align-items: stretch;
+  padding: var(--figma-spacer-2) var(--figma-spacer-3);
   background-color: transparent;
+  border-bottom: var(--figma-border-width) solid var(--figma-color-border);
 }
 
 .preview-thumbnail {
-  width: 100%;
   box-sizing: border-box;
-  padding: var(--figma-spacer-2);
-  height: var(--figma-height-preview);
-  background-color: var(--figma-color-bg-secondary);
-  border: none;
-  border-radius: var(--figma-radius-preview);
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: var(--figma-height-preview);
+  padding: var(--figma-spacer-2);
   overflow: hidden;
+  background-color: var(--figma-color-bg-secondary);
+  border: none;
+  border-radius: var(--figma-radius-preview);
   transition: background-color 0.2s ease;
 }
 
@@ -138,20 +138,18 @@ html.figma-dark .preview-thumbnail.preview-bg-light {
 }
 
 .node-name {
-  font-weight: var(--figma-text-body-medium-strong-weight);
   font-size: var(--figma-text-body-medium-size);
+  font-weight: var(--figma-text-body-medium-strong-weight);
   color: var(--figma-color-text);
 }
 
 .ancestor-path {
-  font-weight: var(--figma-text-body-medium-weight);
   font-size: var(--figma-text-body-medium-size);
+  font-weight: var(--figma-text-body-medium-weight);
   color: var(--figma-color-text-tertiary);
 }
 
 .path-segment {
-  background: none;
-  border: none;
   padding: 0;
   margin: 0;
   font-family: inherit;
@@ -159,22 +157,24 @@ html.figma-dark .preview-thumbnail.preview-bg-light {
   font-weight: inherit;
   color: var(--figma-color-text-secondary);
   cursor: pointer;
+  background: none;
+  border: none;
 }
 
 .path-segment:hover {
-  text-decoration: underline;
   color: var(--figma-color-text);
+  text-decoration: underline;
 }
 
 .node-name .path-segment {
-  color: inherit;
   font-weight: inherit;
+  color: inherit;
 }
 
 .scroll-container {
   flex: 1;
-  overflow-y: auto;
   padding: var(--figma-spacer-2) var(--figma-spacer-3);
+  overflow-y: auto;
 }
 
 .property-category {
@@ -182,11 +182,11 @@ html.figma-dark .preview-thumbnail.preview-bg-light {
 }
 
 .category-title {
+  margin: 0 0 var(--figma-spacer-2) var(--figma-spacer-1);
   font-size: var(--figma-text-body-medium-size);
   font-weight: var(--figma-text-body-medium-strong-weight);
-  text-transform: none;
   color: var(--figma-color-text-secondary);
-  margin: 0 0 var(--figma-spacer-2) var(--figma-spacer-1);
+  text-transform: none;
   letter-spacing: 0;
 }
 
@@ -201,22 +201,22 @@ html.figma-dark .preview-thumbnail.preview-bg-light {
 }
 
 .property-button {
+  display: flex;
+  gap: var(--figma-spacer-2);
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
   height: var(--figma-height-button-compact);
+  padding: 0 var(--figma-spacer-2);
+  overflow: hidden;
+  font-size: var(--figma-text-body-medium-size);
+  color: var(--figma-color-text);
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
   background-color: transparent;
   border: var(--figma-border-width) solid var(--figma-color-border);
   border-radius: var(--figma-radius-medium);
-  text-align: left;
-  padding: 0 var(--figma-spacer-2);
-  cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: var(--figma-color-text);
-  font-size: var(--figma-text-body-medium-size);
-  width: 100%;
-  gap: var(--figma-spacer-2);
 }
 
 .property-button > span:first-child {
@@ -224,8 +224,8 @@ html.figma-dark .preview-thumbnail.preview-bg-light {
 }
 
 .property-preview {
-  flex: 1;
   display: flex;
+  flex: 1;
   justify-content: flex-end;
   min-width: 0;
 }
@@ -237,9 +237,9 @@ html.figma-dark .preview-thumbnail.preview-bg-light {
 
 .property-button:disabled {
   color: var(--figma-color-text-disabled);
-  border-color: var(--figma-color-border-disabled);
-  cursor: default;
   pointer-events: none;
+  cursor: default;
+  border-color: var(--figma-color-border-disabled);
 }
 
 .footer {
@@ -250,12 +250,12 @@ html.figma-dark .preview-thumbnail.preview-bg-light {
 .paste-all-button {
   width: 100%;
   height: var(--figma-height-button-standard);
-  background-color: var(--figma-color-bg-brand);
+  font-weight: var(--figma-text-body-medium-weight);
   color: var(--figma-color-text-onbrand);
+  cursor: pointer;
+  background-color: var(--figma-color-bg-brand);
   border: none;
   border-radius: var(--figma-radius-medium);
-  font-weight: var(--figma-text-body-medium-weight);
-  cursor: pointer;
 }
 
 .paste-all-button:hover {
@@ -263,20 +263,20 @@ html.figma-dark .preview-thumbnail.preview-bg-light {
 }
 
 .paste-all-button:disabled {
-  background-color: var(--figma-color-bg-disabled);
   color: var(--figma-color-text-ondisabled);
-  cursor: default;
   pointer-events: none;
+  cursor: default;
+  background-color: var(--figma-color-bg-disabled);
 }
 
 .resize-handle {
-  height: 12px;
-  width: 100%;
-  cursor: ns-resize;
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  width: 100%;
+  height: 12px;
+  cursor: ns-resize;
   /* Visual Hint */
   background: transparent;
   transition: background-color 0.2s;
@@ -288,34 +288,34 @@ html.figma-dark .preview-thumbnail.preview-bg-light {
 
 /* Optional: Add a grabber icon or line via pseudo-element */
 .resize-handle::after {
-  content: '';
   width: 24px;
   height: 3px;
+  content: '';
   background-color: var(--figma-color-border);
   border-radius: 2px;
 }
 
 .value-preview {
-  color: var(--figma-color-text-secondary);
-  font-size: var(--figma-text-body-medium-size);
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: var(--figma-text-body-medium-size);
+  color: var(--figma-color-text-secondary);
   white-space: nowrap;
 }
 
 .variable-badge {
   box-sizing: border-box;
-  background-color: var(--figma-color-bg-secondary);
-  color: var(--figma-color-text);
-  border: 1px solid var(--figma-color-border);
-  border-radius: var(--figma-radius-medium);
-  padding: 0 var(--figma-spacer-1);
-  height: var(--figma-height-badge);
   display: inline-flex;
   gap: var(--figma-spacer-1);
   align-items: center;
+  height: var(--figma-height-badge);
+  padding: 0 var(--figma-spacer-1);
 
   font-size: var(--figma-text-body-medium-size);
+  color: var(--figma-color-text);
+  background-color: var(--figma-color-bg-secondary);
+  border: 1px solid var(--figma-color-border);
+  border-radius: var(--figma-radius-medium);
 }
 
 .variable-badge-text {
@@ -335,98 +335,98 @@ html.figma-dark .preview-thumbnail.preview-bg-light {
 }
 
 .typography-name {
-  color: var(--figma-color-text-tertiary);
-  font-size: var(--figma-text-body-medium-size);
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: var(--figma-text-body-medium-size);
+  color: var(--figma-color-text-tertiary);
   white-space: nowrap;
 }
 
 .typography-value {
-  color: var(--figma-color-text-secondary);
-  font-size: var(--figma-text-body-medium-size);
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: var(--figma-text-body-medium-size);
+  color: var(--figma-color-text-secondary);
   white-space: nowrap;
 }
 
 .color-preview {
   display: flex;
-  align-items: center;
   gap: var(--figma-spacer-2);
+  align-items: center;
   min-width: 0;
 }
 
 .swatch-container {
   display: flex;
-  gap: 2px;
   flex-shrink: 0;
+  gap: 2px;
 }
 
 .color-swatch {
-  width: 14px;
-  height: 14px;
-  border-radius: var(--figma-radius-swatch);
-  border: 1px solid var(--figma-color-border);
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 14px;
+  height: 14px;
   overflow: hidden;
   font-size: 8px;
   color: var(--figma-color-text-secondary);
+  border: 1px solid var(--figma-color-border);
+  border-radius: var(--figma-radius-swatch);
 }
 
 .color-name {
-  color: var(--figma-color-text-tertiary);
-  font-size: var(--figma-text-body-medium-size);
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: var(--figma-text-body-medium-size);
+  color: var(--figma-color-text-tertiary);
   white-space: nowrap;
 }
 
 .stroke-preview,
 .effect-preview {
   display: flex;
-  align-items: center;
   gap: var(--figma-spacer-2);
+  align-items: center;
   min-width: 0;
 }
 
 .stroke-weight,
 .effect-count {
-  color: var(--figma-color-text-secondary);
-  font-weight: var(--figma-text-body-medium-strong-weight);
   flex-shrink: 0;
+  font-weight: var(--figma-text-body-medium-strong-weight);
+  color: var(--figma-color-text-secondary);
 }
 
 .stroke-name,
 .effect-name {
-  color: var(--figma-color-text-tertiary);
-  font-size: var(--figma-text-body-medium-size);
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: var(--figma-text-body-medium-size);
+  color: var(--figma-color-text-tertiary);
   white-space: nowrap;
 }
 
 .position-preview {
   display: flex;
-  align-items: center;
   gap: var(--figma-spacer-2);
+  align-items: center;
   min-width: 0;
 }
 
 .position-value {
-  color: var(--figma-color-text-secondary);
-  font-size: var(--figma-text-body-medium-size);
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: var(--figma-text-body-medium-size);
+  color: var(--figma-color-text-secondary);
   white-space: nowrap;
 }
 
 .size-preview {
-  color: var(--figma-color-text-secondary);
-  font-size: var(--figma-text-body-medium-size);
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: var(--figma-text-body-medium-size);
+  color: var(--figma-color-text-secondary);
   white-space: nowrap;
 }

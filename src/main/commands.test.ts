@@ -7,6 +7,30 @@ import * as storage from './storage';
 vi.mock('./storage');
 vi.mock('./extraction');
 
+/**
+ * Factory for creating mock SceneNode objects with sensible defaults.
+ */
+function createMockNode(
+  overrides: Partial<{
+    name: string;
+    id: string;
+    width: number;
+    height: number;
+    parent: unknown;
+    exportAsync: ReturnType<typeof vi.fn>;
+  }> = {}
+): SceneNode {
+  return {
+    name: overrides.name ?? 'Test Node',
+    id: overrides.id ?? '1:1',
+    width: overrides.width ?? 100,
+    height: overrides.height ?? 100,
+    parent: overrides.parent ?? null,
+    exportAsync:
+      overrides.exportAsync ?? vi.fn().mockResolvedValue(new Uint8Array([])),
+  } as unknown as SceneNode;
+}
+
 describe('Commands: Copy', () => {
   beforeEach(() => {
     vi.stubGlobal('figma', {
@@ -46,12 +70,7 @@ describe('Commands: Copy', () => {
   });
 
   it('should extract properties and save to storage for a single selection', async () => {
-    const mockNode = {
-      name: 'Test Node',
-      exportAsync: vi.fn().mockResolvedValue(new Uint8Array([])),
-      id: '1:1',
-      parent: null,
-    } as unknown as SceneNode;
+    const mockNode = createMockNode();
     figma.currentPage.selection = [mockNode];
     const mockProps = { fills: [] };
     vi.mocked(extraction.extractProperties).mockResolvedValue(
@@ -78,12 +97,7 @@ describe('Commands: Copy', () => {
   });
 
   it('should NOT close plugin by default', async () => {
-    const mockNode = {
-      name: 'Test Node',
-      exportAsync: vi.fn().mockResolvedValue(new Uint8Array([])),
-      id: '1:1',
-      parent: null,
-    } as unknown as SceneNode;
+    const mockNode = createMockNode();
     figma.currentPage.selection = [mockNode];
     const mockProps = { fills: [] };
     vi.mocked(extraction.extractProperties).mockResolvedValue(
@@ -100,12 +114,7 @@ describe('Commands: Copy', () => {
     );
   });
   it('should handle headless execution where postMessage throws', async () => {
-    const mockNode = {
-      name: 'Test Node',
-      exportAsync: vi.fn().mockResolvedValue(new Uint8Array([])),
-      id: '1:1',
-      parent: null,
-    } as unknown as SceneNode;
+    const mockNode = createMockNode();
     figma.currentPage.selection = [mockNode];
     const mockProps = { fills: [] };
     vi.mocked(extraction.extractProperties).mockResolvedValue(

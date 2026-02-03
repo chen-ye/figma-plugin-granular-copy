@@ -21,6 +21,14 @@
       "recommended": true
     }
   },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "useSortedProperties": "on"
+      }
+    }
+  },
   "javascript": {
     "formatter": {
       "quoteStyle": "single",

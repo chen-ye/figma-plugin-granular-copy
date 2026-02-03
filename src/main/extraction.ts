@@ -29,115 +29,16 @@ export async function extractProperties(
 
       result[granule] = value;
 
-      // Enrich with style names
-      if (granule === 'textStyleId' && typeof value === 'string') {
-        tasks.push(
-          (async () => {
-            const style = await figma.getStyleByIdAsync(value);
-            if (style) {
-              result.textStyleName = style.name;
-            }
-          })()
-        );
-      }
+      // Enrich with style names using mapping
+      enrichStyleName(granule, value, result, tasks);
 
-      if (granule === 'fillStyleId' && typeof value === 'string') {
-        tasks.push(
-          (async () => {
-            const style = await figma.getStyleByIdAsync(value);
-            if (style) {
-              result.fillStyleName = style.name;
-            }
-          })()
-        );
-      }
-
-      if (granule === 'strokeStyleId' && typeof value === 'string') {
-        tasks.push(
-          (async () => {
-            const style = await figma.getStyleByIdAsync(value);
-            if (style) {
-              result.strokeStyleName = style.name;
-            }
-          })()
-        );
-      }
-
-      if (granule === 'effectStyleId' && typeof value === 'string') {
-        tasks.push(
-          (async () => {
-            const style = await figma.getStyleByIdAsync(value);
-            if (style) {
-              result.effectStyleName = style.name;
-            }
-          })()
-        );
-      }
-
-      // Enrich with variable names for Fills
-      if (granule === 'fills' && Array.isArray(value) && value.length > 0) {
-        // Clone paints for mutation (adding variableName)
-        const paints = JSON.parse(JSON.stringify(value)) as ExtendedPaint[];
-
-        let hasUpdates = false;
-
-        const paintTasks = paints.map(async (paint) => {
-          if (paint.boundVariables?.color?.type === 'VARIABLE_ALIAS') {
-            const variableId = paint.boundVariables.color.id;
-            try {
-              const variable =
-                await figma.variables.getVariableByIdAsync(variableId);
-              if (variable) {
-                paint.variableName = variable.name;
-                hasUpdates = true;
-              }
-            } catch (e) {
-              console.warn(`Failed to resolve variable ${variableId}`, e);
-            }
-          }
-        });
-
-        tasks.push(
-          (async () => {
-            await Promise.all(paintTasks);
-            if (hasUpdates) {
-              result[granule] = paints;
-            }
-          })()
-        );
-      }
-
-      // Enrich with variable names for Strokes
-      if (granule === 'strokes' && Array.isArray(value) && value.length > 0) {
-        // Clone paints for mutation (adding variableName)
-        const paints = JSON.parse(JSON.stringify(value)) as ExtendedPaint[];
-
-        let hasUpdates = false;
-
-        const paintTasks = paints.map(async (paint) => {
-          if (paint.boundVariables?.color?.type === 'VARIABLE_ALIAS') {
-            const variableId = paint.boundVariables.color.id;
-            try {
-              const variable =
-                await figma.variables.getVariableByIdAsync(variableId);
-              if (variable) {
-                paint.variableName = variable.name;
-                hasUpdates = true;
-              }
-            } catch (e) {
-              console.warn(`Failed to resolve variable ${variableId}`, e);
-            }
-          }
-        });
-
-        tasks.push(
-          (async () => {
-            await Promise.all(paintTasks);
-            if (hasUpdates) {
-              result[granule] = paints;
-            }
-          })()
-        );
+      // Enrich with variable names for paints
+      if (
+        (granule === 'fills' || granule === 'strokes') &&
+        Array.isArray(value) &&
+        value.length > 0
+      ) {
+        enrichPaintVariables(granule, value, result, tasks);
       }
     }
   }
@@ -187,4 +88,72 @@ function resolveMixedValue(node: SceneNode, granule: string): unknown {
   }
 
   return figma.mixed;
+}
+
+// Helper: Map style ID granules to their name result keys
+const STYLE_NAME_MAP: Partial<Record<string, keyof ExtractionResult>> = {
+  textStyleId: 'textStyleName',
+  fillStyleId: 'fillStyleName',
+  strokeStyleId: 'strokeStyleName',
+  effectStyleId: 'effectStyleName',
+};
+
+/**
+ * Enriches the result with style names for style ID properties.
+ */
+function enrichStyleName(
+  granule: string,
+  value: unknown,
+  result: ExtractionResult,
+  tasks: Promise<void>[]
+): void {
+  const nameKey = STYLE_NAME_MAP[granule];
+  if (nameKey && typeof value === 'string') {
+    tasks.push(
+      (async () => {
+        const style = await figma.getStyleByIdAsync(value);
+        if (style) {
+          result[nameKey] = style.name;
+        }
+      })()
+    );
+  }
+}
+
+/**
+ * Enriches paint arrays with variable names for bound color variables.
+ */
+function enrichPaintVariables(
+  granule: 'fills' | 'strokes',
+  value: unknown[],
+  result: ExtractionResult,
+  tasks: Promise<void>[]
+): void {
+  // Clone paints for mutation (adding variableName)
+  const paints = JSON.parse(JSON.stringify(value)) as ExtendedPaint[];
+  let hasUpdates = false;
+
+  const paintTasks = paints.map(async (paint) => {
+    if (paint.boundVariables?.color?.type === 'VARIABLE_ALIAS') {
+      const variableId = paint.boundVariables.color.id;
+      try {
+        const variable = await figma.variables.getVariableByIdAsync(variableId);
+        if (variable) {
+          paint.variableName = variable.name;
+          hasUpdates = true;
+        }
+      } catch (e) {
+        console.warn(`Failed to resolve variable ${variableId}`, e);
+      }
+    }
+  });
+
+  tasks.push(
+    (async () => {
+      await Promise.all(paintTasks);
+      if (hasUpdates) {
+        result[granule] = paints;
+      }
+    })()
+  );
 }
