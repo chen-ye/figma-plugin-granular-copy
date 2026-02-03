@@ -103,6 +103,10 @@ export const App: React.FC = () => {
             fontSize={data.fontSize}
           />
         );
+      case 'Text Content':
+        return typeof data.characters === 'string' ? (
+          <ValuePreview value={data.characters} />
+        ) : null;
       default:
         return null;
     }
@@ -307,6 +311,7 @@ export const App: React.FC = () => {
             granules={['characters']}
             available={isAvailable(['characters'])}
             onPaste={onPaste}
+            preview={getPreview('Text Content')}
           />
           <PropertyButton
             label='Text Styles'
