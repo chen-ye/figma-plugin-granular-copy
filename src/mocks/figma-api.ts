@@ -31,6 +31,8 @@ export class FigmaPluginAPI {
 
   mixed = Symbol('mixed');
 
+  private shouldFailNext = false;
+
   constructor() {
     // Listen for messages from the main thread (Test Harness)
     addEventListener('message', (event) => {
@@ -45,6 +47,8 @@ export class FigmaPluginAPI {
       } else if (type === 'SET_SELECTION') {
         this.currentPage.selection = payload;
         this.trigger('selectionchange', {});
+      } else if (type === 'MOCK_ERROR_NEXT') {
+        this.shouldFailNext = true;
       }
     });
   }
@@ -87,6 +91,10 @@ export class FigmaPluginAPI {
 
   clientStorage = {
     getAsync: async (key: string) => {
+      if (this.shouldFailNext) {
+        this.shouldFailNext = false;
+        throw new Error('Simulated Figma Error');
+      }
       return this.storage[key];
     },
     setAsync: async (key: string, value: any) => {
