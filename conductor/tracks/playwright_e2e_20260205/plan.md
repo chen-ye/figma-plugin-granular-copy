@@ -1,6 +1,6 @@
 # Implementation Plan: Limited E2E Testing with Playwright
 
-## Phase 1: Environment & Mock Infrastructure
+## Phase 1: Environment & Mock Infrastructure [checkpoint: b4762a3]
 - [x] Task: Install Playwright and dependencies [9d30982]
     - [x] Run `npm init playwright@latest` (configured for `tests/e2e`).
 - [x] Task: Create Shared Figma Mock
