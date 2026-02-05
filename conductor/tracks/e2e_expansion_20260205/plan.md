@@ -9,13 +9,13 @@
 - [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
 ## Phase 2: Property Logic & Flow Tests
-- [ ] Task: Implement Property Logic Tests
-    - [ ] Create `tests/e2e/properties.spec.ts`.
-    - [ ] Write data-driven tests for each granule type (Fills, Strokes, etc.) verifying the `postMessage` payload.
-- [ ] Task: Implement Complex Flow Tests
-    - [ ] Create `tests/e2e/flows.spec.ts`.
-    - [ ] Implement "Copy & Paste" flow (Simulate Selection -> Click Copy -> Verify State -> Click Paste -> Verify Worker Message).
-    - [ ] Implement "Preview Updates" flow (Change Selection -> Verify UI Update).
+- [x] Task: Implement Property Logic Tests
+    - [x] Create `tests/e2e/properties.spec.ts`.
+    - [x] Write data-driven tests for each granule type (Fills, Strokes, etc.) verifying the `postMessage` payload.
+- [x] Task: Implement Complex Flow Tests
+    - [x] Create `tests/e2e/flows.spec.ts`.
+    - [x] Implement "Copy & Paste" flow (Simulate Selection -> Click Copy -> Verify State -> Click Paste -> Verify Worker Message).
+    - [x] Implement "Preview Updates" flow (Change Selection -> Verify UI Update).
 - [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
 ## Phase 3: Visual & Error Testing

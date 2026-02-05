@@ -45,7 +45,22 @@ export class FigmaPluginAPI {
         this.command = payload.command;
         this.trigger('run', { command: payload.command });
       } else if (type === 'SET_SELECTION') {
-        this.currentPage.selection = payload;
+        this.currentPage.selection = payload.map((node: any) => ({
+          ...node,
+          exportAsync: async () => new Uint8Array([]),
+          getRangeFontSize: () => node.fontSize,
+          getRangeFontName: () => node.fontName,
+          getRangeLineHeight: () => node.lineHeight,
+          getRangeLetterSpacing: () => node.letterSpacing,
+          getRangeTextDecoration: () => node.textDecoration,
+          getRangeTextCase: () => node.textCase,
+          getRangeFills: () => node.fills,
+          getRangeTextStyleId: () => node.textStyleId,
+          getRangeFillStyleId: () => node.fillStyleId,
+          getRangeParagraphSpacing: () => node.paragraphSpacing,
+          getRangeParagraphIndent: () => node.paragraphIndent,
+          getRangeListSpacing: () => node.listSpacing,
+        }));
         this.trigger('selectionchange', {});
       } else if (type === 'MOCK_ERROR_NEXT') {
         this.shouldFailNext = true;
