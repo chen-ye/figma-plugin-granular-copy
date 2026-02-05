@@ -22,7 +22,7 @@
     - [x] Configure artifact upload for Playwright reports on failure using `actions/upload-artifact`.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
-## Phase 3: Final Verification
+## Phase 3: Final Verification [checkpoint: baf6b72]
 - [x] Task: Final CI Audit
     - [x] Push changes to a feature branch to trigger the live workflow.
     - [x] Verify that all steps pass in the GitHub Actions dashboard.
