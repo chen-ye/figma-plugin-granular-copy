@@ -15,7 +15,7 @@
     - [x] Add `npm run test:ci` step for unit testing (Vitest).
 - [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
-## Phase 2: E2E Testing Integration
+## Phase 2: E2E Testing Integration [checkpoint: dcab636]
 - [x] Task: Configure Playwright for CI
     - [x] Add Playwright browser installation step: `npx playwright install --with-deps chromium`.
     - [x] Add `npm run test:e2e` step.
