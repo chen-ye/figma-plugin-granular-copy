@@ -1,9 +1,8 @@
-import type {
+export type {
   GradientPaint,
   ImagePaint,
   PatternPaint,
   SolidPaint,
-  VariableAlias,
   VideoPaint,
 } from '@figma/plugin-typings/plugin-api-standalone.js';
 
@@ -15,16 +14,15 @@ export type Paint =
   | VideoPaint
   | PatternPaint;
 
-export type ExtendedPaint = Paint & {
-  boundVariables?: {
-    color?: VariableAlias;
-  };
+export interface PaintMetadata {
   variableName?: string;
-};
+}
 
 export interface ExtractionResult extends Record<string, unknown> {
-  fills?: ExtendedPaint[];
-  strokes?: ExtendedPaint[];
+  fills?: Paint[];
+  strokes?: Paint[];
+  fillMetadata?: Record<number, PaintMetadata>;
+  strokeMetadata?: Record<number, PaintMetadata>;
   textStyleName?: string;
   fillStyleName?: string;
   strokeStyleName?: string;
@@ -55,3 +53,59 @@ export type PluginMessage =
 export interface UIMessage {
   pluginMessage: PluginMessage;
 }
+
+export const ALL_GRANULES = [
+  'fills',
+  'strokes',
+  'effects',
+  'rotation',
+  'opacity',
+  'cornerRadius',
+  'topLeftRadius',
+  'topRightRadius',
+  'bottomLeftRadius',
+  'bottomRightRadius',
+  'strokeWeight',
+  'strokeAlign',
+  'dashPattern',
+  'strokeCap',
+  'strokeJoin',
+  'strokeMiterLimit',
+  'itemSpacing',
+  'paddingLeft',
+  'paddingRight',
+  'paddingTop',
+  'paddingBottom',
+  'layoutMode',
+  'primaryAxisSizingMode',
+  'counterAxisSizingMode',
+  'primaryAxisAlignItems',
+  'counterAxisAlignItems',
+  'layoutGrids',
+  'constraints',
+  'blendMode',
+  'exportSettings',
+  'characters', // for text content
+  'textStyleId',
+  'fillStyleId',
+  'strokeStyleId',
+  'effectStyleId',
+  'fontName',
+  'fontSize',
+  'lineHeight',
+  'letterSpacing',
+  'paragraphSpacing',
+  'paragraphIndent',
+  'listSpacing',
+  'textCase',
+  'textDecoration',
+  'x',
+  'y',
+  'width',
+  'height',
+  'layoutWrap',
+  'layoutAlign',
+  'layoutGrow',
+] as const;
+
+export type Granule = (typeof ALL_GRANULES)[number];

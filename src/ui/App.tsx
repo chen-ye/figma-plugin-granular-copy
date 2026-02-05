@@ -45,6 +45,7 @@ export const App: React.FC = () => {
         return (
           <ColorPreview
             fills={data.fills || []}
+            metadata={data.fillMetadata}
             styleName={data.fillStyleName}
           />
         );
@@ -52,6 +53,7 @@ export const App: React.FC = () => {
         return (
           <StrokePreview
             strokes={data.strokes || []}
+            metadata={data.strokeMetadata}
             weight={data.strokeWeight}
             styleName={data.strokeStyleName}
           />

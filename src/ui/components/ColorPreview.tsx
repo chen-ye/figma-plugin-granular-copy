@@ -1,42 +1,44 @@
 import type React from 'react';
-import type { ExtendedPaint } from '../../types';
+// Re-import PaintMetadata type if needed or defined inline
+import type { Paint, PaintMetadata } from '../../types';
 import { Badge } from './Badge';
 import { Swatch } from './Swatch';
 
 interface ColorPreviewProps {
-  fills: ExtendedPaint[];
+  fills: Paint[];
+  metadata?: Record<number, PaintMetadata>;
   styleName?: string;
 }
 
 export const ColorPreview: React.FC<ColorPreviewProps> = ({
   fills,
+  metadata,
   styleName,
 }) => {
   if (!fills || fills.length === 0) return null;
 
-  const visibleFills = fills
-    .filter((fill) => fill.visible !== false)
+  // We need to preserve original index to look up metadata
+  const visibleFillsWithIndex = fills
+    .map((fill, index) => ({ fill, index }))
+    .filter(({ fill }) => fill.visible !== false)
     .slice(0, 4); // Max 4 swatches
 
   return (
     <div className='color-preview'>
       <div className='swatch-container'>
-        {visibleFills.map((fill, index) => {
+        {visibleFillsWithIndex.map(({ fill, index }) => {
           const swatch = <Swatch fill={fill} />;
+          const variableName = metadata?.[index]?.variableName;
 
-          if (fill.variableName) {
+          if (variableName) {
             return (
-              // biome-ignore lint/suspicious/noArrayIndexKey: No unique ID
               <Badge key={index} swatch={swatch}>
-                {fill.variableName}
+                {variableName}
               </Badge>
             );
           }
 
-          return (
-            // biome-ignore lint/suspicious/noArrayIndexKey: No unique ID
-            <span key={index}>{swatch}</span>
-          );
+          return <span key={index}>{swatch}</span>;
         })}
       </div>
       {styleName && <span className='color-name'>{styleName}</span>}

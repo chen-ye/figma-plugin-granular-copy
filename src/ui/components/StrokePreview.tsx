@@ -1,23 +1,28 @@
 import type React from 'react';
-import type { ExtendedPaint } from '../../types';
+// Re-import PaintMetadata type if needed or defined inline
+import type { Paint, PaintMetadata } from '../../types';
 import { Badge } from './Badge';
 import { Swatch } from './Swatch';
 
 interface StrokePreviewProps {
-  strokes: ExtendedPaint[];
+  strokes: Paint[];
+  metadata?: Record<number, PaintMetadata>;
   weight?: number;
   styleName?: string;
 }
 
 export const StrokePreview: React.FC<StrokePreviewProps> = ({
   strokes,
+  metadata,
   weight,
   styleName,
 }) => {
   if (!strokes || strokes.length === 0) return null;
 
-  const visibleStrokes = strokes
-    .filter((stroke) => stroke.visible !== false)
+  // We need to preserve original index to look up metadata
+  const visibleStrokesWithIndex = strokes
+    .map((stroke, index) => ({ stroke, index }))
+    .filter(({ stroke }) => stroke.visible !== false)
     .slice(0, 4); // Max 4 swatches
 
   return (
@@ -26,22 +31,19 @@ export const StrokePreview: React.FC<StrokePreviewProps> = ({
         <span className='stroke-weight'>{weight}px</span>
       )}
       <div className='swatch-container'>
-        {visibleStrokes.map((stroke, index) => {
+        {visibleStrokesWithIndex.map(({ stroke, index }) => {
           const swatch = <Swatch fill={stroke} />;
+          const variableName = metadata?.[index]?.variableName;
 
-          if (stroke.variableName) {
+          if (variableName) {
             return (
-              // biome-ignore lint/suspicious/noArrayIndexKey: No unique ID
               <Badge key={index} swatch={swatch}>
-                {stroke.variableName}
+                {variableName}
               </Badge>
             );
           }
 
-          return (
-            // biome-ignore lint/suspicious/noArrayIndexKey: No unique ID
-            <span key={index}>{swatch}</span>
-          );
+          return <span key={index}>{swatch}</span>;
         })}
       </div>
       {styleName && <span className='stroke-name'>{styleName}</span>}

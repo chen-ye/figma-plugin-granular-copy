@@ -1,4 +1,5 @@
 import { beforeAll, describe, expect, it, vi } from 'vitest';
+import type { SolidPaint } from '../types';
 import { extractProperties } from './extraction';
 
 /**
@@ -56,7 +57,7 @@ describe('Property Extraction', () => {
     });
 
     const result = await extractProperties(mockNode, ['fills']);
-    expect(result.fills?.[0].boundVariables?.color).toEqual({
+    expect((result.fills?.[0] as SolidPaint).boundVariables?.color).toEqual({
       type: 'VARIABLE_ALIAS',
       id: 'var-123',
     });
@@ -116,8 +117,8 @@ describe('Property Extraction', () => {
       'bottomRightRadius',
     ]);
 
-    // cornerRadius is mixed, so it should be resolved to topLeftRadius (10)
-    expect(result.cornerRadius).toBe(10);
+    // cornerRadius is mixed, so it should be ignored in favor of individual radii
+    expect(result.cornerRadius).toBeUndefined();
     expect(result.topLeftRadius).toBe(10);
     expect(result.topRightRadius).toBe(20);
     expect(result.bottomLeftRadius).toBe(0);
@@ -371,7 +372,33 @@ describe('Property Extraction', () => {
     } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, ['fills']);
-    expect(result.fills?.[0].variableName).toBe('Color/Primary');
+    expect(result.fills).toHaveLength(1);
+    expect(result.fillMetadata?.[0]).toHaveProperty(
+      'variableName',
+      'Color/Primary'
+    );
+  });
+
+  it('should gracefuly handle unresolved variables', async () => {
+    // Setup mock with variable alias but fail to resolve it
+    const mockNode = {
+      fills: [
+        {
+          type: 'SOLID',
+          color: { r: 1, g: 0, b: 0 },
+          boundVariables: {
+            color: { type: 'VARIABLE_ALIAS', id: 'var:123' },
+          },
+        },
+      ],
+    } as unknown as SceneNode;
+
+    figma.variables.getVariableByIdAsync = vi.fn().mockResolvedValue(null); // Return null
+
+    const result = await extractProperties(mockNode, ['fills']);
+
+    expect(result.fills).toHaveLength(1);
+    expect(result.fillMetadata).toBeUndefined();
   });
 
   it('should resolve strokeStyleId to strokeStyleName', async () => {
@@ -402,7 +429,7 @@ describe('Property Extraction', () => {
     expect(result.strokeStyleName).toBe('Stroke / Secondary');
   });
 
-  it('should resolve stroke variable bindings to paint.variableName', async () => {
+  it('should resolve stroke variable bindings to paint.variableName via sidecar', async () => {
     const mockVariable = {
       id: 'var-stroke-1',
       name: 'Color/Secondary',
@@ -435,7 +462,10 @@ describe('Property Extraction', () => {
     } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, ['strokes']);
-    expect(result.strokes?.[0].variableName).toBe('Color/Secondary');
+    expect(result.strokeMetadata?.[0]).toHaveProperty(
+      'variableName',
+      'Color/Secondary'
+    );
   });
 
   it('should resolve effectStyleId to effectStyleName', async () => {
@@ -489,15 +519,84 @@ describe('Property Extraction', () => {
     expect(result.listSpacing).toBe(30);
   });
 
-  it('should omit unresolved mixed values', async () => {
+  it('should extract advanced stroke properties', async () => {
+    const mockNode = {
+      strokeWeight: 2,
+      strokeAlign: 'INSIDE',
+      dashPattern: [4, 4],
+      strokeCap: 'ROUND',
+      strokeJoin: 'BEVEL',
+      strokeMiterLimit: 10,
+    } as unknown as SceneNode;
+
+    const result = await extractProperties(mockNode, [
+      'strokeWeight',
+      'strokeAlign',
+      'dashPattern',
+      'strokeCap',
+      'strokeJoin',
+      'strokeMiterLimit',
+    ]);
+
+    expect(result.strokeWeight).toBe(2);
+    expect(result.strokeAlign).toBe('INSIDE');
+    expect(result.dashPattern).toEqual([4, 4]);
+    expect(result.strokeCap).toBe('ROUND');
+    expect(result.strokeJoin).toBe('BEVEL');
+    expect(result.strokeMiterLimit).toBe(10);
+  });
+
+  it('should extract dimensions', async () => {
+    const mockNode = {
+      width: 100,
+      height: 200,
+    } as unknown as SceneNode;
+
+    const result = await extractProperties(mockNode, ['width', 'height']);
+
+    expect(result.width).toBe(100);
+    expect(result.height).toBe(200);
+  });
+
+  it('should ignore mixed cornerRadius on RectangleCornerMixin nodes', async () => {
     const mixed = figma.mixed;
     const mockNode = {
       type: 'RECTANGLE',
       cornerRadius: mixed,
-      // No top/bottom individual radii provided, so it remains mixed
+      topLeftRadius: 10,
+      topRightRadius: 20,
+      bottomLeftRadius: 10,
+      bottomRightRadius: 20,
+    } as unknown as SceneNode;
+
+    const result = await extractProperties(mockNode, [
+      'cornerRadius',
+      'topLeftRadius',
+      'topRightRadius',
+      'bottomLeftRadius',
+      'bottomRightRadius',
+    ]);
+
+    // cornerRadius should be ignored/undefined because it is mixed on a Rectangle
+    expect(result).not.toHaveProperty('cornerRadius');
+    // Individual radii should be present
+    expect(result.topLeftRadius).toBe(10);
+    expect(result.topRightRadius).toBe(20);
+  });
+
+  it('should resolve mixed cornerRadius to first vertex for VectorNode', async () => {
+    const mixed = figma.mixed;
+    const mockNode = {
+      type: 'VECTOR',
+      cornerRadius: mixed,
+      vectorNetwork: {
+        vertices: [{ cornerRadius: 5 }, { cornerRadius: 10 }],
+      },
     } as unknown as SceneNode;
 
     const result = await extractProperties(mockNode, ['cornerRadius']);
-    expect(result).not.toHaveProperty('cornerRadius');
+
+    // Should resolve to the first vertex's cornerRadius
+    expect(result.cornerRadius).toBe(5);
   });
 });

@@ -1,56 +1,7 @@
-import type { ExtendedPaint } from '../types';
+import type { Granule, Paint } from '../types';
+import { ALL_GRANULES } from '../types';
 import { extractProperties } from './extraction';
 import { loadProperties, saveProperties } from './storage';
-
-/**
- * List of all properties we attempt to extract during a copy operation.
- */
-export const ALL_GRANULES = [
-  'fills',
-  'strokes',
-  'effects',
-  'rotation',
-  'opacity',
-  'cornerRadius',
-  'topLeftRadius',
-  'topRightRadius',
-  'bottomLeftRadius',
-  'bottomRightRadius',
-  'strokeWeight',
-  'strokeAlign',
-  'dashPattern',
-  'strokeCap',
-  'strokeJoin',
-  'strokeMiterLimit',
-  'itemSpacing',
-  'paddingLeft',
-  'paddingRight',
-  'paddingTop',
-  'paddingBottom',
-  'layoutMode',
-  'primaryAxisSizingMode',
-  'counterAxisSizingMode',
-  'primaryAxisAlignItems',
-  'counterAxisAlignItems',
-  'layoutGrids',
-  'constraints',
-  'blendMode',
-  'exportSettings',
-  'characters', // for text content
-  'textStyleId',
-  'fontName',
-  'fontSize',
-  'lineHeight',
-  'letterSpacing',
-  'paragraphSpacing',
-  'paragraphIndent',
-  'textCase',
-  'textDecoration',
-  'x',
-  'y',
-  'width',
-  'height',
-];
 
 /**
 
@@ -121,7 +72,7 @@ export async function handleCopyCommand() {
   let previewLabel: 'light' | 'dark' = 'light';
   if ('fills' in properties && Array.isArray(properties.fills)) {
     // Check if we have any visible fills
-    const visibleFills = (properties.fills as ExtendedPaint[]).filter(
+    const visibleFills = (properties.fills as Paint[]).filter(
       (f) => f.visible !== false
     );
     if (visibleFills.length > 0) {
@@ -168,7 +119,7 @@ export async function handleCopyCommand() {
  * Handles 'paste' commands from Quick Actions.
  */
 
-export async function handlePasteCommand(granules: string[]) {
+export async function handlePasteCommand(granules: Granule[]) {
   const data = await loadProperties();
 
   if (!data) {

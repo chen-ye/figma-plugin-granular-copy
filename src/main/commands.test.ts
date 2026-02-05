@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { ExtendedPaint, ExtractionResult } from '../types';
+import type { ExtractionResult, Paint } from '../types';
 import { handleCopyCommand, handlePasteCommand } from './commands';
 import * as extraction from './extraction';
 import * as storage from './storage';
@@ -300,7 +300,7 @@ describe('Commands: Copy', () => {
 
     // Mock extraction returning fills
     vi.mocked(extraction.extractProperties).mockResolvedValueOnce({
-      fills: [{ type: 'SOLID', color: { r: 1, g: 0, b: 0 } } as ExtendedPaint],
+      fills: [{ type: 'SOLID', color: { r: 1, g: 0, b: 0 } } as Paint],
     });
 
     await handleCopyCommand();

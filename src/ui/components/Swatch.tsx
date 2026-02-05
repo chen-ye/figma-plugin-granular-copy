@@ -1,8 +1,8 @@
 import type React from 'react';
-import type { ExtendedPaint } from '../../types';
+import type { Paint } from '../../types';
 
 interface SwatchProps {
-  fill: ExtendedPaint;
+  fill: Paint;
 }
 
 export const Swatch: React.FC<SwatchProps> = ({ fill }) => {
@@ -13,7 +13,7 @@ export const Swatch: React.FC<SwatchProps> = ({ fill }) => {
   );
 };
 
-function getSwatchStyle(fill: ExtendedPaint): React.CSSProperties {
+function getSwatchStyle(fill: Paint): React.CSSProperties {
   const style: React.CSSProperties = {
     backgroundColor: 'transparent',
   };

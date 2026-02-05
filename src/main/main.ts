@@ -1,9 +1,5 @@
-import type { PluginMessage } from '../types';
-import {
-  ALL_GRANULES,
-  handleCopyCommand,
-  handlePasteCommand,
-} from './commands';
+import { ALL_GRANULES, type PluginMessage } from '../types';
+import { handleCopyCommand, handlePasteCommand } from './commands';
 import { loadProperties } from './storage';
 import { handleUIMessage } from './ui-handlers';
 
@@ -107,7 +103,7 @@ figma.on('run', ({ command }: RunEvent) => {
   } else if (command === 'paste-export-settings') {
     executeAndMaybeClose(() => handlePasteCommand(['exportSettings']));
   } else if (command === 'paste-all') {
-    executeAndMaybeClose(() => handlePasteCommand(ALL_GRANULES));
+    executeAndMaybeClose(() => handlePasteCommand([...ALL_GRANULES]));
   } else if (command === 'open-ui' || !command) {
     // Load saved size or use defaults
     (async () => {
