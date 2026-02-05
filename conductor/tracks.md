@@ -9,5 +9,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [~] **Track: Establish a limited E2E testing environment using Playwright with a mock Figma API in a Web Worker.**
+- [x] **Track: Establish a limited E2E testing environment using Playwright with a mock Figma API in a Web Worker.**
 *Link: [./tracks/playwright_e2e_20260205/](./tracks/playwright_e2e_20260205/)*
