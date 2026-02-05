@@ -1,20 +1,26 @@
 /// <reference types="vitest" />
 // @vitest-environment jsdom
 
-import { act, render, screen, fireEvent, cleanup } from '@testing-library/react';
-import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+} from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { App } from './App';
 
 describe('UI Integration', () => {
   afterEach(cleanup);
-  
+
   beforeEach(() => {
     vi.stubGlobal('parent', {
       postMessage: vi.fn(),
     });
     // Mock requestAnimationFrame
     vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => cb(0));
-    
+
     // Mock pointer capture which JSDOM doesn't support
     Element.prototype.setPointerCapture = vi.fn();
     Element.prototype.releasePointerCapture = vi.fn();
@@ -68,7 +74,7 @@ describe('UI Integration', () => {
 
   it('should render various property previews when data is available', () => {
     render(<App />);
-    
+
     act(() => {
       window.dispatchEvent(
         new MessageEvent('message', {
@@ -108,7 +114,7 @@ describe('UI Integration', () => {
     render(<App />);
     const pasteAllButton = screen.getByRole('button', { name: /Paste All/i });
     fireEvent.click(pasteAllButton);
-    
+
     expect(parent.postMessage).toHaveBeenCalledWith(
       { pluginMessage: { type: 'PASTE_PROPERTY', granules: ['all'] } },
       '*'
@@ -118,7 +124,7 @@ describe('UI Integration', () => {
   it('should handle UI resizing via handle', () => {
     render(<App />);
     const handle = document.querySelector('.resize-handle')!;
-    
+
     // Simulate resize drag
     fireEvent.pointerDown(handle, { clientY: 100, pointerId: 1 });
     fireEvent.pointerMove(handle, { clientY: 200, pointerId: 1 });

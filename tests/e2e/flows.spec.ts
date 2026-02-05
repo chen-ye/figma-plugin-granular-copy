@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 const mockNode = {
   id: '1:1',
@@ -54,21 +54,21 @@ test.describe('Complex Flows', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/tests/e2e/harness.html');
     await page.waitForTimeout(1000);
-    
+
     // Setup spy
     await page.evaluate(() => {
-        // @ts-ignore
-        if (!window.originalPostMessage) {
-            // @ts-ignore
-            window.originalPostMessage = window.worker.postMessage;
-            // @ts-ignore
-            window.worker.postMessage = (msg) => {
-                // @ts-ignore
-                if (window.onWorkerMessage) window.onWorkerMessage(msg);
-                // @ts-ignore
-                window.originalPostMessage.call(window.worker, msg);
-            };
-        }
+      // @ts-expect-error
+      if (!window.originalPostMessage) {
+        // @ts-expect-error
+        window.originalPostMessage = window.worker.postMessage;
+        // @ts-expect-error
+        window.worker.postMessage = (msg) => {
+          // @ts-expect-error
+          if (window.onWorkerMessage) window.onWorkerMessage(msg);
+          // @ts-expect-error
+          window.originalPostMessage.call(window.worker, msg);
+        };
+      }
     });
   });
 
@@ -79,7 +79,7 @@ test.describe('Complex Flows', () => {
 
     // 1. Simulate Selection Change
     await page.evaluate((node) => {
-      // @ts-ignore
+      // @ts-expect-error
       window.worker.postMessage({ type: 'SET_SELECTION', payload: [node] });
     }, mockNode);
 
@@ -91,14 +91,18 @@ test.describe('Complex Flows', () => {
 
     // 4. Click Paste
     const messagePromise = page.evaluate(() => {
-        return new Promise(resolve => {
-            // @ts-ignore
-            window.onWorkerMessage = (msg) => {
-                if (msg.type === 'UI_TO_MAIN' && msg.payload.type === 'PASTE_PROPERTY') resolve(msg.payload);
-            }
-        });
+      return new Promise((resolve) => {
+        // @ts-expect-error
+        window.onWorkerMessage = (msg) => {
+          if (
+            msg.type === 'UI_TO_MAIN' &&
+            msg.payload.type === 'PASTE_PROPERTY'
+          )
+            resolve(msg.payload);
+        };
+      });
     });
-    
+
     await pasteFillsButton.click();
     const payload: any = await messagePromise;
     expect(payload.granules).toContain('fills');
@@ -106,14 +110,17 @@ test.describe('Complex Flows', () => {
 
   test('Preview Updates Flow', async ({ page }) => {
     const iframe = page.frameLocator('#plugin-ui');
-    
+
     // 1. Select and Copy Text Node
     const textNode = { ...mockNode, type: 'TEXT', name: 'Text Node' };
     await page.evaluate((node) => {
-      // @ts-ignore
+      // @ts-expect-error
       window.worker.postMessage({ type: 'SET_SELECTION', payload: [node] });
-      // @ts-ignore
-      window.worker.postMessage({ type: 'RUN_COMMAND', payload: { command: 'copy' } });
+      // @ts-expect-error
+      window.worker.postMessage({
+        type: 'RUN_COMMAND',
+        payload: { command: 'copy' },
+      });
     }, textNode);
 
     await expect(iframe.getByText('Text Node')).toBeVisible();
@@ -121,10 +128,13 @@ test.describe('Complex Flows', () => {
     // 2. Select and Copy Frame Node
     const frameNode = { ...mockNode, type: 'FRAME', name: 'Frame Node' };
     await page.evaluate((node) => {
-      // @ts-ignore
+      // @ts-expect-error
       window.worker.postMessage({ type: 'SET_SELECTION', payload: [node] });
-      // @ts-ignore
-      window.worker.postMessage({ type: 'RUN_COMMAND', payload: { command: 'copy' } });
+      // @ts-expect-error
+      window.worker.postMessage({
+        type: 'RUN_COMMAND',
+        payload: { command: 'copy' },
+      });
     }, frameNode);
 
     await expect(iframe.getByText('Frame Node')).toBeVisible();

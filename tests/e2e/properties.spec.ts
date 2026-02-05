@@ -1,20 +1,66 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 const properties = [
   { name: 'Fills', granules: ['fills'] },
-  { name: 'Strokes', granules: ['strokes', 'strokeWeight', 'strokeAlign', 'dashPattern', 'strokeCap', 'strokeJoin', 'strokeMiterLimit'] },
+  {
+    name: 'Strokes',
+    granules: [
+      'strokes',
+      'strokeWeight',
+      'strokeAlign',
+      'dashPattern',
+      'strokeCap',
+      'strokeJoin',
+      'strokeMiterLimit',
+    ],
+  },
   { name: 'Effects', granules: ['effects'] },
   { name: 'Opacity', granules: ['opacity'] },
-  { name: 'Corner Radius', granules: ['cornerRadius', 'topLeftRadius', 'topRightRadius', 'bottomLeftRadius', 'bottomRightRadius'] },
+  {
+    name: 'Corner Radius',
+    granules: [
+      'cornerRadius',
+      'topLeftRadius',
+      'topRightRadius',
+      'bottomLeftRadius',
+      'bottomRightRadius',
+    ],
+  },
   { name: 'Blend Mode', granules: ['blendMode'] },
   { name: 'Position', granules: ['x', 'y'] },
   { name: 'Size', granules: ['width', 'height'] },
   { name: 'Rotation', granules: ['rotation'] },
-  { name: 'Auto Layout', granules: ['paddingLeft', 'paddingRight', 'paddingTop', 'paddingBottom', 'itemSpacing', 'primaryAxisAlignItems', 'counterAxisAlignItems', 'layoutMode', 'layoutWrap'] },
+  {
+    name: 'Auto Layout',
+    granules: [
+      'paddingLeft',
+      'paddingRight',
+      'paddingTop',
+      'paddingBottom',
+      'itemSpacing',
+      'primaryAxisAlignItems',
+      'counterAxisAlignItems',
+      'layoutMode',
+      'layoutWrap',
+    ],
+  },
   { name: 'Constraints', granules: ['constraints'] },
   { name: 'Grids', granules: ['layoutGrids'] },
   { name: 'Text Content', granules: ['characters'] },
-  { name: 'Text Styles', granules: ['textStyleId', 'fontName', 'fontSize', 'lineHeight', 'letterSpacing', 'paragraphSpacing', 'paragraphIndent', 'textCase', 'textDecoration'] },
+  {
+    name: 'Text Styles',
+    granules: [
+      'textStyleId',
+      'fontName',
+      'fontSize',
+      'lineHeight',
+      'letterSpacing',
+      'paragraphSpacing',
+      'paragraphIndent',
+      'textCase',
+      'textDecoration',
+    ],
+  },
   { name: 'Export Settings', granules: ['exportSettings'] },
 ];
 
@@ -72,34 +118,37 @@ test.describe('Property Logic', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/tests/e2e/harness.html');
     await page.waitForTimeout(1000); // Wait for worker
-    
+
     // Setup spy on worker
     await page.evaluate(() => {
-        // @ts-ignore
-        if (!window.originalPostMessage) {
-            // @ts-ignore
-            window.originalPostMessage = window.worker.postMessage;
-            // @ts-ignore
-            window.worker.postMessage = (msg) => {
-                // @ts-ignore
-                if (window.onWorkerMessage) window.onWorkerMessage(msg);
-                // @ts-ignore
-                window.originalPostMessage.call(window.worker, msg);
-            };
-        }
+      // @ts-expect-error
+      if (!window.originalPostMessage) {
+        // @ts-expect-error
+        window.originalPostMessage = window.worker.postMessage;
+        // @ts-expect-error
+        window.worker.postMessage = (msg) => {
+          // @ts-expect-error
+          if (window.onWorkerMessage) window.onWorkerMessage(msg);
+          // @ts-expect-error
+          window.originalPostMessage.call(window.worker, msg);
+        };
+      }
     });
 
     // Simulate selection and copy to enable buttons
     await page.evaluate((node) => {
-      // @ts-ignore
-      window.worker.postMessage({ 
-        type: 'SET_SELECTION', 
-        payload: [node]
+      // @ts-expect-error
+      window.worker.postMessage({
+        type: 'SET_SELECTION',
+        payload: [node],
       });
-      // @ts-ignore
-      window.worker.postMessage({ type: 'RUN_COMMAND', payload: { command: 'copy' } });
+      // @ts-expect-error
+      window.worker.postMessage({
+        type: 'RUN_COMMAND',
+        payload: { command: 'copy' },
+      });
     }, mockNode);
-    
+
     // Wait for copy to complete (buttons enabled)
     const iframe = page.frameLocator('#plugin-ui');
     await expect(iframe.getByRole('button', { name: 'Fills' })).toBeEnabled();
@@ -108,14 +157,17 @@ test.describe('Property Logic', () => {
   for (const prop of properties) {
     test(`should send correct message for ${prop.name}`, async ({ page }) => {
       const iframe = page.frameLocator('#plugin-ui');
-      
+
       // Prepare promise to catch message
       const messagePromise = page.evaluate(() => {
-        return new Promise(resolve => {
-          // @ts-ignore
+        return new Promise((resolve) => {
+          // @ts-expect-error
           window.onWorkerMessage = (msg) => {
-            if (msg.type === 'UI_TO_MAIN' && msg.payload.type === 'PASTE_PROPERTY') {
-               resolve(msg.payload);
+            if (
+              msg.type === 'UI_TO_MAIN' &&
+              msg.payload.type === 'PASTE_PROPERTY'
+            ) {
+              resolve(msg.payload);
             }
           };
         });

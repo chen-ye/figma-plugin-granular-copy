@@ -153,7 +153,10 @@ describe('Commands', () => {
     });
 
     it('should handle font loading for text properties', async () => {
-      const data = { characters: 'Hello', fontName: { family: 'Inter', style: 'Regular' } };
+      const data = {
+        characters: 'Hello',
+        fontName: { family: 'Inter', style: 'Regular' },
+      };
       vi.mocked(loadProperties).mockResolvedValue(data);
       const textNode = {
         type: 'TEXT',
@@ -168,7 +171,9 @@ describe('Commands', () => {
     });
 
     it('should handle font loading failure', async () => {
-      vi.mocked(figma.loadFontAsync).mockRejectedValue(new Error('Font failed'));
+      vi.mocked(figma.loadFontAsync).mockRejectedValue(
+        new Error('Font failed')
+      );
       const data = { characters: 'Hello' };
       vi.mocked(loadProperties).mockResolvedValue(data);
       const textNode = { type: 'TEXT', characters: '' };
@@ -179,9 +184,12 @@ describe('Commands', () => {
     });
 
     it('should handle sizing modes in Auto Layout', async () => {
-      const data = { primaryAxisSizingMode: 'AUTO', counterAxisSizingMode: 'FIXED' };
+      const data = {
+        primaryAxisSizingMode: 'AUTO',
+        counterAxisSizingMode: 'FIXED',
+      };
       vi.mocked(loadProperties).mockResolvedValue(data);
-      
+
       const parent = { type: 'FRAME', layoutMode: 'HORIZONTAL' };
       const node = {
         type: 'FRAME',
@@ -206,20 +214,26 @@ describe('Commands', () => {
       figma.currentPage.selection = [node as any];
 
       await handlePasteCommand(['fills']);
-      expect(figma.notify).toHaveBeenCalledWith(expect.stringContaining('Skipped Vector'));
+      expect(figma.notify).toHaveBeenCalledWith(
+        expect.stringContaining('Skipped Vector')
+      );
     });
 
     it('should handle resize error', async () => {
       const data = { width: 100, height: 100 };
       vi.mocked(loadProperties).mockResolvedValue(data);
-      const node = { 
-        name: 'ErrorNode', 
-        resize: vi.fn().mockImplementation(() => { throw new Error('Resize failed'); }) 
+      const node = {
+        name: 'ErrorNode',
+        resize: vi.fn().mockImplementation(() => {
+          throw new Error('Resize failed');
+        }),
       };
       figma.currentPage.selection = [node as any];
 
       await handlePasteCommand(['width', 'height']);
-      expect(figma.notify).toHaveBeenCalledWith(expect.stringContaining('Pasted width, height to 0 objects'));
+      expect(figma.notify).toHaveBeenCalledWith(
+        expect.stringContaining('Pasted width, height to 0 objects')
+      );
     });
   });
 });

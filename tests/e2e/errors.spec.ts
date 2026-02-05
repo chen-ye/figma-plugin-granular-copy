@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 const mockNode = {
   id: '1:1',
@@ -19,13 +19,13 @@ test.describe('Error Handling', () => {
 
     // 1. Inject Error
     await page.evaluate(() => {
-      // @ts-ignore
+      // @ts-expect-error
       window.worker.postMessage({ type: 'MOCK_ERROR_NEXT' });
     });
 
     // 2. Set Selection
     await page.evaluate((node) => {
-      // @ts-ignore
+      // @ts-expect-error
       window.worker.postMessage({ type: 'SET_SELECTION', payload: [node] });
     }, mockNode);
 

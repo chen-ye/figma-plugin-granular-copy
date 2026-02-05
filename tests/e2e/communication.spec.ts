@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test.describe('Main-UI Communication', () => {
   test.beforeEach(async ({ page }) => {
@@ -7,26 +7,34 @@ test.describe('Main-UI Communication', () => {
     await page.waitForFunction(() => (window as any).worker !== undefined);
   });
 
-  test('should enable buttons when data is copied and selection matches', async ({ page }) => {
+  test('should enable buttons when data is copied and selection matches', async ({
+    page,
+  }) => {
     const iframeElement = page.frameLocator('#plugin-ui');
     const fillsBtn = iframeElement.getByRole('button', { name: 'Fills' }); // Adjust selector if needed
 
     // 1. Set Selection in Worker (Mock)
     await page.evaluate(() => {
-      // @ts-ignore
-      window.worker.postMessage({ 
-        type: 'SET_SELECTION', 
-        payload: [{ id: '1:1', type: 'RECTANGLE', fills: [{type: 'SOLID', color: {r:1,g:0,b:0}}] }] 
+      // @ts-expect-error
+      window.worker.postMessage({
+        type: 'SET_SELECTION',
+        payload: [
+          {
+            id: '1:1',
+            type: 'RECTANGLE',
+            fills: [{ type: 'SOLID', color: { r: 1, g: 0, b: 0 } }],
+          },
+        ],
       });
     });
 
     // 2. Run 'copy' command in Worker (Main)
     // This will extract properties from selection and send COPY_COMPLETED to UI
     await page.evaluate(() => {
-      // @ts-ignore
-      window.worker.postMessage({ 
-        type: 'RUN_COMMAND', 
-        payload: { command: 'copy' } 
+      // @ts-expect-error
+      window.worker.postMessage({
+        type: 'RUN_COMMAND',
+        payload: { command: 'copy' },
       });
     });
 

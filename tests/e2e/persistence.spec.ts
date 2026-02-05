@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test.describe('Persistence', () => {
   test.beforeEach(async ({ page }) => {
@@ -9,10 +9,10 @@ test.describe('Persistence', () => {
   test('should restore window size', async ({ page }) => {
     // 1. Simulate saving size (UI -> Main)
     await page.evaluate(() => {
-      // @ts-ignore
+      // @ts-expect-error
       window.worker.postMessage({
         type: 'UI_TO_MAIN',
-        payload: { type: 'SAVE_UI_SIZE', width: 400, height: 500 }
+        payload: { type: 'SAVE_UI_SIZE', width: 400, height: 500 },
       });
     });
 
@@ -22,22 +22,25 @@ test.describe('Persistence', () => {
       return new Promise((resolve) => {
         const handler = (event) => {
           if (event.data.type === 'FIGMA_SHOW_UI') {
-            // @ts-ignore
+            // @ts-expect-error
             window.worker.removeEventListener('message', handler);
             resolve(event.data);
           }
         };
-        // @ts-ignore
+        // @ts-expect-error
         window.worker.addEventListener('message', handler);
-        // @ts-ignore
-        window.worker.postMessage({ type: 'RUN_COMMAND', payload: { command: 'open-ui' } });
+        // @ts-expect-error
+        window.worker.postMessage({
+          type: 'RUN_COMMAND',
+          payload: { command: 'open-ui' },
+        });
       });
     });
 
     const message = await showUIMessagePromise;
-    // @ts-ignore
+    // @ts-expect-error
     expect(message.options.width).toBe(400);
-    // @ts-ignore
+    // @ts-expect-error
     expect(message.options.height).toBe(500);
   });
 });

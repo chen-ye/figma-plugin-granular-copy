@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 const mockNode = {
   id: '1:1',
@@ -12,7 +12,16 @@ const mockNode = {
   strokeCap: 'NONE',
   strokeJoin: 'MITER',
   strokeMiterLimit: 4,
-  effects: [{ type: 'DROP_SHADOW', color: { r: 0, g: 0, b: 0, a: 0.5 }, offset: { x: 0, y: 4 }, radius: 4, visible: true, blendMode: 'NORMAL' }],
+  effects: [
+    {
+      type: 'DROP_SHADOW',
+      color: { r: 0, g: 0, b: 0, a: 0.5 },
+      offset: { x: 0, y: 4 },
+      radius: 4,
+      visible: true,
+      blendMode: 'NORMAL',
+    },
+  ],
   opacity: 0.5,
   cornerRadius: 8,
   topLeftRadius: 8,
@@ -57,21 +66,30 @@ test.describe('Visual Regression', () => {
   });
 
   test('Empty State', async ({ page }) => {
-    await expect(page.frameLocator('#plugin-ui').locator('body')).toHaveScreenshot('empty-state.png');
+    await expect(
+      page.frameLocator('#plugin-ui').locator('body')
+    ).toHaveScreenshot('empty-state.png');
   });
 
   test('Populated State', async ({ page }) => {
     await page.evaluate((node) => {
-      // @ts-ignore
+      // @ts-expect-error
       window.worker.postMessage({ type: 'SET_SELECTION', payload: [node] });
-      // @ts-ignore
-      window.worker.postMessage({ type: 'RUN_COMMAND', payload: { command: 'copy' } });
+      // @ts-expect-error
+      window.worker.postMessage({
+        type: 'RUN_COMMAND',
+        payload: { command: 'copy' },
+      });
     }, mockNode);
 
     // Wait for "Fills" button to be enabled as proxy for "rendered"
-    await expect(page.frameLocator('#plugin-ui').getByRole('button', { name: 'Fills' })).toBeEnabled();
+    await expect(
+      page.frameLocator('#plugin-ui').getByRole('button', { name: 'Fills' })
+    ).toBeEnabled();
 
     // Take screenshot
-    await expect(page.frameLocator('#plugin-ui').locator('body')).toHaveScreenshot('populated-state.png');
+    await expect(
+      page.frameLocator('#plugin-ui').locator('body')
+    ).toHaveScreenshot('populated-state.png');
   });
 });

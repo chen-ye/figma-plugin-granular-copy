@@ -1,6 +1,6 @@
 export class FigmaPluginAPI {
   command: string = '';
-  private listeners: Record<string, Function[]> = {};
+  private listeners: Record<string, ((event: any) => void)[]> = {};
   private storage: Record<string, any> = {};
 
   ui = {
@@ -14,7 +14,7 @@ export class FigmaPluginAPI {
     },
     close: () => {
       postMessage({ type: 'FIGMA_CLOSE' });
-    }
+    },
   };
 
   currentPage = {
@@ -22,11 +22,11 @@ export class FigmaPluginAPI {
   };
 
   viewport = {
-    scrollAndZoomIntoView: () => {},
+    scrollAndZoomIntoView: (_nodes: any[]) => {},
   };
 
   variables = {
-    getVariableByIdAsync: async () => null,
+    getVariableByIdAsync: async (_id: string) => null,
   };
 
   mixed = Symbol('mixed');
@@ -68,32 +68,34 @@ export class FigmaPluginAPI {
     });
   }
 
-  on(type: string, callback: Function) {
+  on(type: string, callback: (event: any) => void) {
     if (!this.listeners[type]) this.listeners[type] = [];
     this.listeners[type].push(callback);
   }
 
-  once(type: string, callback: Function) {
-    const wrapper = (...args: any[]) => {
-      callback(...args);
+  once(type: string, callback: (event: any) => void) {
+    const wrapper = (args: any) => {
+      callback(args);
       this.off(type, wrapper);
     };
     this.on(type, wrapper);
   }
 
-  off(type: string, callback: Function) {
+  off(type: string, callback: (event: any) => void) {
     if (!this.listeners[type]) return;
-    this.listeners[type] = this.listeners[type].filter(cb => cb !== callback);
+    this.listeners[type] = this.listeners[type].filter((cb) => cb !== callback);
   }
 
   trigger(type: string, event: any) {
     if (this.listeners[type]) {
-      this.listeners[type].forEach(cb => cb(event));
+      for (const cb of this.listeners[type]) {
+        cb(event);
+      }
     }
   }
 
-  showUI(html: string, options?: any) {
-    postMessage({ type: 'FIGMA_SHOW_UI', html, options });
+  showUI(_html: string, options?: any) {
+    postMessage({ type: 'FIGMA_SHOW_UI', options });
   }
 
   notify(message: string) {
@@ -114,10 +116,10 @@ export class FigmaPluginAPI {
     },
     setAsync: async (key: string, value: any) => {
       this.storage[key] = value;
-    }
+    },
   };
 
-  loadFontAsync = async () => {};
-  getNodeByIdAsync = async () => null;
-  getStyleByIdAsync = async () => null;
+  loadFontAsync = async (_font: any) => {};
+  getNodeByIdAsync = async (_id: string) => null;
+  getStyleByIdAsync = async (_id: string) => null;
 }

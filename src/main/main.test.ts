@@ -71,8 +71,9 @@ describe('Main Process', () => {
   it('should show UI and send initial state when no command is provided', async () => {
     (figma as unknown as MockFigmaAPI).command = '';
     await import('./main');
-    const mockCalls = vi.mocked(figma.on).mock.calls as unknown as FigmaOnMockCall[];
-    const onRun = mockCalls.find(c => c[0] === 'run')![1];
+    const mockCalls = vi.mocked(figma.on).mock
+      .calls as unknown as FigmaOnMockCall[];
+    const onRun = mockCalls.find((c) => c[0] === 'run')![1];
     onRun({ command: '' });
 
     await new Promise((resolve) => setTimeout(resolve, 10));
@@ -89,7 +90,8 @@ describe('Main Process', () => {
   it('should show UI and send initial state for open-ui command', async () => {
     (figma as unknown as MockFigmaAPI).command = 'open-ui';
     await import('./main');
-    const mockCalls = vi.mocked(figma.on).mock.calls as unknown as FigmaOnMockCall[];
+    const mockCalls = vi.mocked(figma.on).mock
+      .calls as unknown as FigmaOnMockCall[];
     const runCall = mockCalls.find((c) => c[0] === 'run')![1];
     runCall({ command: 'open-ui' });
 
@@ -110,8 +112,11 @@ describe('Main Process', () => {
 
   it('should handle selection change', async () => {
     await import('./main');
-    const mockCalls = vi.mocked(figma.on).mock.calls as unknown as FigmaOnMockCall[];
-    const selectionHandler = mockCalls.find((c) => c[0] === 'selectionchange')?.[1];
+    const mockCalls = vi.mocked(figma.on).mock
+      .calls as unknown as FigmaOnMockCall[];
+    const selectionHandler = mockCalls.find(
+      (c) => c[0] === 'selectionchange'
+    )?.[1];
 
     expect(selectionHandler).toBeDefined();
     if (selectionHandler) {
@@ -128,7 +133,8 @@ describe('Main Process', () => {
     (figma as unknown as MockFigmaAPI).command = 'copy';
     await import('./main');
 
-    const mockCalls = vi.mocked(figma.on).mock.calls as unknown as FigmaOnMockCall[];
+    const mockCalls = vi.mocked(figma.on).mock
+      .calls as unknown as FigmaOnMockCall[];
     const onRun = mockCalls.find((c) => c[0] === 'run')![1];
 
     onRun({ command: 'copy' });
@@ -139,7 +145,7 @@ describe('Main Process', () => {
 
     // Advance time to trigger the 200ms timeout
     vi.advanceTimersByTime(205);
-    
+
     // Flush microtasks again to allow the promise to resolve and executeAndMaybeClose to finish
     await vi.runAllTicks();
     await Promise.resolve();
@@ -151,11 +157,12 @@ describe('Main Process', () => {
     (figma as unknown as MockFigmaAPI).command = 'copy';
     await import('./main');
 
-    const mockCalls = vi.mocked(figma.on).mock.calls as unknown as FigmaOnMockCall[];
+    const mockCalls = vi.mocked(figma.on).mock
+      .calls as unknown as FigmaOnMockCall[];
     const onRun = mockCalls.find((c) => c[0] === 'run')![1];
 
     onRun({ command: 'copy' });
-    
+
     // Wait a bit for it to reach checkUIOpen
     await Promise.resolve();
 
@@ -169,7 +176,8 @@ describe('Main Process', () => {
   it('should handle various paste commands', async () => {
     const { handlePasteCommand } = await import('./commands');
     await import('./main');
-    const mockCalls = vi.mocked(figma.on).mock.calls as unknown as FigmaOnMockCall[];
+    const mockCalls = vi.mocked(figma.on).mock
+      .calls as unknown as FigmaOnMockCall[];
     const onRun = mockCalls.find((c) => c[0] === 'run')![1];
 
     const commands = [
@@ -200,7 +208,7 @@ describe('Main Process', () => {
 
   it('should handle errors when postMessage fails in checkUIOpen', async () => {
     (figma as unknown as MockFigmaAPI).command = 'copy';
-    
+
     // Mock postMessage to throw
     vi.stubGlobal('figma', {
       ...figma,
@@ -209,18 +217,19 @@ describe('Main Process', () => {
         postMessage: vi.fn().mockImplementation(() => {
           throw new Error('postMessage failed');
         }),
-      }
+      },
     });
 
     await import('./main');
 
-    const mockCalls = vi.mocked(figma.on).mock.calls as unknown as FigmaOnMockCall[];
+    const mockCalls = vi.mocked(figma.on).mock
+      .calls as unknown as FigmaOnMockCall[];
     const onRun = mockCalls.find((c) => c[0] === 'run')![1];
 
     onRun({ command: 'copy' });
 
     // Flush microtasks
-    for(let i=0; i<10; i++) await Promise.resolve();
+    for (let i = 0; i < 10; i++) await Promise.resolve();
 
     expect(figma.closePlugin).toHaveBeenCalled();
   });
@@ -228,22 +237,32 @@ describe('Main Process', () => {
   it('should handle UI messages other than PONG and UI_READY', async () => {
     const { handleUIMessage } = await import('./ui-handlers');
     await import('./main');
-    
+
     const onMessage = figma.ui.onmessage as (msg: PluginMessage) => void;
     onMessage({ type: 'PASTE_PROPERTY', granules: ['fills'] });
 
-    expect(handleUIMessage).toHaveBeenCalledWith({ type: 'PASTE_PROPERTY', granules: ['fills'] });
+    expect(handleUIMessage).toHaveBeenCalledWith({
+      type: 'PASTE_PROPERTY',
+      granules: ['fills'],
+    });
   });
 
   it('should handle saved UI size in clientStorage', async () => {
-    vi.mocked(figma.clientStorage.getAsync).mockResolvedValue({ width: 400, height: 500 });
-    
+    vi.mocked(figma.clientStorage.getAsync).mockResolvedValue({
+      width: 400,
+      height: 500,
+    });
+
     await import('./main');
-    const mockCalls = vi.mocked(figma.on).mock.calls as unknown as FigmaOnMockCall[];
+    const mockCalls = vi.mocked(figma.on).mock
+      .calls as unknown as FigmaOnMockCall[];
     const onRun = mockCalls.find((c) => c[0] === 'run')![1];
     onRun({ command: 'open-ui' });
 
     await new Promise((resolve) => setTimeout(resolve, 50));
-    expect(figma.showUI).toHaveBeenCalledWith(__html__, expect.objectContaining({ width: 400, height: 500 }));
+    expect(figma.showUI).toHaveBeenCalledWith(
+      __html__,
+      expect.objectContaining({ width: 400, height: 500 })
+    );
   });
 });

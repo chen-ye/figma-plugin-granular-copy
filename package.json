@@ -29,7 +29,7 @@
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.13",
+    "@biomejs/biome": "^2.3.14",
     "@figma/eslint-plugin-figma-plugins": "^1.0.0",
     "@figma/plugin-typings": "^1.123.0",
     "@playwright/test": "^1.58.1",
