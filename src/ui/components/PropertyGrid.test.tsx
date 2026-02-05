@@ -1,11 +1,12 @@
 /// <reference types="vitest" />
 // @vitest-environment jsdom
 
-import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { PropertyButton } from './PropertyButton';
 
 describe('PropertyButton', () => {
+  afterEach(cleanup);
   it('should render label', () => {
     render(
       <PropertyButton

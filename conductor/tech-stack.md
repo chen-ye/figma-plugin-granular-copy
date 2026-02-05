@@ -7,6 +7,7 @@
 ## Development Tools
 - **Build Tool/Bundler:** Vite for fast HMR (Hot Module Replacement) and efficient production builds.
 - **Testing Framework:** Vitest for unit and integration testing, leveraging its native Vite integration.
+- **CI/CD:** GitHub Actions for automated verification (lint, typecheck, tests).
 
 ## Figma Specifics
 - **Figma Plugin API:** Target the latest stable version of the `@figma/plugin-typings`.

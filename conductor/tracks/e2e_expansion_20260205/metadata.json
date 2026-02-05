@@ -1,0 +1,8 @@
+{
+  "track_id": "e2e_expansion_20260205",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-02-05T05:20:00Z",
+  "updated_at": "2026-02-05T05:20:00Z",
+  "description": "Expand E2E testing to cover detailed property logic, complex user flows, visual regression, and error handling."
+}

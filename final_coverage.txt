@@ -1,0 +1,1149 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/cye/Projects/figma-plugin-granular-copy[39m
+      [2mCoverage enabled with [22m[33mv8[39m
+
+[90mstderr[2m | src/main/extraction.test.ts[2m > [22m[2mextractProperties[2m > [22m[2mshould handle variable resolution failure
+[22m[39mFailed to resolve variable V:1 Error: Var fail
+    at [90m/home/cye/Projects/figma-plugin-granular-copy/[39msrc/main/extraction.test.ts:112:71
+    at [90mfile:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:145:11
+    at [90mfile:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:915:26
+    at [90mfile:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1243:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1209:10[90m)[39m
+    at [90mfile:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1653:37
+    at Traces.$ [90m(file:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4mvitest[24m/dist/chunks/traces.CCmnQaNT.js:142:27[90m)[39m
+    at trace [90m(file:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4mvitest[24m/dist/chunks/test.B8ej_ZHS.js:239:21[90m)[39m
+    at runTest [90m(file:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1653:12[90m)[39m
+
+ [32m✓[39m src/main/extraction.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+[90mstdout[2m | src/main/commands.test.ts[2m > [22m[2mCommands[2m > [22m[2mCopy[2m > [22m[2mshould handle headless execution where postMessage throws
+[22m[39mFailed to notify UI Error: No UI to send a message to
+    at Object.<anonymous> [90m(/home/cye/Projects/figma-plugin-granular-copy/[39msrc/main/commands.test.ts:113:15[90m)[39m
+    at Object.Mock [as postMessage] [90m(file:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4m@vitest/spy[24m/dist/index.js:285:34[90m)[39m
+    at Module.handleCopyCommand [90m(/home/cye/Projects/figma-plugin-granular-copy/[39msrc/main/commands.ts:111:14[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:103:5)[39m
+    at [90m/home/cye/Projects/figma-plugin-granular-copy/[39msrc/main/commands.test.ts:116:7
+    at [90mfile:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:915:20
+
+[90mstderr[2m | src/main/commands.test.ts[2m > [22m[2mCommands[2m > [22m[2mPaste[2m > [22m[2mshould handle font loading failure
+[22m[39mFailed to load font Error: Font failed
+    at [90m/home/cye/Projects/figma-plugin-granular-copy/[39msrc/main/commands.test.ts:171:56
+    at [90mfile:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:145:11
+    at [90mfile:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:915:26
+    at [90mfile:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1243:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1209:10[90m)[39m
+    at [90mfile:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1653:37
+    at Traces.$ [90m(file:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4mvitest[24m/dist/chunks/traces.CCmnQaNT.js:142:27[90m)[39m
+    at trace [90m(file:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4mvitest[24m/dist/chunks/test.B8ej_ZHS.js:239:21[90m)[39m
+    at runTest [90m(file:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1653:12[90m)[39m
+
+ [32m✓[39m src/ui/components/PositionPreview.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[32m 78[2mms[22m[39m
+[90mstderr[2m | src/main/commands.test.ts[2m > [22m[2mCommands[2m > [22m[2mPaste[2m > [22m[2mshould handle resize error
+[22m[39mFailed to resize ErrorNode Error: Resize failed
+    at Object.<anonymous> [90m(/home/cye/Projects/figma-plugin-granular-copy/[39msrc/main/commands.test.ts:217:58[90m)[39m
+    at Object.Mock [as resize] [90m(file:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4m@vitest/spy[24m/dist/index.js:285:34[90m)[39m
+    at Module.handlePasteCommand [90m(/home/cye/Projects/figma-plugin-granular-copy/[39msrc/main/commands.ts:228:33[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:103:5)[39m
+    at [90m/home/cye/Projects/figma-plugin-granular-copy/[39msrc/main/commands.test.ts:221:7
+    at [90mfile:///home/cye/Projects/figma-plugin-granular-copy/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:915:20
+
+ [32m✓[39m src/main/commands.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 36[2mms[22m[39m
+ [32m✓[39m src/ui/components/EffectPreview.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 70[2mms[22m[39m
+ [32m✓[39m src/main/main.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 225[2mms[22m[39m
+ [32m✓[39m src/ui/components/SizePreview.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[32m 81[2mms[22m[39m
+ [32m✓[39m src/ui/components/HeaderActions.test.tsx [2m([22m[2m1 test[22m[2m)[22m[32m 56[2mms[22m[39m
+ [32m✓[39m src/ui/components/StrokePreview.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[32m 113[2mms[22m[39m
+ [32m✓[39m src/ui/components/TypographyPreview.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 70[2mms[22m[39m
+ [32m✓[39m src/ui/components/ValuePreview.test.tsx [2m([22m[2m5 tests[22m[2m)[22m[32m 131[2mms[22m[39m
+ [32m✓[39m src/ui/components/ColorPreview.test.tsx [2m([22m[2m7 tests[22m[2m)[22m[32m 300[2mms[22m[39m
+ [32m✓[39m src/ui/components/Header.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 410[2mms[22m[39m
+     [33m[2m✓[22m[39m should render the preview image [33m 344[2mms[22m[39m
+ [32m✓[39m src/ui/components/PropertyGrid.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 484[2mms[22m[39m
+     [33m[2m✓[22m[39m should be disabled if not available [33m 379[2mms[22m[39m
+ [32m✓[39m src/ui/components/PropertyButton.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 364[2mms[22m[39m
+ [31m❯[39m src/ui/ui.test.tsx [2m([22m[2m4 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 585[2mms[22m[39m
+     [33m[2m✓[22m[39m should enable paste buttons when data is copied [33m 452[2mms[22m[39m
+[31m     [31m×[31m should render various property previews when data is available[39m[32m 63[2mms[22m[39m
+[31m     [31m×[31m should handle "Paste All" button click[39m[32m 33[2mms[22m[39m
+[31m     [31m×[31m should handle UI resizing via handle[39m[32m 34[2mms[22m[39m
+ [32m✓[39m src/main/ui-handlers.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m src/main/storage.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m src/ui/hooks/useFigmaData.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m src/ui/ui.test.tsx[2m > [22mUI Integration[2m > [22mshould render various property previews when data is available
+[31m[1mTestingLibraryElementError[22m[39m: Found multiple elements with the text: 50%
+
+Here are the matching elements:
+
+Ignored nodes: comments, script, style
+[36m<span[39m
+  [33mclass[39m=[32m"value-preview"[39m
+[36m>[39m
+  [0m50[0m
+  [0m%[0m
+[36m</span>[39m
+
+Ignored nodes: comments, script, style
+[36m<span[39m
+  [33mclass[39m=[32m"value-preview"[39m
+[36m>[39m
+  [0m50[0m
+  [0m%[0m
+[36m</span>[39m
+
+(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"app"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"header-actions"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"copy-button"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mCopy Selection[0m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"preview-header"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"preview-thumbnail preview-bg-light"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"preview-placeholder"[39m
+          [36m/>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"preview-info"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"node-name"[39m
+          [36m>[39m
+            [0mTest Node[0m
+          [36m</span>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"scroll-container"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"property-category"[39m
+        [36m>[39m
+          [36m<h3[39m
+            [33mclass[39m=[32m"category-title"[39m
+          [36m>[39m
+            [0mVisuals[0m
+          [36m</h3>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"category-grid"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button col-span-2"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mFills[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"color-preview"[39m
+                [36m>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"swatch-container"[39m
+                  [36m>[39m
+                    [36m<span>[39m
+                      [36m<div[39m
+                        [33mclass[39m=[32m"color-swatch"[39m
+                        [33mstyle[39m=[32m"background-color: rgb(255, 0, 0);"[39m
+                      [36m/>[39m
+                    [36m</span>[39m
+                  [36m</div>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button col-span-2"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mStrokes[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m/>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mEffects[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"effect-preview"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"effect-count"[39m
+                  [36m>[39m
+                    [0m2[0m
+                    [0m [0m
+                    [0meffects[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mOpacity[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"value-preview"[39m
+                [36m>[39m
+                  [0m50[0m
+                  [0m%[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mCorner Radius[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"value-preview"[39m
+                [36m>[39m
+                  [0m4[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mBlend Mode[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"value-preview"[39m
+                [36m>[39m
+                  [0mMultiply[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"property-category"[39m
+        [36m>[39m
+          [36m<h3[39m
+            [33mclass[39m=[32m"category-title"[39m
+          [36m>[39m
+            [0mLayout[0m
+          [36m</h3>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"category-grid"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mPosition[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"position-preview"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"position-value"[39m
+                  [36m>[39m
+                    [0mX: [0m
+                    [0m10[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"position-value"[39m
+                  [36m>[39m
+                    [0mY: [0m
+                    [0m20[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mSize[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"size-preview"[39m
+                [36m>[39m
+                  [0m100 × 200[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mRotation[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"value-preview"[39m
+                [36m>[39m
+                  [0m45[0m
+                  [0m°[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mAuto Layout[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mConstraints[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mGrids[0m
+              [36m</span>[39m
+            [36m</button>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"property-category"[39m
+        [36m>[39m
+          [36m<h3[39m
+            [33mclass[39m=[32m"category-title"[39m
+          [36m>[39m
+            [0mContent[0m
+          [36m</h3>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"category-grid"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mText Content[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"value-preview"[39m
+                [36m>[39m
+                  [0mHello World[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mText Styles[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"typography-value"[39m
+                [36m>[39m
+                  [0m16[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"property-category"[39m
+        [36m>[39m
+          [36m<h3[39m
+            [33mclass[39m=[32m"category-title"[39m
+          [36m>[39m
+            [0mMisc[0m
+          [36m</h3>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"category-grid"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mExport Settings[0m
+              [36m</span>[39m
+            [36m</button>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"footer"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"paste-all-button"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mPaste All[0m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"resize-handle"[39m
+      [36m/>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"app"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"header-actions"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"copy-button"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mCopy Selection[0m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"preview-header"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"preview-thumbnail preview-bg-light"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"preview-placeholder"[39m
+          [36m/>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"preview-info"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"node-name"[39m
+          [36m>[39m
+            [0mTest Node[0m
+          [36m</span>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"scroll-container"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"property-category"[39m
+        [36m>[39m
+          [36m<h3[39m
+            [33mclass[39m=[32m"category-title"[39m
+          [36m>[39m
+            [0mVisuals[0m
+          [36m</h3>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"category-grid"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button col-span-2"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mFills[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"color-preview"[39m
+                [36m>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"swatch-container"[39m
+                  [36m>[39m
+                    [36m<span>[39m
+                      [36m<div[39m
+                        [33mclass[39m=[32m"color-swatch"[39m
+                        [33mstyle[39m=[32m"background-color: rgb(255, 0, 0);"[39m
+                      [36m/>[39m
+                    [36m</span>[39m
+                  [36m</div>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button col-span-2"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mStrokes[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m/>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mEffects[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"effect-preview"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"effect-count"[39m
+                  [36m>[39m
+                    [0m2[0m
+                    [0m [0m
+                    [0meffects[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mOpacity[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"value-preview"[39m
+                [36m>[39m
+                  [0m50[0m
+                  [0m%[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mCorner Radius[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"value-preview"[39m
+                [36m>[39m
+                  [0m4[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mBlend Mode[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"value-preview"[39m
+                [36m>[39m
+                  [0mMultiply[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"property-category"[39m
+        [36m>[39m
+          [36m<h3[39m
+            [33mclass[39m=[32m"category-title"[39m
+          [36m>[39m
+            [0mLayout[0m
+          [36m</h3>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"category-grid"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mPosition[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"position-preview"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"position-value"[39m
+                  [36m>[39m
+                    [0mX: [0m
+                    [0m10[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"position-value"[39m
+                  [36m>[39m
+                    [0mY: [0m
+                    [0m20[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mSize[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"size-preview"[39m
+                [36m>[39m
+                  [0m100 × 200[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mRotation[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"value-preview"[39m
+                [36m>[39m
+                  [0m45[0m
+                  [0m°[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mAuto Layout[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mConstraints[0m
+              [36m</span>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mGrids[0m
+              [36m</span>[39m
+            [36m</button>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"property-category"[39m
+        [36m>[39m
+          [36m<h3[39m
+            [33mclass[39m=[32m"category-title"[39m
+          [36m>[39m
+            [0mContent[0m
+          [36m</h3>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"category-grid"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mText Content[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"value-preview"[39m
+                [36m>[39m
+                  [0mHello World[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mText Styles[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"typography-value"[39m
+                [36m>[39m
+                  [0m16[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"property-category"[39m
+        [36m>[39m
+          [36m<h3[39m
+            [33mclass[39m=[32m"category-title"[39m
+          [36m>[39m
+            [0mMisc[0m
+          [36m</h3>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"category-grid"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mExport Settings[0m
+              [36m</span>[39m
+            [36m</button>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"footer"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"paste-all-button"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mPaste All[0m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"resize-handle"[39m
+      [36m/>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m getElementError node_modules/@testing-library/dom/dist/query-helpers.js:[2m20:35[22m[39m
+[90m [2m❯[22m getMultipleElementsFoundError node_modules/@testing-library/dom/dist/query-helpers.js:[2m23:10[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m55:13[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m src/ui/ui.test.tsx:[2m94:19[22m[39m
+    [90m 92| [39m    })[33m;[39m
+    [90m 93| [39m
+    [90m 94| [39m    [34mexpect[39m(screen[33m.[39m[34mgetByText[39m([32m'50%'[39m))[33m.[39m[34mtoBeDefined[39m()[33m;[39m [90m// Opacity[39m
+    [90m   | [39m                  [31m^[39m
+    [90m 95| [39m    [34mexpect[39m(screen[33m.[39m[34mgetByText[39m([32m'4'[39m))[33m.[39m[34mtoBeDefined[39m()[33m;[39m [90m// Corner Radius[39m
+    [90m 96| [39m    [34mexpect[39m(screen[33m.[39m[34mgetByText[39m([32m'45°'[39m))[33m.[39m[34mtoBeDefined[39m()[33m;[39m [90m// Rotation[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/ui/ui.test.tsx[2m > [22mUI Integration[2m > [22mshould handle "Paste All" button click
+[31m[1mTestingLibraryElementError[22m[39m: Found multiple elements with the text: Paste All
+
+Here are the matching elements:
+
+Ignored nodes: comments, script, style
+[36m<button[39m
+  [33mclass[39m=[32m"paste-all-button"[39m
+  [33mtype[39m=[32m"button"[39m
+[36m>[39m
+  [0mPaste All[0m
+[36m</button>[39m
+
+Ignored nodes: comments, script, style
+[36m<button[39m
+  [33mclass[39m=[32m"paste-all-button"[39m
+  [33mtype[39m=[32m"button"[39m
+[36m>[39m
+  [0mPaste All[0m
+[36m</button>[39m
+
+Ignored nodes: comments, script, style
+[36m<button[39m
+  [33mclass[39m=[32m"paste-all-button"[39m
+  [33mtype[39m=[32m"button"[39m
+[36m>[39m
+  [0mPaste All[0m
+[36m</button>[39m
+
+(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"app"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"header-actions"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"copy-button"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mCopy Selection[0m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"preview-header"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"preview-thumbnail preview-bg-light"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"preview-placeholder"[39m
+          [36m/>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"preview-info"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"node-name"[39m
+          [36m>[39m
+            [0mTest Node[0m
+          [36m</span>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"scroll-container"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"property-category"[39m
+        [36m>[39m
+          [36m<h3[39m
+            [33mclass[39m=[32m"category-title"[39m
+          [36m>[39m
+            [0mVisuals[0m
+          [36m</h3>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"category-grid"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button col-span-2"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mFills[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"color-preview"[39m
+                [36m>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"swatch-container"[39m
+                  [36m>[39m
+                    [36m<span>[39m
+                      [36m<div[39m
+                        [33mclass[39m=[32m"color-swatch"[39m
+                        [33mstyle[39m=[32m"background-color: rgb(255, 0, 0);"[39m
+                      [36m/>[39m
+                    [36m</span>[39m
+                  [36m</div>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button col-span-2"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mStrokes[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m/>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mEffects[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"effect-preview"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"effect-count"[39m
+                  [36m>[39m
+                    [0m2[0m
+                    [0m [0m
+                    [0meffects[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mOpacity[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"value-preview"[39m
+                [36m>[39m
+                  [0m50[0m
+                  [0m%[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mCorner Radius[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"value-preview"[39m
+                [36m>[39m
+                  [0m4[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mBlend Mode[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"value-preview"[39m
+                [36m>[39m
+                  [0mMultiply[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"property-category"[39m
+        [36m>[39m
+          [36m<h3[39m
+            [33mclass[39m=[32m"category-title"[39m
+          [36m>[39m
+            [0mLayout[0m
+          [36m</h3>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"category-grid"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"property-button"[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mPosition[0m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"property-preview"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"position-preview"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"position-value"[39m
+             ...
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m getElementError node_modules/@testing-library/dom/dist/query-helpers.js:[2m20:35[22m[39m
+[90m [2m❯[22m getMultipleElementsFoundError node_modules/@testing-library/dom/dist/query-helpers.js:[2m23:10[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m55:13[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m src/ui/ui.test.tsx:[2m103:35[22m[39m
+    [90m101| [39m  [34mit[39m([32m'should handle "Paste All" button click'[39m[33m,[39m () [33m=>[39m {
+    [90m102| [39m    [34mrender[39m([33m<[39m[33mApp[39m [33m/[39m[33m>[39m)[33m;[39m
+    [90m103| [39m    [35mconst[39m pasteAllButton [33m=[39m screen[33m.[39m[34mgetByText[39m([32m'Paste All'[39m)[33m;[39m
+    [90m   | [39m                                  [31m^[39m
+    [90m104| [39m    fireEvent[33m.[39m[34mclick[39m(pasteAllButton)[33m;[39m
+    [90m105| [39m    
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/ui/ui.test.tsx[2m > [22mUI Integration[2m > [22mshould handle UI resizing via handle
+[31m[1mAssertionError[22m: expected "vi.fn()" to be called with arguments: [ ObjectContaining{…}, '*' ][90m
+
+Received: 
+
+[1m  1st vi.fn() call:
+
+[22m[2m  [[22m
+[32m-   ObjectContaining {[90m
+[32m-     "pluginMessage": ObjectContaining {[90m
+[32m-       "type": "SAVE_UI_SIZE",[90m
+[31m+   {[90m
+[31m+     "pluginMessage": {[90m
+[31m+       "type": "UI_READY",[90m
+[2m      },[22m
+[2m    },[22m
+[2m    "*",[22m
+[2m  ][22m
+[31m[90m
+
+Number of calls: [1m1[22m
+[31m[39m
+[36m [2m❯[22m src/ui/ui.test.tsx:[2m126:32[22m[39m
+    [90m124| [39m    fireEvent[33m.[39m[34mpointerUp[39m(handle[33m,[39m { clientY[33m:[39m [34m200[39m[33m,[39m pointerId[33m:[39m [34m1[39m })[33m;[39m
+    [90m125| [39m
+    [90m126| [39m    [34mexpect[39m(parent[33m.[39mpostMessage)[33m.[39m[34mtoHaveBeenCalledWith[39m(
+    [90m   | [39m                               [31m^[39m
+    [90m127| [39m      expect[33m.[39m[34mobjectContaining[39m({
+    [90m128| [39m        pluginMessage: expect.objectContaining({ type: 'SAVE_UI_SIZE' …
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Unhandled Errors [49m[22m[31m⎯⎯⎯⎯⎯⎯[39m
+[31m[1m
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.[22m[39m
+
+[31m⎯⎯⎯⎯⎯[39m[1m[41m Uncaught Exception [49m[22m[31m⎯⎯⎯⎯⎯[39m
+[31m[1mTypeError[22m: target.setPointerCapture is not a function[39m
+[36m [2m❯[22m onResizeStart src/ui/App.tsx:[2m125:12[22m[39m
+    [90m123| [39m    [35mconst[39m startY [33m=[39m e[33m.[39mclientY[33m;[39m
+    [90m124| [39m    [35mconst[39m startHeight [33m=[39m document[33m.[39mdocumentElement[33m.[39mclientHeight[33m;[39m
+    [90m125| [39m    target[33m.[39m[34msetPointerCapture[39m(e[33m.[39mpointerId)[33m;[39m
+    [90m   | [39m           [31m^[39m
+    [90m126| [39m
+    [90m127| [39m    [35mconst[39m onPointerMove [33m=[39m (moveEvent[33m:[39m [33mPointerEvent[39m) [33m=>[39m {
+[90m [2m❯[22m executeDispatch node_modules/react-dom/cjs/react-dom-client.development.js:[2m19116:9[22m[39m
+[90m [2m❯[22m runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:[2m874:13[22m[39m
+[90m [2m❯[22m processDispatchQueue node_modules/react-dom/cjs/react-dom-client.development.js:[2m19166:19[22m[39m
+[90m [2m❯[22m node_modules/react-dom/cjs/react-dom-client.development.js:[2m19767:9[22m[39m
+[90m [2m❯[22m batchedUpdates$1 node_modules/react-dom/cjs/react-dom-client.development.js:[2m3255:40[22m[39m
+[90m [2m❯[22m dispatchEventForPluginEventSystem node_modules/react-dom/cjs/react-dom-client.development.js:[2m19320:7[22m[39m
+[90m [2m❯[22m dispatchEvent node_modules/react-dom/cjs/react-dom-client.development.js:[2m23585:11[22m[39m
+[90m [2m❯[22m dispatchDiscreteEvent node_modules/react-dom/cjs/react-dom-client.development.js:[2m23553:11[22m[39m
+[90m [2m❯[22m HTMLDivElement.callTheUserObjectsOperation node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:[2m26:30[22m[39m
+
+[31mThis error originated in "[1msrc/ui/ui.test.tsx[22m" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.[39m
+[31mThe latest test that might've caused the error is "[1mshould handle UI resizing via handle[22m". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.[39m
+[31m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m17 passed[39m[22m[90m (18)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m91 passed[39m[22m[90m (94)[39m
+[2m     Errors [22m [1m[31m1 error[39m[22m
+[2m   Start at [22m 04:41:51
+[2m   Duration [22m 3.17s[2m (transform 1.36s, setup 0ms, import 4.95s, tests 3.07s, environment 19.57s)[22m
+
