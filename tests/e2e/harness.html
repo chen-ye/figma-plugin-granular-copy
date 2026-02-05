@@ -12,11 +12,11 @@
     <h1>Plugin Harness</h1>
     <iframe id="plugin-ui" src="/dist/ui/index.html" width="320" height="400"></iframe>
     <script type="module">
-        const worker = new Worker('/dist/e2e/worker.mjs', { type: 'module' });
+        window.worker = new Worker('/dist/e2e/worker.mjs', { type: 'module' });
         const iframe = document.getElementById('plugin-ui');
 
         // Relay from Worker to UI (Figma -> UI)
-        worker.onmessage = (event) => {
+        window.worker.onmessage = (event) => {
             const { type, payload, width, height } = event.data;
             
             console.log('[Worker -> Harness]', type, payload);
@@ -38,13 +38,13 @@
             const { pluginMessage } = event.data;
             if (pluginMessage) {
                 console.log('[UI -> Harness]', pluginMessage);
-                worker.postMessage({ type: 'UI_TO_MAIN', payload: pluginMessage });
+                window.worker.postMessage({ type: 'UI_TO_MAIN', payload: pluginMessage });
             }
         };
 
         // Expose worker for tests to trigger commands
         // We'll attach a helper to window to send commands to the worker
-        window.sendToWorker = (msg) => worker.postMessage(msg);
+        window.sendToWorker = (msg) => window.worker.postMessage(msg);
     </script>
 </body>
 </html>

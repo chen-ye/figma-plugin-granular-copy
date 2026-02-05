@@ -21,12 +21,12 @@
 - [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
 ## Phase 3: Test Scenario Implementation
-- [ ] Task: Implement UI Rendering Test
-    - [ ] Write `tests/e2e/ui-rendering.spec.ts` to verify the app mounts.
-- [ ] Task: Implement Communication Test
-    - [ ] Write `tests/e2e/communication.spec.ts` to verify `SELECTION_UPDATE` flow.
-- [ ] Task: Implement Persistence Test
-    - [ ] Write `tests/e2e/persistence.spec.ts` to verify `clientStorage` mock usage.
-- [ ] Task: Add NPM Scripts
-    - [ ] Add `test:e2e` script to `package.json`.
+- [x] Task: Implement UI Rendering Test
+    - [x] Write `tests/e2e/ui-rendering.spec.ts` to verify the app mounts.
+- [x] Task: Implement Communication Test
+    - [x] Write `tests/e2e/communication.spec.ts` to verify `SELECTION_UPDATE` flow.
+- [x] Task: Implement Persistence Test
+    - [x] Write `tests/e2e/persistence.spec.ts` to verify `clientStorage` mock usage.
+- [x] Task: Add NPM Scripts
+    - [x] Add `test:e2e` script to `package.json`.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
