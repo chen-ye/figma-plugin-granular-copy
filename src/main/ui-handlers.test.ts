@@ -45,7 +45,7 @@ describe('UI Handlers', () => {
 
   it('should handle SELECT_NODE', async () => {
     const mockNode = { id: '123', type: 'RECTANGLE' };
-    vi.mocked(figma.getNodeByIdAsync).mockResolvedValue(mockNode);
+    vi.mocked(figma.getNodeByIdAsync).mockResolvedValue(mockNode as any);
     
     const msg: PluginMessage = { type: 'SELECT_NODE', id: '123' };
     await handleUIMessage(msg);

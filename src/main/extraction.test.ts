@@ -14,7 +14,7 @@ describe('extractProperties', () => {
 
   it('should extract simple properties', async () => {
     const node = { opacity: 0.5, name: 'Test' } as any;
-    const result = await extractProperties(node, ['opacity', 'name']);
+    const result = await extractProperties(node, ['opacity', 'name' as any]);
     expect(result).toEqual({ opacity: 0.5, name: 'Test' });
   });
 

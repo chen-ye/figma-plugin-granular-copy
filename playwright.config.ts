@@ -9,6 +9,12 @@ export default defineConfig({
   reporter: 'html',
   use: {
     trace: 'on-first-retry',
+    baseURL: 'http://localhost:3000',
+  },
+  webServer: {
+    command: 'npx http-server . -p 3000',
+    port: 3000,
+    reuseExistingServer: !process.env.CI,
   },
   projects: [
     {

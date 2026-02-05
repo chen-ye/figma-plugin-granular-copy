@@ -2,7 +2,6 @@
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
 import { HeaderActions } from './HeaderActions';
-import React from 'react';
 
 describe('HeaderActions', () => {
   afterEach(cleanup);

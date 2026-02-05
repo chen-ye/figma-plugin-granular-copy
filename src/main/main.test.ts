@@ -59,6 +59,7 @@ describe('Main Process', () => {
       closePlugin: vi.fn(),
     });
     vi.stubGlobal('__html__', '<div id="root"></div>');
+    vi.useRealTimers();
   });
 
   afterEach(() => {
@@ -113,7 +114,9 @@ describe('Main Process', () => {
     const selectionHandler = mockCalls.find((c) => c[0] === 'selectionchange')?.[1];
 
     expect(selectionHandler).toBeDefined();
-    selectionHandler();
+    if (selectionHandler) {
+      selectionHandler({});
+    }
 
     expect(figma.ui.postMessage).toHaveBeenCalledWith(
       expect.objectContaining({ type: 'SELECTION_UPDATE' })
@@ -128,7 +131,6 @@ describe('Main Process', () => {
     const mockCalls = vi.mocked(figma.on).mock.calls as unknown as FigmaOnMockCall[];
     const onRun = mockCalls.find((c) => c[0] === 'run')![1];
 
-    // Trigger run
     onRun({ command: 'copy' });
 
     // Flush microtasks to ensure we reach checkUIOpen and its setTimeout
@@ -228,9 +230,9 @@ describe('Main Process', () => {
     await import('./main');
     
     const onMessage = figma.ui.onmessage as (msg: PluginMessage) => void;
-    onMessage({ type: 'PASTE', granules: ['fills'] });
+    onMessage({ type: 'PASTE_PROPERTY', granules: ['fills'] });
 
-    expect(handleUIMessage).toHaveBeenCalledWith({ type: 'PASTE', granules: ['fills'] });
+    expect(handleUIMessage).toHaveBeenCalledWith({ type: 'PASTE_PROPERTY', granules: ['fills'] });
   });
 
   it('should handle saved UI size in clientStorage', async () => {

@@ -138,7 +138,7 @@ describe('Commands', () => {
 
     it('should paste properties to selection', async () => {
       const data = { fills: [{ type: 'SOLID' }] };
-      vi.mocked(loadProperties).mockResolvedValue(data);
+      vi.mocked(loadProperties).mockResolvedValue(data as any);
       const targetNode = {
         name: 'Target',
         fills: [],

@@ -12,10 +12,11 @@
 - [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
 ## Phase 2: Playwright Integration & Communication
-- [ ] Task: Configure Playwright Test Runner
-    - [ ] Update `playwright.config.ts` to serve the UI and Worker bundles.
-- [ ] Task: Implement Message Bridge
-    - [ ] Create a "Test Harness" page (HTML/JS) that loads the UI iframe and the Web Worker.
+- [x] Task: Configure Playwright Test Runner
+    - [x] Update `playwright.config.ts` to serve the UI and Worker bundles.
+- [x] Task: Implement Message Bridge
+    - [x] Create a "Test Harness" page (HTML/JS) that loads the UI iframe and the Web Worker.
+    - [x] Implement the `postMessage` relay logic in the harness.
     - [ ] Implement the `postMessage` relay logic in the harness.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
