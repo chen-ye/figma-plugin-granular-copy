@@ -1,6 +1,6 @@
 # Implementation Plan: Comprehensive E2E Testing Expansion
 
-## Phase 1: Mock Infrastructure Enhancements
+## Phase 1: Mock Infrastructure Enhancements [checkpoint: 75fb1fe]
 - [x] Task: Update Figma Mock for Error Injection [manual]
     - [x] Modify `src/mocks/figma-api.ts` to handle `MOCK_ERROR_NEXT`.
     - [x] Implement logic to throw/reject in `handleCopyCommand` (or generic command handler) when this flag is set.
