@@ -18,7 +18,7 @@
     - [x] Implement "Preview Updates" flow (Change Selection -> Verify UI Update).
 - [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
-## Phase 3: Visual & Error Testing
+## Phase 3: Visual & Error Testing [checkpoint: 7d9204e]
 - [x] Task: Implement Visual Regression Tests
     - [x] Create `tests/e2e/visual.spec.ts`.
     - [x] Capture snapshots for "Empty" and "Populated" states.
