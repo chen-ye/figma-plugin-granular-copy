@@ -9,6 +9,19 @@
 5. **User Experience First:** Every decision should prioritize user experience
 6. **Non-Interactive & CI-Aware:** Prefer non-interactive commands. Use `CI=true` for watch-mode tools (tests, linters) to ensure single execution.
 
+## Continuous Integration
+
+The project uses GitHub Actions for Continuous Integration. The workflow is defined in `.github/workflows/ci.yml` and triggers on every push and pull request.
+
+The CI pipeline performs the following checks:
+- **Linting:** Ensures code follows style guidelines (`npm run check`).
+- **Type Checking:** Verifies TypeScript type safety (`npm run typecheck`).
+- **Build:** Confirms the project compiles successfully (`npm run build`).
+- **Unit Tests:** Runs all component and logic tests (`npm run test:ci`).
+- **E2E Tests:** Executes end-to-end tests using Playwright (`npm run test:e2e`).
+
+A passing CI status is required for all pull requests before merging.
+
 ## Task Workflow
 
 All tasks follow a strict lifecycle:
