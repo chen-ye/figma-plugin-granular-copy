@@ -1,5 +1,7 @@
 # Granular Copy for Figma
 
+![CI](https://github.com/chen-ye/figma-plugin-granular-copy/actions/workflows/ci.yml/badge.svg)
+
 A Figma plugin that allows you to copy properties from one object and paste them
 selectively (by "granule") onto others.
 
