@@ -20,7 +20,7 @@
     - [ ] Implement the `postMessage` relay logic in the harness.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
-## Phase 3: Test Scenario Implementation
+## Phase 3: Test Scenario Implementation [checkpoint: 56bb410]
 - [x] Task: Implement UI Rendering Test
     - [x] Write `tests/e2e/ui-rendering.spec.ts` to verify the app mounts.
 - [x] Task: Implement Communication Test
