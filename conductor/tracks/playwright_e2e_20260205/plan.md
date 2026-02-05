@@ -11,7 +11,7 @@
     - [x] Configure a build step (using Vite) to bundle this worker code for the browser.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
-## Phase 2: Playwright Integration & Communication
+## Phase 2: Playwright Integration & Communication [checkpoint: 492d487]
 - [x] Task: Configure Playwright Test Runner
     - [x] Update `playwright.config.ts` to serve the UI and Worker bundles.
 - [x] Task: Implement Message Bridge
