@@ -1,12 +1,13 @@
 /// <reference types="vitest" />
 // @vitest-environment jsdom
 
-import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { fireEvent, render, screen, cleanup } from '@testing-library/react';
+import { describe, expect, it, vi, afterEach } from 'vitest';
 import { HeaderActions } from './HeaderActions';
 import { PreviewHeader } from './PreviewHeader';
 
-describe('PreviewHeader', () => {
+describe('Header Components', () => {
+  afterEach(cleanup);
   it('should render the node name', () => {
     render(<PreviewHeader name='Rectangle 1' preview={null} />);
     expect(screen.getByText('Rectangle 1')).toBeDefined();

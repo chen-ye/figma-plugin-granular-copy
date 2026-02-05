@@ -7,6 +7,7 @@
     "typecheck": "tsc --noEmit",
     "build": "npm run clean && npm run typecheck && vite build -c vite.config.main.ts && vite build -c vite.config.ui.ts",
     "clean": "rm -rf dist",
+    "build:worker": "vite build -c vite.config.worker.ts",
     "build:ci": "CI=true npm run build",
     "watch": "npm run clean && concurrently \"npm run watch:ui\" \"npm run watch:main\" -n \"ui,main\" -c \"magenta,blue\"",
     "watch:main": "vite build -c vite.config.main.ts --watch",

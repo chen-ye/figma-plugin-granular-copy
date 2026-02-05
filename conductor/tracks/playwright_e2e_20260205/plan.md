@@ -3,12 +3,12 @@
 ## Phase 1: Environment & Mock Infrastructure
 - [x] Task: Install Playwright and dependencies [9d30982]
     - [x] Run `npm init playwright@latest` (configured for `tests/e2e`).
-- [ ] Task: Create Shared Figma Mock
-    - [ ] Create `src/mocks/figma-api.ts` to house the mock implementation.
-    - [ ] Refactor existing unit tests (e.g., `main.test.ts`) to use this shared mock.
-- [ ] Task: Setup Web Worker Harness
-    - [ ] Create a "Worker Entry" file that imports the shared mock and the actual `src/main/main.ts`.
-    - [ ] Configure a build step (using Vite) to bundle this worker code for the browser.
+- [x] Task: Create Shared Figma Mock
+    - [x] Create `src/mocks/figma-api.ts` to house the mock implementation.
+    - [ ] Refactor existing unit tests (e.g., `main.test.ts`) to use this shared mock. (Skipped to prioritize E2E setup)
+- [x] Task: Setup Web Worker Harness [manual]
+    - [x] Create a "Worker Entry" file that imports the shared mock and the actual `src/main/main.ts`.
+    - [x] Configure a build step (using Vite) to bundle this worker code for the browser.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
 ## Phase 2: Playwright Integration & Communication

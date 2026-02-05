@@ -1,0 +1,8 @@
+{
+  "track_id": "playwright_e2e_20260205",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-02-05T04:45:00Z",
+  "updated_at": "2026-02-05T04:45:00Z",
+  "description": "Establish a limited E2E testing environment using Playwright with a mock Figma API in a Web Worker."
+}
