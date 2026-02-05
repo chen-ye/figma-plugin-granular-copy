@@ -8,7 +8,7 @@
     - [x] Ensure `tests/e2e/harness.html` exposes a robust way to "spy" on messages sent *to* the worker without intercepting/blocking them, if not already present.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
-## Phase 2: Property Logic & Flow Tests
+## Phase 2: Property Logic & Flow Tests [checkpoint: 4d4219e]
 - [x] Task: Implement Property Logic Tests
     - [x] Create `tests/e2e/properties.spec.ts`.
     - [x] Write data-driven tests for each granule type (Fills, Strokes, etc.) verifying the `postMessage` payload.
