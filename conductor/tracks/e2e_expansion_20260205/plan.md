@@ -19,10 +19,10 @@
 - [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
 ## Phase 3: Visual & Error Testing
-- [ ] Task: Implement Visual Regression Tests
-    - [ ] Create `tests/e2e/visual.spec.ts`.
-    - [ ] Capture snapshots for "Empty" and "Populated" states.
-- [ ] Task: Implement Error Handling Tests
-    - [ ] Create `tests/e2e/errors.spec.ts`.
-    - [ ] Use `MOCK_ERROR_NEXT` to simulate a Copy failure and verify UI response.
+- [x] Task: Implement Visual Regression Tests
+    - [x] Create `tests/e2e/visual.spec.ts`.
+    - [x] Capture snapshots for "Empty" and "Populated" states.
+- [x] Task: Implement Error Handling Tests
+    - [x] Create `tests/e2e/errors.spec.ts`.
+    - [x] Use `MOCK_ERROR_NEXT` to simulate a Copy failure and verify UI response.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
